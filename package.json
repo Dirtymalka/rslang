@@ -20,7 +20,9 @@
   },
   "lint-staged": {
     "*.{js,ts}": [
-      "lint",
+      "lint"
+    ],
+    "*.scss": [
       "lint-scss",
       "pretty-quick"
     ]
