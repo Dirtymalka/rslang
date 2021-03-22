@@ -10,8 +10,7 @@ module.exports = {
       extends: [
         'plugin:@angular-eslint/recommended',
         'airbnb-typescript/base',
-        'prettier/@typescript-eslint',
-        'plugin:prettier/recommended',
+        'prettier',
       ],
       rules: {
         '@typescript-eslint/object-curly-spacing': 'off',

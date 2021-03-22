@@ -6,13 +6,14 @@
   "printWidth": 80,
   "overrides": [
     {
-      "files": "*.json",
+      "files": "*.component.html",
+      "options": { "parser": "angular" }
+    },
+    {
+      "files": "*.ts",
       "options": {
-        "parser": "json",
         "singleQuote": true,
-        "trailingComma": "all",
-        "tabWidth": 2,
-        "printWidth": 80
+        "trailingComma": "all"
       }
     }
   ]
