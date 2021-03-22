@@ -8,24 +8,14 @@
     "test": "ng test",
     "lint": "ng lint --fix",
     "pretty-quick": "pretty-quick --staged",
-    "precommit": "pretty-quick --staged",
     "lint-scss": "stylelint src/**/*.scss",
     "e2e": "ng e2e",
     "prepare": "husky install"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged --relative"
+      "pre-commit": "pretty-quick --staged && ng lint && ng test && npm lint-scss"
     }
-  },
-  "lint-staged": {
-    "*.{js,ts}": [
-      "lint"
-    ],
-    "*.scss": [
-      "lint-scss",
-      "pretty-quick"
-    ]
   },
   "private": true,
   "dependencies": {
