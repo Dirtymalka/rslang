@@ -3,6 +3,10 @@
     <a mat-tab-link label="Изучаемые слова" [routerLink]="['learned-words']">Изучаемые слова</a>
     <a mat-tab-link label="Сложные слова" [routerLink]="['difficult-words']">Сложные слова</a>
     <a mat-tab-link label="Удалённые слова" [routerLink]="['deleted-words']">Удалённые слова</a>
+    <button mat-button [matMenuTriggerFor]="menu">Игры</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="startGame()">Hangman</button>
+    </mat-menu>
   </nav>
 </div>
 <router-outlet></router-outlet>

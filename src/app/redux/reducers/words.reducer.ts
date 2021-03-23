@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import {
+  fetchDifficultWordsSuccess,
   fetchAggUserWordsSuccess,
   fetchAllUserWords,
   fetchAllUserWordsFailure,
@@ -9,6 +10,7 @@ import {
   selectWord,
   updateSelectedWords,
 } from '../actions/words.actions';
+
 import { initialWordsState } from '../state/words.state';
 
 export const wordsReducer = createReducer(
@@ -54,5 +56,9 @@ export const wordsReducer = createReducer(
   on(updateSelectedWords, (state, { words }) => ({
     ...state,
     selectedWords: words,
+  })),
+  on(fetchDifficultWordsSuccess, (state, { difficultWordsData }) => ({
+    ...state,
+    difficultWordsData,
   })),
 );

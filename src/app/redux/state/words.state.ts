@@ -1,4 +1,5 @@
 import {
+  IAggWordsPaginator,
   IAggWord,
   IUserWord,
   IWord,
@@ -13,6 +14,7 @@ export interface IWordsState {
     userWordsIsFetching: boolean;
     userWordsIsError: boolean;
   };
+  difficultWordsData: IAggWordsPaginator;
 }
 
 export const initialWordsState: IWordsState = {
@@ -24,4 +26,5 @@ export const initialWordsState: IWordsState = {
     userWordsIsFetching: false,
     userWordsIsError: false,
   },
+  difficultWordsData: null,
 };

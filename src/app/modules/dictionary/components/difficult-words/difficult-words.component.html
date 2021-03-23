@@ -1,12 +1,30 @@
 <div>
   <table mat-table [dataSource]="words" class="table">
     <ng-container matColumnDef="word">
-      <th mat-header-cell *matHeaderCellDef> Слово </th>
-      <td mat-cell *matCellDef="let element"> {{element.word}} </td>
-    </ng-container>
-    <ng-container matColumnDef="wordTranslate">
-      <th mat-header-cell *matHeaderCellDef> Перевод </th>
-      <td mat-cell *matCellDef="let element"> {{element.wordTranslate}} </td>
+      <th mat-header-cell *matHeaderCellDef> Описание </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="word-item__word-set">
+          <p class="word-item__word-wrapper">
+            <strong class="word-item__word">{{element.word}}&nbsp;</strong>
+            <span class="word-item__transcription">{{element.transcription}}&nbsp;</span>
+            <span class="word-item__translate">&mdash; &nbsp;{{element.wordTranslate}}</span>
+          </p>
+          <div class="word-item__sentence-wrapper">
+            <p class="word-item__text-meaning">
+              {{element.textMeaning}}&nbsp;
+            </p>
+            <p class="word-item__text-meaning-translate">
+              {{element.textMeaningTranslate}}&nbsp;
+            </p>
+            <p class="word-item__text-example">
+              &#8594; &nbsp;{{element.textExample}}
+            </p>
+            <p class="word-item__text-example-translate">
+              &#8594; &nbsp;{{element.textExampleTranslate}}
+            </p>
+          </div>
+        </div>
+      </td>
     </ng-container>
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Действия </th>
@@ -24,7 +42,6 @@
     [length]="length"
     [pageIndex]="pageIndex"
     [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 20]"
     (page)="pageEvent = paginated($event)"
     showFirstLastButtons
   ></mat-paginator>

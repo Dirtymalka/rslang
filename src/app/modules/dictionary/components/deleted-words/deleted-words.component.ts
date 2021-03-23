@@ -10,11 +10,11 @@ import { IAggWord } from '../../../shared/models/word.models';
   styleUrls: ['./deleted-words.component.scss'],
 })
 export class DeletedWordsComponent implements OnInit {
-  public displayedColumns: string[] = ['word', 'wordTranslate', 'actions'];
+  public displayedColumns: string[] = ['word', 'actions'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  public words: any;
+  public words: MatTableDataSource<IAggWord[]>;
 
   public pageEvent;
 
