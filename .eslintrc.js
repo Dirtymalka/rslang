@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  extends: ['prettier'],
   overrides: [
     {
       files: ['*.ts'],
@@ -7,10 +8,11 @@ module.exports = {
         project: ['tsconfig.*?.json', 'e2e/tsconfig.json'],
         createDefaultProgram: true,
       },
+      plugins: ['sonarjs'],
       extends: [
         'plugin:@angular-eslint/recommended',
         'airbnb-typescript/base',
-        'prettier',
+        'plugin:sonarjs/recommended',
       ],
       rules: {
         '@typescript-eslint/object-curly-spacing': 'off',
