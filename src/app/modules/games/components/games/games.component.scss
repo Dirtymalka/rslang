@@ -1,0 +1,22 @@
+.all-games {
+    display: grid;
+    max-width: 800px;
+    margin: auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.game-card {
+    min-width: 200px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 805px) {
+    .all-games {
+        grid-template-columns: repeat(1, 1fr);
+        margin: 0em 10em;
+    }
+}
