@@ -9,8 +9,7 @@
     "lint": "ng lint --fix",
     "e2e": "ng e2e",
     "pretty-quick": "pretty-quick --staged",
-    "lint-scss": "stylelint src/**/*.scss",
-    "postinstall": "husky install"
+    "lint-scss": "stylelint src/**/*.scss"
   },
   "private": true,
   "dependencies": {
