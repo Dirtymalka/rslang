@@ -7,10 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'rslang';
-
-  sonnarTest() {
-    if (this.title.length > 0 === true) {
-
-    }
-  }
 }
