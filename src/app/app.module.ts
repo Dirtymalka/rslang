@@ -17,11 +17,14 @@ import { TokenInterceptor } from './modules/shared/interceptors/token.intercepto
 import { GamesModule } from './modules/games';
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthGuard } from './modules/authentication/auth.guard';
+import { DictionaryModule } from './modules/dictionary/dictionary.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    GamesModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,
@@ -36,6 +39,7 @@ import { AuthGuard } from './modules/authentication/auth.guard';
     }),
     EffectsModule.forRoot(rootEffects),
     GamesModule,
+    DictionaryModule,
   ],
   providers: [
     {

@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import {
-  IAggWords,
   IUserWord,
   IWord,
   IWordPost,
@@ -78,7 +77,7 @@ export const fetchAggUserWords = createAction(
 
 export const fetchAggUserWordsSuccess = createAction(
   '[Words UserWords] Fetch AggUserWords Success',
-  props<{ aggWords: IAggWords }>(),
+  props<{ aggWords: any }>(),
 );
 
 export const fetchAggUserWordsFailure = createAction(
