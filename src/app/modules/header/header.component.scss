@@ -1,4 +1,5 @@
 @import "src/styles/variables";
+@import "src/styles/resets";
 
 :host {
   display: block;
@@ -11,9 +12,29 @@
       display: flex;
       align-items: center;
     }
+    &__menu-button {
+      display: flex;
+      @include reset-button();
+      padding: 0 10px;
+      margin-right: 10px;
+      outline: none;
+      &:hover {
+        svg>path {
+          fill: $color-green;
+        }
+      }
+    }
     &__logo {
       font-weight: bold;
       font-size: 18px;
+      cursor: pointer;
+    }
+    &__info {
+      color: $color-mint;
+      cursor: pointer;
+      &:hover {
+        color: $color-green;
+      }
     }
   }
   .menu {
@@ -24,7 +45,7 @@
       padding: 15px 10px;
       cursor: pointer;
       &:hover {
-        color: $color-mint;
+        color: $color-green;
       }
       &_active {
         border-bottom: 4px solid $color-mint;

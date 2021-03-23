@@ -9,8 +9,14 @@ import { HeaderModule } from './modules/header/header.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, GamesModule, AppRoutingModule, StoreModule.forRoot({}, {}), HeaderModule],
+  imports: [
+    BrowserModule,
+    GamesModule,
+    AppRoutingModule,
+    StoreModule.forRoot({}, {}),
+    HeaderModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

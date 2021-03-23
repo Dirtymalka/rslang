@@ -1,0 +1,31 @@
+@import "src/styles/variables";
+
+:host {
+  display: flex;
+  width: 380px;
+  height: 100vh;
+  background-color: $color-white;
+
+  .sidebar {
+    list-style-type: none;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+    }
+    &__icon {
+      width: 24px;
+      height: 24px;
+    }
+    &__item-title{
+      padding-left: 10px;
+      font-size: 18px;
+      line-height: 22px;
+      cursor: pointer;
+      &:hover {
+        color: $color-green;
+      }
+    }
+  }
+}
