@@ -1,0 +1,18 @@
+
+$blue-color: #4447cb;
+
+.chapter__avatar {
+  width: 160px;
+  height: 160px;
+  // height: 200px;
+  background: $blue-color;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chapter__unit-title {
+  font-size: 32px;
+  color: #fff;
+}
