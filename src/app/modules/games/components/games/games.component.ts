@@ -6,11 +6,24 @@ import { Router } from '@angular/router';
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss'],
 })
-export class GamesComponent {
-  constructor(private router: Router) {}
 
-  goTo(game: string): void {
-    const route = ['/games', `${game.toLocaleLowerCase()}`];
+export class GamesComponent {
+  games = [
+    { name: 'Savanna', style: 'savanna', path: 'savanna' },
+    { name: 'Audio-call', style: 'audio-call', path: 'audio-call' },
+    { name: 'Sprint', style: 'sprint', path: 'sprint' },
+    { name: 'Hangman', style: 'hangman', path: 'hangman' }
+  ];
+
+  constructor(
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+  }
+
+  goTo(path: string): void {
+    const route = ['/games', path];
     this.router.navigate(route);
   }
 }
