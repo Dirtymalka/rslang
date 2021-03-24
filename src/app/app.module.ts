@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GamesModule } from './modules/games';
+import { TextbookModule } from './modules/textbook/textbook.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -12,6 +13,7 @@ import { GamesModule } from './modules/games';
     BrowserModule,
     GamesModule,
     AppRoutingModule,
+    TextbookModule,
     StoreModule.forRoot({}, {}),
   ],
   providers: [],
