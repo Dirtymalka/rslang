@@ -8,8 +8,8 @@
     "test": "ng test",
     "lint": "ng lint --fix",
     "e2e": "ng e2e",
-    "pretty-quick": "pretty-quick --staged",
-    "lint-scss": "stylelint src/**/*.scss",
+    "pretty-quick": "pretty-quick --staged --pattern 'src/**/*.component.ts'",
+    "lint-scss": "stylelint src/**/*.scss --fix",
     "postinstall": "husky install",
     "prepare": "husky install"
   },

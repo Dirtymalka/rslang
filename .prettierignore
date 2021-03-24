@@ -9,4 +9,7 @@ tsconfig.app.json;
 tsconfig.spec.json;
 karma.conf.js;
 protractor.conf.js;
-ng - package.json.eslintrc.json.eslintignore;
+package.json;
+.eslintrc.json;
+.eslintignore;
+*.scss

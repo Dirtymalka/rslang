@@ -8,8 +8,13 @@ import { GamesModule } from './modules/games';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, GamesModule, AppRoutingModule, StoreModule.forRoot({}, {})],
+  imports: [
+    BrowserModule,
+    GamesModule,
+    AppRoutingModule,
+    StoreModule.forRoot({}, {}),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
