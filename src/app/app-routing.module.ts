@@ -6,12 +6,12 @@ import { GamesComponent } from './modules/games';
 const routes: Routes = [
   {
     path: 'games',
-    component: GamesComponent
-  }
+    component: GamesComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
