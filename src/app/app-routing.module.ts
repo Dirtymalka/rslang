@@ -8,24 +8,37 @@ const routes: Routes = [
   // },
   {
     path: 'games',
-    loadChildren: () => import('./modules/games/games.module').then((m) => m.GamesModule),
+    loadChildren: () =>
+      import('./modules/games/games.module').then((m) => m.GamesModule),
   },
   {
     path: 'statistics',
-    loadChildren: () => import('./modules/statistics/statistics.module').then((m) => m.StatisticsModule),
+    loadChildren: () =>
+      import('./modules/statistics/statistics.module').then(
+        (m) => m.StatisticsModule,
+      ),
   },
   {
     path: 'vocabulary',
-    loadChildren: () => import('./modules/vocabulary/vocabulary.module').then((m) => m.VocabularyModule),
+    loadChildren: () =>
+      import('./modules/vocabulary/vocabulary.module').then(
+        (m) => m.VocabularyModule,
+      ),
   },
   {
     path: 'textbook',
-    loadChildren: () => import('./modules/textbook/textbook.module').then((m) => m.TextbookModule),
+    loadChildren: () =>
+      import('./modules/textbook/textbook.module').then(
+        (m) => m.TextbookModule,
+      ),
   },
   {
     path: 'authentication',
-    loadChildren: () => import('./modules/authentication/authentication.module').then((m) => m.AuthenticationModule),
-  }
+    loadChildren: () =>
+      import('./modules/authentication/authentication.module').then(
+        (m) => m.AuthenticationModule,
+      ),
+  },
 ];
 
 @NgModule({

@@ -14,7 +14,7 @@ import { HeaderModule } from './modules/header/header.module';
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

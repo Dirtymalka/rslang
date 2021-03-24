@@ -14,7 +14,7 @@ export class HeaderComponent {
     public viewContainerRef: ViewContainerRef,
   ) {}
 
-  openSideBar() {
+  openSideBar(): void {
     const config = new OverlayConfig();
 
     config.positionStrategy = this.overlay
@@ -32,6 +32,6 @@ export class HeaderComponent {
     const sidebar = overlayRef.attach(
       new ComponentPortal(SidebarComponent, this.viewContainerRef),
     );
-    sidebar.instance.close.subscribe(() => overlayRef.dispose());
+    sidebar.instance.closeBar.subscribe(() => overlayRef.dispose());
   }
 }

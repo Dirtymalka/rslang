@@ -12,9 +12,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
   ],
 })
 export class SidebarComponent {
-  @Output() close = new EventEmitter<void>();
+  @Output() closeBar = new EventEmitter<void>();
 
-  onClose() {
-    this.close.emit();
+  onClose(): void {
+    this.closeBar.emit();
   }
 }

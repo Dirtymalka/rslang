@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { VocabularyRoutingModule } from './vocabulary-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    VocabularyRoutingModule
-  ]
+  imports: [CommonModule, VocabularyRoutingModule],
 })
-export class VocabularyModule { }
+export class VocabularyModule {}

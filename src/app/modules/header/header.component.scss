@@ -46,6 +46,7 @@
       cursor: pointer;
       outline: none;
       user-select: none;
+      border-bottom: 4px solid transparent;
       &:hover {
         color: $color-green;
       }
