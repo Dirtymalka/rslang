@@ -9,6 +9,13 @@ import { Router } from '@angular/router';
 })
 export class GamesComponent implements OnInit {
 
+  games = [
+    { name: 'Savanna', style: 'savanna', path: 'savanna' },
+    { name: 'Audio-call', style: 'audio-call', path: 'audio-call' },
+    { name: 'Sprint', style: 'sprint', path: 'sprint' },
+    { name: 'Hangman', style: 'hangman', path: 'hangman' }
+  ];
+
   constructor(
     private router: Router
   ) { }
@@ -16,8 +23,8 @@ export class GamesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  goTo(game: string): void {
-    const route = ['/games', `${game.toLocaleLowerCase()}`];
+  goTo(path: string): void {
+    const route = ['/games', path];
     this.router.navigate(route);
   }
 

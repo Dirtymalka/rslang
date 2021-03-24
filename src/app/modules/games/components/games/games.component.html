@@ -1,26 +1,8 @@
 <div class="all-games">
-    <mat-card class="game-card" (click)="goTo('Savanna')">
-        <div class="savanna icon"></div>
+    <mat-card *ngFor="let game of games" class="game-card" (click)="goTo(game.path)">
+        <div class="icon" [class]="game.style"></div>
         <div class="card-name">
-            Savanna
-        </div>
-    </mat-card>
-    <mat-card class="game-card" (click)="goTo('Audio-call')">
-        <div class="audio-call icon"></div>
-        <div class="card-name">
-            Audio-call
-        </div>
-    </mat-card>
-    <mat-card class="game-card" (click)="goTo('Sprint')">
-        <div class="sprint icon"></div>
-        <div class="card-name">
-            Sprint
-        </div>
-    </mat-card>
-    <mat-card class="game-card" (click)="goTo('Hangman')">
-        <div class="hangman icon"></div>
-        <div class="card-name">
-            Hangman
+            {{game.name}}
         </div>
     </mat-card>
 </div>
