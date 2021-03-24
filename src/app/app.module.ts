@@ -5,14 +5,12 @@ import { StoreModule } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GamesModule } from './modules/games';
 import { HeaderModule } from './modules/header/header.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    GamesModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,

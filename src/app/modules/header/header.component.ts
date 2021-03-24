@@ -20,8 +20,8 @@ export class HeaderComponent {
     config.positionStrategy = this.overlay
       .position()
       .global()
-      .left(`${0}px`)
-      .top(`${0}px`);
+      .left(`0px`)
+      .top(`0px`);
     config.hasBackdrop = true;
 
     const overlayRef = this.overlay.create(config);
