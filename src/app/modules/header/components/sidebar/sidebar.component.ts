@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -11,4 +11,10 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ]),
   ],
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  @Output() close = new EventEmitter<void>();
+
+  onClose() {
+    this.close.emit();
+  }
+}

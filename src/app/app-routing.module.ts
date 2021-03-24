@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { GamesComponent } from './modules/games';
-
 const routes: Routes = [
   // {
   //   path: '',
@@ -23,6 +21,10 @@ const routes: Routes = [
   {
     path: 'textbook',
     loadChildren: () => import('./modules/textbook/textbook.module').then((m) => m.TextbookModule),
+  },
+  {
+    path: 'authentication',
+    loadChildren: () => import('./modules/authentication/authentication.module').then((m) => m.AuthenticationModule),
   }
 ];
 

@@ -25,12 +25,13 @@ export class HeaderComponent {
     config.hasBackdrop = true;
 
     const overlayRef = this.overlay.create(config);
-
     overlayRef
       .backdropClick()
+      .pipe()
       .subscribe(() => overlayRef.dispose());
-    overlayRef.attach(
+    const sidebar = overlayRef.attach(
       new ComponentPortal(SidebarComponent, this.viewContainerRef),
     );
+    sidebar.instance.close.subscribe(() => overlayRef.dispose());
   }
 }
