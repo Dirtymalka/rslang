@@ -26,9 +26,11 @@ export class HeaderComponent {
 
     const overlayRef = this.overlay.create(config);
 
-    overlayRef.backdropClick().subscribe(() => {
-      overlayRef.dispose();
-    });
-    overlayRef.attach(new ComponentPortal(SidebarComponent, this.viewContainerRef));
+    overlayRef
+      .backdropClick()
+      .subscribe(() => overlayRef.dispose());
+    overlayRef.attach(
+      new ComponentPortal(SidebarComponent, this.viewContainerRef),
+    );
   }
 }
