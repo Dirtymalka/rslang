@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import mainReducer from './redux/reducers/index';
 import rootEffects from './redux/effects';
 import {TokenInterceptor} from "./modules/shared/interceptors/token.interceptor";
+import { GamesModule } from './modules/games';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {TokenInterceptor} from "./modules/shared/interceptors/token.interceptor"
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
-    EffectsModule.forRoot(rootEffects)
+    EffectsModule.forRoot(rootEffects),
+    GamesModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

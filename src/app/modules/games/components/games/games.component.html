@@ -1,0 +1,8 @@
+<div class="all-games">
+    <mat-card *ngFor="let game of games" class="game-card" (click)="goTo(game.path)">
+        <div class="icon" [class]="game.style"></div>
+        <div class="card-name">
+            {{game.name}}
+        </div>
+    </mat-card>
+</div>
