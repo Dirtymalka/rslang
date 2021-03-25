@@ -1,0 +1,45 @@
+<div class="container">
+  <header class="header">
+    <div class="header__group">
+      <button
+        mat-icon-button
+        class="header__menu-button"
+        (click)="openSideBar()"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <div class="header__logo">R S Lang</div>
+      <ul class="menu">
+        <li
+          class="menu__link"
+          routerLink="dictionary"
+          routerLinkActive="menu__link_active"
+        >
+          Dictionary
+        </li>
+        <li
+          class="menu__link"
+          routerLink="statistics"
+          routerLinkActive="menu__link_active"
+        >
+          Statistics
+        </li>
+        <li
+          class="menu__link"
+          routerLink="games"
+          routerLinkActive="menu__link_active"
+        >
+          Games
+        </li>
+        <li
+          class="menu__link"
+          routerLink="textbook"
+          routerLinkActive="menu__link_active"
+        >
+          TextBook
+        </li>
+      </ul>
+    </div>
+    <app-auth-control></app-auth-control>
+  </header>
+</div>

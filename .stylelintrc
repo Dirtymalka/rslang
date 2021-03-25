@@ -11,7 +11,7 @@
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["extends", "ignores", "include"]
+        "ignoreAtRules": ["extends", "ignores", "include", "mixin"],
       }
     ],
     "at-rule-empty-line-before": [
@@ -24,7 +24,7 @@
     ],
     "indentation": 2,
     "number-leading-zero": null,
-    "unit-allowed-list": ["em", "rem", "s", "px", "%", "fr"],
-    "no-descending-specificity": null,
+    "unit-allowed-list": ["em", "rem", "s", "px", "%", "fr", "vh"],
+    "no-descending-specificity": null
   }
 }
