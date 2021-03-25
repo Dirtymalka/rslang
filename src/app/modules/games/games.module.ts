@@ -6,18 +6,9 @@ import { MatCardModule } from '@angular/material/card';
 import { GamesRoutingModule } from './games-routing.module';
 import { GamesComponent } from './components';
 
-
 @NgModule({
-  declarations: [
-    GamesComponent
-  ],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    GamesRoutingModule
-  ],
-  exports: [
-    GamesComponent
-  ]
+  declarations: [GamesComponent],
+  imports: [CommonModule, MatCardModule, GamesRoutingModule],
+  exports: [GamesComponent],
 })
-export class GamesModule { }
+export class GamesModule {}
