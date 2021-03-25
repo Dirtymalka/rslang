@@ -9,5 +9,5 @@ export const initialSettingsState: ISettingsState = {
   isShowWordTranslation: true,
   isShowWordSentence: true,
   isShowWordMeaning: true,
-  isShowOptionalButtons: true
-}
+  isShowOptionalButtons: true,
+};

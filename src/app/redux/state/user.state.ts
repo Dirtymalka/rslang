@@ -1,12 +1,12 @@
 export interface IUserState {
-  isAuthorized: boolean
-  name: string
-  userId: string
+  isAuthorized: boolean;
+  name: string;
+  userId: string;
   tokenOptions: {
-    token: string
-    clientTokenTime: number
-    refreshToken: string
-  }
+    token: string;
+    clientTokenTime: number;
+    refreshToken: string;
+  };
 }
 
 export const initialUserState: IUserState = {
@@ -17,5 +17,5 @@ export const initialUserState: IUserState = {
     token: null,
     clientTokenTime: null,
     refreshToken: null,
-  }
-}
+  },
+};

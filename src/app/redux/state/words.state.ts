@@ -1,4 +1,4 @@
-import {IUserWord, IWord} from "../../modules/shared/models/wordModels";
+import { IUserWord, IWord } from '../../modules/shared/models/wordModels';
 
 export interface IWordsState {
   allWords: IWord[];
@@ -7,5 +7,5 @@ export interface IWordsState {
 
 export const initialWordsState: IWordsState = {
   allWords: [],
-  userWords: []
-}
+  userWords: [],
+};

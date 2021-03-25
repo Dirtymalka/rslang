@@ -1,25 +1,27 @@
-import {createFeatureSelector, createSelector} from "@ngrx/store";
-import {ISettingsState} from "../state/settings.state";
-import {AppState} from "../state/app.state";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { ISettingsState } from '../state/settings.state';
+import { IAppState } from '../state/app.state';
 
-export const selectSettings = createFeatureSelector<AppState, ISettingsState>('settings');
+export const selectSettings = createFeatureSelector<IAppState, ISettingsState>(
+  'settings',
+);
 
 export const selectIsShowWordSentence = createSelector(
   selectSettings,
-  (settings) => settings.isShowWordSentence
-)
+  (settings) => settings.isShowWordSentence,
+);
 
 export const selectIsShowWordTranslation = createSelector(
   selectSettings,
-  (settings) => settings.isShowWordTranslation
-)
+  (settings) => settings.isShowWordTranslation,
+);
 
 export const selectIsShowWordMeaning = createSelector(
   selectSettings,
-  (settings) => settings.isShowWordMeaning
-)
+  (settings) => settings.isShowWordMeaning,
+);
 
 export const selectIsShowOptionalButtons = createSelector(
   selectSettings,
-  (settings) => settings.isShowOptionalButtons
-)
+  (settings) => settings.isShowOptionalButtons,
+);
