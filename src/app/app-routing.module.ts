@@ -19,10 +19,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'vocabulary',
+    path: 'dictionary',
     loadChildren: () =>
-      import('./modules/vocabulary/vocabulary.module').then(
-        (m) => m.VocabularyModule,
+      import('./modules/dictionary/dictionary.module').then(
+        (m) => m.DictionaryModule,
       ),
   },
   {

@@ -13,7 +13,6 @@
       align-items: center;
     }
     &__menu-button {
-      display: flex;
       @include reset-button();
       padding: 0 10px;
       margin-right: 10px;
@@ -42,7 +41,9 @@
     display: flex;
     margin: 0;
     &__link {
-      padding: 15px 10px;
+      padding: 26px 10px;
+      font-size: 18px;
+      transition: color .2s ease;
       cursor: pointer;
       outline: none;
       user-select: none;
