@@ -1,0 +1,59 @@
+@import "src/styles/variables";
+@import "src/styles/resets";
+
+:host {
+  display: block;
+  box-shadow: 0 3px 4px rgba(149, 155, 96, 0.12);
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &__group {
+      display: flex;
+      align-items: center;
+    }
+    &__menu-button {
+      @include reset-button();
+      padding: 0 10px;
+      margin-right: 10px;
+      outline: none;
+      &:hover {
+        svg>path {
+          fill: $color-green;
+        }
+      }
+    }
+    &__logo {
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    &__info {
+      color: $color-mint;
+      cursor: pointer;
+      &:hover {
+        color: $color-green;
+      }
+    }
+  }
+  .menu {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    &__link {
+      padding: 26px 10px;
+      font-size: 18px;
+      transition: color .2s ease;
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+      border-bottom: 4px solid transparent;
+      &:hover {
+        color: $color-green;
+      }
+      &_active {
+        border-bottom: 4px solid $color-mint;
+      }
+    }
+  }
+}
