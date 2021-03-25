@@ -2,13 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { StoreModule } from '@ngrx/store';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { HeaderModule } from './modules/header/header.module';
 import mainReducer from './redux/reducers/index';
 import rootEffects from './redux/effects';
 import { TokenInterceptor } from './modules/shared/interceptors/token.interceptor';
@@ -19,6 +21,9 @@ import { GamesModule } from './modules/games';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    StoreModule.forRoot({}, {}),
+    HeaderModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot(mainReducer, {}),
