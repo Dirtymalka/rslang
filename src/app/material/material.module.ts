@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatPaginatorModule,
     MatSelectModule,
     MatSidenavModule,
+    MatTooltipModule,
   ],
   exports: [
     MatButtonModule,
@@ -40,6 +42,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatPaginatorModule,
     MatSelectModule,
     MatSidenavModule,
+    MatTooltipModule,
   ],
 })
 export class MaterialModule {}

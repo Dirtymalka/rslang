@@ -1,22 +1,25 @@
 @import "src/styles/variables";
 @import "src/styles/mixins";
 
-.chapter__avatar {
+.chapter__label {
   width: 140px;
   height: 140px;
-  // height: 200px;
+  width: 140px;
   background: $color-blue;
   border-radius: 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
   cursor: pointer;
   @include unselectable;
 }
 
+.chapter__label--active {
+  background: $color-blue;
+}
+
 .chapter__unit-title {
-  font-size: 32px;
-  font-size: 28px;
   font-weight: bold;
   color: $color-white;
+  font-size: 16px;
+  line-height: 34px;
 }
