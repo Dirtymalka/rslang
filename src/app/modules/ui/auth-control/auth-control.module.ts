@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AuthControlComponent } from './auth-control.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [AuthControlComponent],
   exports: [AuthControlComponent],
-  imports: [CommonModule],
+  imports: [SharedModule],
 })
 export class AuthControlModule {}

@@ -27,13 +27,13 @@ const routes: Routes = [
         (m) => m.DictionaryModule,
       ),
   },
-  {
-    path: 'textbook',
-    loadChildren: () =>
-      import('./modules/textbook/textbook.module').then(
-        (m) => m.TextbookModule,
-      ),
-  },
+  // {
+  //   path: 'textbook',
+  //   loadChildren: () =>
+  //     import('./modules/textbook/textbook.module').then(
+  //       (m) => m.TextbookModule,
+  //     ),
+  // },
   {
     path: 'authentication',
     loadChildren: () =>
