@@ -1,18 +1,13 @@
-<h3>Фильтер</h3>
-<div class="wrapper">
+<form class="wrapper">
   <mat-checkbox
     class="checkbox"
     color="primary"
   ></mat-checkbox>
 
-  <div class="menu-block">
-    <!-- <button mat-button [matMenuTriggerFor]="menu" color="primary">Мини-игры</button> -->
-    <!-- <mat-menu #menu="matMenu">
-      <button mat-menu-item>Спринт</button>
-      <button mat-menu-item>Саванна</button>
-      <button mat-menu-item>Аудио-вызов</button>
-    </mat-menu> -->
-  </div>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Поиск" value="" autocomplete="off">
+  </mat-form-field>
 
   <mat-form-field appearance="fill" class="word-params">
     <mat-label>Показывать:</mat-label>
@@ -22,4 +17,56 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-</div>
+
+  <button
+    type="button"
+    mat-button
+    matTooltip="Отображать перевод"
+    matTooltipPosition="above"
+    class="button-size">
+      <mat-icon class="icon-size">g_translate</mat-icon>
+  </button>
+
+  <button
+    type="button"
+    mat-button
+    matTooltip="Компактный режим"
+    matTooltipPosition="above"
+    class="button-size">
+      <mat-icon class="icon-size">reorder</mat-icon>
+  </button>
+
+  <div class="menu-block">
+    <button
+      type="button"
+      mat-button [matMenuTriggerFor]="menu"
+      color="primary"
+      class="button-games">Мини-игры
+    </button>
+    <mat-menu #menu="matMenu">
+      <button type="button" mat-menu-item>Спринт</button>
+      <button type="button" mat-menu-item>Саванна</button>
+      <button type="button" mat-menu-item>Аудио-вызов</button>
+    </mat-menu>
+  </div>
+
+  <div class="control-buttons">
+    <button
+      type="button"
+      mat-button
+      matTooltip="Отобразить сложные слова"
+      matTooltipPosition="above"
+      class="button-hard">
+        <mat-icon class="icon-hard">school</mat-icon>
+    </button>
+
+    <button
+      type="button"
+      mat-button
+      matTooltip="Возможность удалить слова"
+      matTooltipPosition="above"
+      class="button-delete">
+        <mat-icon class="icon-delete">delete</mat-icon>
+    </button>
+  </div>
+</form>

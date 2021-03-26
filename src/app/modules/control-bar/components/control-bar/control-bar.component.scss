@@ -1,3 +1,6 @@
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
 :host {
   grid-column-start: 0;
   grid-column-end: span 6;
@@ -6,11 +9,11 @@
 
 .wrapper {
   display: flex;
-  outline: 1px solid lightcoral;
   align-items: center;
   padding-top: 1.34375em;
+  border-top: 1px solid #e6e9ee;
+  border-bottom: 1px solid #e6e9ee;
 }
-
 
 .checkbox {
   margin-right: 14px;
@@ -20,9 +23,6 @@
 .menu-block {
   margin-right: 14px;
   margin-bottom: 1.34375em;
-}
-
-.menu-block span {
 }
 
 .menu-block button {
@@ -36,4 +36,65 @@
 
 .mat-form-field-wrapper {
   padding-bottom: 0;
+}
+
+.button-games {
+  height: 51px;
+}
+
+.button-size {
+  height: 51px;
+  margin-bottom: 1.34375em;
+}
+
+.icon-size {
+  color: rgb(126, 145, 159);
+  transition: color .2s ease;
+}
+
+.control-buttons {
+  border: 1px solid #e6e9ee;
+  margin-bottom: 1.34375em;
+  box-sizing: content-box;
+  border-radius: 4px;
+}
+
+.control-buttons .button-hard {
+  border-right: 1px solid #e6e9ee;
+}
+
+.control-buttons button {
+  height: 51px;
+}
+
+.control-buttons .button-hard:hover {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.control-buttons .button-delete:hover {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.button-hard--active .icon-hard {
+  color: $color-orange;
+}
+
+.button-delete--active .icon-delete {
+  color: $color-red;
+}
+
+.icon-hard,
+.icon-delete {
+  color: rgb(126, 145, 159);
+  transition: color .2s ease;
+}
+
+.button-delete:hover .icon-delete {
+  color: $color-red;
+}
+
+.button-hard:hover .icon-hard {
+  color: $color-orange;
 }
