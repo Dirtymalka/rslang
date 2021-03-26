@@ -4,15 +4,36 @@
     color="primary"
   ></mat-checkbox>
 
-  <div class="word-item__word-set">
-    <strong class="word-item__word">word</strong>
-    <span class="word-item__translate">translate</span>
+  <span class="icon-sound">
+    <app-icon-sound></app-icon-sound>
+  </span>
+
+
+  <div
+    *ngIf="false; else sentenseParam"
+    class="word-item__word-set">
+    <p class="word-item__word-wrapper">
+      <strong class="word-item__word">word &nbsp;</strong>
+      <span class="word-item__translate">&mdash; &nbsp;translate</span>
+    </p>
+    <span class="word-item__transcription">[transcription]</span>
   </div>
+
+  <ng-template #sentenseParam>
+    <p class="word-item__sentense-wrapper">
+      <strong class="word-item__word">How many hours a day do you work?</strong>
+      <span class="word-item__transcription">Сколько часов в сутки вы работаете?</span>
+    </p>
+  </ng-template>
 
   <img class="word-item__image" src="https://via.placeholder.com/38x38" alt="item">
 
   <div class="controls">
-    <button mat-button class="button-delete">
+    <button mat-button mat-mini-fab color="primary" class="button-delete">
+      <mat-icon class="icon-delete">beenhere</mat-icon>
+    </button>
+
+    <button mat-button mat-mini-fab color="primary" class="button-delete">
       <mat-icon class="icon-delete">delete</mat-icon>
     </button>
 

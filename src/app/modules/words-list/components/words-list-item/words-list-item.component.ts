@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './words-list-item.component.html',
   styleUrls: ['./words-list-item.component.scss'],
 })
-export class WordsListItemComponent {}
+export class WordsListItemComponent {
+  isWordView: true;
+}

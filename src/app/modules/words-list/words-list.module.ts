@@ -1,21 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-
-import { WordsListComponent } from './components/word-list/words-list.component';
+import { WordsListComponent } from './components/words-list/words-list.component';
 import { WordsListItemComponent } from './components/words-list-item/words-list-item.component';
+import { IconSoundComponent } from './components/sound-icon/icon-sound.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [WordsListComponent, WordsListItemComponent],
-  imports: [CommonModule, MatCardModule, MatIconModule, MatCheckboxModule],
-  exports: [
+  declarations: [
     WordsListComponent,
-    MatCardModule,
-    MatIconModule,
-    MatCheckboxModule,
+    WordsListItemComponent,
+    IconSoundComponent,
   ],
+  imports: [SharedModule],
+  exports: [WordsListComponent],
 })
 export class WordsListModule {}
