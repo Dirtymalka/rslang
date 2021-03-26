@@ -1,18 +1,22 @@
-
-$blue-color: #4447cb;
+@import "src/styles/variables";
+@import "src/styles/mixins";
 
 .chapter__avatar {
-  width: 160px;
-  height: 160px;
+  width: 140px;
+  height: 140px;
   // height: 200px;
-  background: $blue-color;
+  background: $color-blue;
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  @include unselectable;
 }
 
 .chapter__unit-title {
   font-size: 32px;
-  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  color: $color-white;
 }
