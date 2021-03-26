@@ -16,16 +16,18 @@ import mainReducer from './redux/reducers/index';
 import rootEffects from './redux/effects';
 import { TokenInterceptor } from './modules/shared/interceptors/token.interceptor';
 import { GamesModule } from './modules/games';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    SharedModule,
     AppRoutingModule,
     TextbookModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot(mainReducer, {}),
