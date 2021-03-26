@@ -36,5 +36,32 @@ $rslang-theme: mat-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
+$custom-typography: mat-typography-config(
+  $font-family:   'Montserrat',
+  $button:        mat-typography-level(14px, 14px, 500),
+  $input:         mat-typography-level(inherit, 1.125, 400)
+);
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Montserrat'
+);
+
+@include mat-base-typography($custom-typography);
+
+// Override typography for a specific Angular Material components.
+@include mat-checkbox-typography($custom-typography);
+
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
+
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Montserrat', sans-serif;
+}
