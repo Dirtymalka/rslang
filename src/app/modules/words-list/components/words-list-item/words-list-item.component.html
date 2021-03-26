@@ -10,7 +10,7 @@
 
 
   <div
-    *ngIf="false; else sentenseParam"
+    *ngIf="true; else sentenseParam"
     class="word-item__word-set">
     <p class="word-item__word-wrapper">
       <strong class="word-item__word">word &nbsp;</strong>
@@ -26,14 +26,14 @@
     </p>
   </ng-template>
 
-  <img class="word-item__image" src="https://via.placeholder.com/38x38" alt="item">
+  <img class="word-item__image" src="https://via.placeholder.com/44x44" alt="item">
 
   <div class="controls">
-    <button mat-button mat-mini-fab color="primary" class="button-delete">
-      <mat-icon class="icon-delete">beenhere</mat-icon>
+    <button class="button-hard">
+      <mat-icon class="icon-hard">school</mat-icon>
     </button>
 
-    <button mat-button mat-mini-fab color="primary" class="button-delete">
+    <button class="button-delete">
       <mat-icon class="icon-delete">delete</mat-icon>
     </button>
 
