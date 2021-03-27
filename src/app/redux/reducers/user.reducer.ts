@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   userLoginSuccess,
+  userLogout,
   userRegistrationSuccess,
   userTokenUpdateSuccess,
 } from '../actions/user.actions';
@@ -31,4 +32,5 @@ export const userReducer = createReducer(
       clientTokenTime: Date.now() + 3 * 60 * 60 * 1000,
     },
   })),
+  on(userLogout, () => ({ ...initialUserState })),
 );

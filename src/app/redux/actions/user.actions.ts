@@ -25,7 +25,7 @@ export const userLoginSuccess = createAction(
     token: string;
     refreshToken: string;
     userId: string;
-    name: string;
+    name?: string;
   }>(),
 );
 
@@ -41,3 +41,5 @@ export const userTokenUpdateSuccess = createAction(
 export const userTokenUpdateFailure = createAction(
   '[User Token] User TokenUpdate Failure',
 );
+
+export const userLogout = createAction('[USer Logout] User Logout');

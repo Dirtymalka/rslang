@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 import {
   userLogin,
   userLoginFailure,
   userLoginSuccess,
+  userLogout,
   userRegistration,
   userRegistrationFailure,
   userRegistrationSuccess,
@@ -14,6 +16,8 @@ import {
   userTokenUpdateSuccess,
 } from '../actions/user.actions';
 import { UserService } from '../../modules/shared/services/user.service';
+import { LocalStorageService } from '../../modules/shared/services/local-storage.service';
+import { USER } from '../../constants/global.constants';
 
 @Injectable()
 export class UserEffect {
@@ -37,15 +41,30 @@ export class UserEffect {
       ofType(userLogin),
       switchMap(({ email, password }) =>
         this.userService.login(email, password).pipe(
-          map((userInfo: { token; refreshToken; userId; name }) =>
-            userLoginSuccess(userInfo),
-          ),
+          map((userInfo: { token; refreshToken; userId; name }) => {
+            LocalStorageService.setItemToLocalStorage(USER, {
+              userId: userInfo.userId,
+              tokenOptions: {
+                token: userInfo.token,
+                refreshToken: userInfo.refreshToken,
+              },
+            });
+            this.router.navigate(['/']);
+            return userLoginSuccess(userInfo);
+          }),
           catchError((err) => {
             console.log(err);
             return of(userLoginFailure());
           }),
         ),
       ),
+    ),
+  );
+
+  userLogout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(userLogout),
+      map(() => LocalStorageService.deleteItemFromLocalStorageByKey('user')),
     ),
   );
 
@@ -66,5 +85,9 @@ export class UserEffect {
     ),
   );
 
-  constructor(private actions$: Actions, private userService: UserService) {}
+  constructor(
+    private actions$: Actions,
+    private userService: UserService,
+    private router: Router,
+  ) {}
 }
