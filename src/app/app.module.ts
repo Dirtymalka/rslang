@@ -15,6 +15,7 @@ import mainReducer from './redux/reducers/index';
 import rootEffects from './redux/effects';
 import { TokenInterceptor } from './modules/shared/interceptors/token.interceptor';
 import { GamesModule } from './modules/games';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,7 @@ import { GamesModule } from './modules/games';
     StoreModule.forRoot({}, {}),
     HeaderModule,
     BrowserAnimationsModule,
+    SharedModule,
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot(mainReducer, {}),
