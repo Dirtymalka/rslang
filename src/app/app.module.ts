@@ -28,6 +28,8 @@ import { SharedModule } from './modules/shared/shared.module';
     TextbookModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,
+    BrowserAnimationsModule,
+    SharedModule,
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot(mainReducer, {}),
