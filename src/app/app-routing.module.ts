@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './modules/authentication/auth.guard';
 
 const routes: Routes = [
   // {
@@ -10,6 +11,7 @@ const routes: Routes = [
     path: 'games',
     loadChildren: () =>
       import('./modules/games/games.module').then((m) => m.GamesModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'statistics',
@@ -17,6 +19,7 @@ const routes: Routes = [
       import('./modules/statistics/statistics.module').then(
         (m) => m.StatisticsModule,
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'dictionary',
@@ -24,6 +27,7 @@ const routes: Routes = [
       import('./modules/dictionary/dictionary.module').then(
         (m) => m.DictionaryModule,
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'textbook',
@@ -31,6 +35,7 @@ const routes: Routes = [
       import('./modules/textbook/textbook.module').then(
         (m) => m.TextbookModule,
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'authentication',
