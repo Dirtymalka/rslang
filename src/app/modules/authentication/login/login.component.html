@@ -1,5 +1,5 @@
 <div class="login-wrapper">
-
+  <div class="spinner" *ngIf="isFetching | async"><div class="mask"></div><mat-spinner></mat-spinner></div>
   <mat-card>
     <mat-card-title>Вход</mat-card-title>
     <mat-card-content>
@@ -32,7 +32,7 @@
         </p>
         <div class="buttons-container">
           <div class="button">
-            <button type="submit" [disabled]="form.invalid" mat-button>Вход</button>
+            <button class="button_login" type="submit" [disabled]="form.invalid" mat-button>Вход</button>
           </div>
           <div class="button">
             <button (click)="toRegistration()" mat-button>Регистрация</button>
