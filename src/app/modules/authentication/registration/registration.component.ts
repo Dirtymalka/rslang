@@ -25,7 +25,7 @@ export class RegistrationComponent {
 
   loading = false;
 
-  error: any;
+  error: string;
 
   constructor(
     private userService: UserService,
@@ -33,8 +33,7 @@ export class RegistrationComponent {
     private router: Router,
   ) {}
 
-  submit() {
-    console.log(this.error);
+  submit(): void {
     this.loading = true;
     this.userService
       .registration(
@@ -55,11 +54,11 @@ export class RegistrationComponent {
       );
   }
 
-  focus() {
+  focus(): void {
     this.error = null;
   }
 
-  toLogin() {
+  toLogin(): void {
     this.router.navigate(['authentication', 'login']);
   }
 }

@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { userLogin } from '../../../redux/actions/user.actions';
-import {selectIsFetching, selectUserId} from '../../../redux/selectors/user.selectors';
-import {Observable} from "rxjs";
+import {
+  selectIsFetching,
+  selectUserId,
+} from '../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-login',
@@ -18,19 +21,21 @@ export class LoginComponent implements OnInit {
   });
 
   isFetching: Observable<boolean>;
-  error: any;
-  userId: any;
+
+  error: string;
+
+  userId: string;
 
   constructor(private router: Router, private store: Store) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.select(selectUserId).subscribe((id) => {
       this.userId = id;
     });
-   this.isFetching = this.store.select(selectIsFetching);
+    this.isFetching = this.store.select(selectIsFetching);
   }
 
-  submit() {
+  submit(): void {
     this.store.dispatch(
       userLogin({
         email: this.form.get('email').value,
@@ -39,7 +44,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  toRegistration() {
+  toRegistration(): void {
     this.router.navigate(['authentication', 'register']);
   }
 }

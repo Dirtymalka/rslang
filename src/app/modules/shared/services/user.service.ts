@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import {
   selectUserId,
   selectUserRefreshToken,
@@ -30,7 +31,7 @@ export class UserService {
     });
   }
 
-  registration(email: string, password: string) {
+  registration(email: string, password: string): Observable<unknown> {
     return this.http.post(`${BACKEND_URL}/users`, { email, password });
   }
 
@@ -38,7 +39,7 @@ export class UserService {
     return this.http.post(`${BACKEND_URL}/signin`, { email, password });
   }
 
-  getUser(userId: string) {
+  getUser(userId: string): Observable<unknown> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.token}`,
@@ -49,7 +50,7 @@ export class UserService {
     return this.http.get(`${BACKEND_URL}/users/${userId}`, httpOptions);
   }
 
-  getNewToken() {
+  getNewToken(): Observable<unknown> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.refreshToken}`,

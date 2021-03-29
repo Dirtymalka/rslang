@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   constructor(private store: Store) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.dispatch(
       userLogin({ email: HARD_SKINNED_EMAIL, password: HARD_SKINNED_PASSWORD }),
     );

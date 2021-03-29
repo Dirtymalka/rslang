@@ -40,7 +40,7 @@ export class SettingsService {
     );
   }
 
-  putSettings(settings: ISettings) {
+  putSettings(settings: ISettings): Observable<ISettings> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.token}`,
