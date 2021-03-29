@@ -20,5 +20,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(
       userLogin({ email: HARD_SKINNED_EMAIL, password: HARD_SKINNED_PASSWORD }),
     );
+
+    console.log(this.store);
   }
 }
