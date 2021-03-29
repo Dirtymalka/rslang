@@ -6,35 +6,13 @@
 
 
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Поиск" value="" autocomplete="off">
+    <input
+      matInput
+      placeholder="Поиск"
+      value=""
+      autocomplete="off"
+      class="control-bar__input">
   </mat-form-field>
-
-  <mat-form-field appearance="fill" class="word-params">
-    <mat-label>Показывать:</mat-label>
-    <mat-select value="слова">
-      <mat-option *ngFor="let param of wordParams" [value]="param.value">
-        {{param.viewValue}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <button
-    type="button"
-    mat-button
-    matTooltip="Отображать перевод"
-    matTooltipPosition="above"
-    class="button-size">
-      <mat-icon class="icon-size">g_translate</mat-icon>
-  </button>
-
-  <button
-    type="button"
-    mat-button
-    matTooltip="Компактный режим"
-    matTooltipPosition="above"
-    class="button-size">
-      <mat-icon class="icon-size">reorder</mat-icon>
-  </button>
 
   <div class="menu-block">
     <button
@@ -44,19 +22,67 @@
       class="button-games">Мини-игры
     </button>
     <mat-menu #menu="matMenu">
-      <button type="button" mat-menu-item>Спринт</button>
-      <button type="button" mat-menu-item>Саванна</button>
-      <button type="button" mat-menu-item>Аудио-вызов</button>
+      <button
+        type="button"
+        mat-menu-item
+        (click)="openSprintGame()">Спринт
+      </button>
+      <button
+        type="button"
+        mat-menu-item
+        (click)="openSavannaGame()">Саванна
+      </button>
+      <button
+        type="button"
+        mat-menu-item
+        (click)="openAudioCallGame()">Аудио-вызов</button>
     </mat-menu>
   </div>
+
+  <mat-form-field appearance="fill" class="word-params">
+    <mat-label>Показывать:</mat-label>
+    <mat-select
+      [value]="isWordsView$ | async"
+      (selectionChange)="onChangeWordsView($event.value)">
+      <mat-option *ngFor="let param of wordParams" [value]="param.value">
+        {{ param.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
 
   <div class="control-buttons">
     <button
       type="button"
       mat-button
+      matTooltip="Отображать перевод"
+      matTooltipPosition="above"
+      class="button-translate"
+      (click)="switchTranslateMode()"
+      [ngClass]="{'button-translate--active': (isShowWordTranslation$ | async) === true}">
+        <mat-icon class="icon-translate">g_translate</mat-icon>
+    </button>
+
+    <button
+      type="button"
+      mat-button
+      matTooltip="Компактный режим"
+      matTooltipPosition="above"
+      class="button-compact button-compact--active"
+      (click)="switchCompactMode()"
+      [ngClass]="{'button-compact--active': (isCompactView$ | async) === true}">
+        <mat-icon class="icon-compact">reorder</mat-icon>
+    </button>
+
+    <button
+      type="button"
+      mat-button
       matTooltip="Отобразить сложные слова"
       matTooltipPosition="above"
-      class="button-hard">
+      class="button-hard"
+      (click)="switchShowDifficultWordButton()"
+      [ngClass]="{'button-hard--active': (isShowDifficultWordButton$ | async) === true}">
         <mat-icon class="icon-hard">school</mat-icon>
     </button>
 
@@ -65,7 +91,9 @@
       mat-button
       matTooltip="Возможность удалить слова"
       matTooltipPosition="above"
-      class="button-delete">
+      class="button-delete"
+      (click)="switchShowDeleteWordButton()"
+      [ngClass]="{'button-delete--active': (isShowDeleteWordButton$ | async) === true}">
         <mat-icon class="icon-delete">delete</mat-icon>
     </button>
   </div>
