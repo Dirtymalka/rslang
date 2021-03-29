@@ -5,4 +5,14 @@ import { Component } from '@angular/core';
   templateUrl: './auth-control.component.html',
   styleUrls: ['./auth-control.component.scss'],
 })
-export class AuthControlComponent {}
+export class AuthControlComponent {
+
+  isAuthorised: boolean;
+
+  user = {           //TODO: test data
+    name: 'TestName',
+  };
+
+  onLogin(): void {}
+  onLogout(): void {}
+}

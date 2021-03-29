@@ -1,1 +1,10 @@
-<span>Login</span>
+<div class="control">
+  <ng-container *ngIf="!isAuthorised">
+    <button mat-button mat-stroked-button (click)="onLogin()">Войти</button>
+  </ng-container>
+  <ng-container *ngIf="isAuthorised">
+    <div class="control__user">{{ user.name }}</div>
+    <span class="control__divider"></span>
+    <button mat-button mat-stroked-button (click)="onLogout()">Выйти</button>
+  </ng-container>
+</div>
