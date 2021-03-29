@@ -14,7 +14,7 @@ import {
   selectIsCompactView,
   selectIsShowDifficultWordButton,
   selectIsShowDeleteWordButton,
-} from '../../../../redux/selectors/selectors';
+} from '../../../../redux/selectors/settings.selectors';
 import { IAppState } from '../../../../redux/state/app.state';
 import { SettingsComponent } from '../settings/components/settings.component';
 

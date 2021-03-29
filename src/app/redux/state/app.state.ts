@@ -17,4 +17,4 @@ export const initialAppState: IAppState = {
   games: initialGamesState,
 };
 
-export const getInitialState = () => initialAppState;
+export const getInitialState = (): IAppState => initialAppState;

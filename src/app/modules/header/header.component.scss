@@ -54,6 +54,12 @@
       &_active {
         border-bottom: 4px solid $color-mint;
       }
+      &_disabled {
+        cursor: default;
+        pointer-events: none;
+        filter: grayscale(100%);
+        color: rgb(106, 106, 103);;
+      }
     }
   }
 }

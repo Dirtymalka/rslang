@@ -73,7 +73,7 @@ export const deleteUserWordFailure = createAction(
 
 export const fetchAggUserWords = createAction(
   '[Words UserWords] Fetch AggUserWords',
-  props<{ group: any; filter: any; wordsPerPage?: number }>(),
+  props<{ group: string | number; filter: any; wordsPerPage?: number }>(),
 );
 
 export const fetchAggUserWordsSuccess = createAction(

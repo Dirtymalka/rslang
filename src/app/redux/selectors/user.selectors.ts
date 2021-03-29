@@ -25,3 +25,8 @@ export const selectClientTokenTime = createSelector(
   selectUserInfo,
   (userInfo) => userInfo.tokenOptions.clientTokenTime,
 );
+
+export const selectIsFetching = createSelector(
+  selectUserInfo,
+  (userInfo) => userInfo.isFetching,
+);
