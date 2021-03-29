@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
@@ -15,6 +16,7 @@ import {
   selectIsShowDeleteWordButton,
 } from '../../../../redux/selectors/selectors';
 import { IAppState } from '../../../../redux/state/app.state';
+import { SettingsComponent } from '../settings/components/settings.component';
 
 interface ISelectParam {
   value: string;
@@ -52,7 +54,15 @@ export class ControlBarComponent {
     select(selectIsShowDeleteWordButton),
   );
 
-  constructor(private store$: Store<IAppState>) {}
+  constructor(private store$: Store<IAppState>, public dialog: MatDialog) {}
+
+  openSettings() {
+    const dialogRef = this.dialog.open(SettingsComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   switchTranslateMode(): void {
     this.store$.dispatch(changeShowWordTranslation());
