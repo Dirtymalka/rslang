@@ -79,7 +79,7 @@ export class WordsServiceService {
     );
   }
 
-  putWord(wordId: string, word: IWordPost) {
+  putWord(wordId: string, word: IWordPost): Observable<unknown> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.token}`,
@@ -94,7 +94,7 @@ export class WordsServiceService {
     );
   }
 
-  deleteWord(wordId: string) {
+  deleteWord(wordId: string): Observable<unknown> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.token}`,

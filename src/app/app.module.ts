@@ -16,6 +16,7 @@ import rootEffects from './redux/effects';
 import { TokenInterceptor } from './modules/shared/interceptors/token.interceptor';
 import { GamesModule } from './modules/games';
 import { SharedModule } from './modules/shared/shared.module';
+import { AuthGuard } from './modules/authentication/auth.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +43,7 @@ import { SharedModule } from './modules/shared/shared.module';
       useClass: TokenInterceptor,
       multi: true,
     },
+    AuthGuard,
   ],
   bootstrap: [AppComponent],
 })
