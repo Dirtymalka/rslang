@@ -1,6 +1,8 @@
+<div class="settings__wrapper">
 <h2 mat-dialog-title class="settings__title">Настройки</h2>
 <mat-dialog-content class="mat-typography" [formGroup]="formGroup">
-  <mat-list>
+  <mat-list class="settings__list">
+    <mat-divider></mat-divider>
     <mat-list-item>
       <mat-slide-toggle
         [(ngModel)]="showTranslateChecked"
@@ -33,3 +35,4 @@
     (click)="save()"
     mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="primary">Применить</button>
 </mat-dialog-actions>
+</div>

@@ -9,7 +9,7 @@
 
 .wrapper {
   display: flex;
-  align-items: top;
+  align-items: center;
   padding-top: 1.34375em;
   border-top: 1px solid #e6e9ee;
   border-bottom: 1px solid #e6e9ee;
@@ -17,16 +17,7 @@
 
 .checkbox {
   margin-right: 14px;
-  //margin-bottom: 1.34375em;
 }
-
-// .control-bar__input {
-//   margin-right: auto;
-// }
-
-// .wrapper .mat-form-field-wrapper {
-//   padding-bottom: 0;
-// }
 
 .input-wrapper {
   margin-right: auto;
@@ -46,105 +37,3 @@
 .button-settings:hover .icon-settings {
   color: $color-light-blue;
 }
-
-
-// .button-delete--active .icon-delete {
-//   color: $color-red;
-// }
-
-// .menu-block {
-//   margin-right: 20px;
-//   margin-bottom: 1.34375em;
-//   margin-left: auto;
-// }
-
-// .menu-block button {
-//   font-weight: bold;
-// }
-
-// .word-params {
-//   margin-right: 10px;
-// }
-
-// .mat-form-field-wrapper {
-//   padding-bottom: 0;
-// }
-
-// .button-games {
-//   height: 51px;
-// }
-
-// .button-translate,
-// .button-compact {
-//   height: 51px;
-// }
-
-// .button-translate--active .icon-translate,
-// .button-compact--active .icon-compact {
-//   color: $color-light-blue;
-// }
-
-// .button-translate {
-//   border-radius: 0;
-// }
-
-// .button-translate--active,
-// .button-compact--active {
-//   background: #E8F0FE;
-//   border-radius: 0;
-// }
-
-// .control-buttons {
-//   border: 1px solid #e6e9ee;
-//   margin-bottom: 1.34375em;
-//   box-sizing: content-box;
-//   border-radius: 4px;
-// }
-
-// .control-buttons button:hover {
-//   border-radius: 0;
-// }
-
-// .button-compact,
-// .button-translate,
-// .button-hard {
-//   border-right: 1px solid #e6e9ee;
-// }
-
-// .control-buttons button {
-//   height: 51px;
-// }
-
-// .control-buttons .button-hard {
-//   border-top-right-radius: 0;
-//   border-bottom-right-radius: 0;
-// }
-
-// .control-buttons .button-delete {
-//   border-top-left-radius: 0;
-//   border-bottom-left-radius: 0;
-// }
-
-// .button-hard--active .icon-hard {
-//   color: $color-orange;
-// }
-
-// .button-delete--active .icon-delete {
-//   color: $color-red;
-// }
-
-// .icon-compact,
-// .icon-translate,
-// .icon-hard,
-// .icon-delete {
-//   color: rgb(126, 145, 159);
-//   transition: color .2s ease;
-// }
-
-// .button-delete:hover .icon-delete {
-//   color: $color-red;
-// }
-
-// .button-hard:hover .icon-hard {
-//   color: $color-orange;
-// }

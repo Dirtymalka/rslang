@@ -3,5 +3,11 @@
   grid-gap: 30px;
   grid-gap: 20px;
   grid-template-columns: repeat(6,1fr);
-  padding-left: 4px;
+}
+
+@media screen and (max-width: 667px) {
+  .chapters {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
 }

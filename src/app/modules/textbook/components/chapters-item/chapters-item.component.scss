@@ -3,7 +3,7 @@
 
 .chapter__label {
   height: 140px;
-  width: 140px;
+  width: 100%;
   background: $color-blue;
   border-radius: 20px;
   display: flex;
@@ -21,4 +21,22 @@
   color: $color-white;
   font-size: 16px;
   line-height: 34px;
+}
+
+@media screen and (max-width: 768px) {
+  .chapter__unit-title {
+    font-size: 16px;
+    line-height: 34px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .chapter__label {
+    border-radius: 15px;
+  }
+
+  .chapter__unit-title {
+    font-size: 14px;
+    line-height: 28px;
+  }
 }

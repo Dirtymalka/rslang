@@ -1,5 +1,4 @@
-:host {
-  width: 900px;
+.settings__wrapper {
   overflow: hidden;
 }
 
@@ -7,6 +6,6 @@
   font-weight: bold;
 }
 
-.mat-typography {
-  width: 900px;
+.settings__list {
+  margin-bottom: 10px;
 }
