@@ -6,7 +6,7 @@ import {
   selectUserId,
   selectUserToken,
 } from '../../../redux/selectors/user.selectors';
-import { ISettings } from '../models/settingsModels';
+import { ISettings } from '../../../redux/models/settings.models';
 import { BACKEND_URL } from '../constants/api.constants';
 
 @Injectable({

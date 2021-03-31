@@ -10,6 +10,12 @@
   justify-content: center;
   cursor: pointer;
   @include unselectable;
+  border: none;
+}
+
+.chapter__label:focus,
+.chapter__label:active {
+  outline: none;
 }
 
 .chapter__label--active {

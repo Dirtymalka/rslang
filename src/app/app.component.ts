@@ -20,9 +20,9 @@ export class AppComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    // this.store.dispatch(
-    //   userLogin({ email: HARD_SKINNED_EMAIL, password: HARD_SKINNED_PASSWORD }),
-    // );
+    this.store.dispatch(
+      userLogin({ email: HARD_SKINNED_EMAIL, password: HARD_SKINNED_PASSWORD }),
+    );
 
     const user: IUser = LocalStorageService.getItemFromLocalStorage(USER);
     if (user) {

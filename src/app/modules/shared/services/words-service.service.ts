@@ -7,7 +7,12 @@ import {
   selectUserId,
   selectUserToken,
 } from '../../../redux/selectors/user.selectors';
-import { IAggWords, IUserWord, IWord, IWordPost } from '../models/wordModels';
+import {
+  IAggWords,
+  IUserWord,
+  IWord,
+  IWordPost,
+} from '../../../redux/models/word.models';
 import { BACKEND_URL } from '../constants/api.constants';
 
 @Injectable({
