@@ -24,7 +24,7 @@
 
 .word-item__word-set,
 .word-item__sentense-wrapper {
-  width: 440px;
+  min-width: auto;
   padding: 8px;
   margin-left: 14px;
   display: flex;
@@ -153,5 +153,26 @@
 
   .button-delete {
     margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .controls {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .button-delete {
+    margin-left: 14px;
+  }
+
+  .word-item__word-set,
+  .word-item__sentense-wrapper {
+    padding-left: 60px;
   }
 }

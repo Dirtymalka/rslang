@@ -8,38 +8,44 @@
     <app-icon-sound></app-icon-sound>
   </div>
 
-  <img class="word-item__image" src="https://via.placeholder.com/44x44" alt="item">
+  <img class="word-item__image" src="https://via.placeholder.com/44x44" alt="{{word.word}}">
 
   <div
     class="word-item__word-set">
     <p class="word-item__word-wrapper">
-      <strong class="word-item__word">{{ 'boat' }}&nbsp;</strong>
-      <span class="word-item__transcription">{{ '[bout]' }}&nbsp;</span>
-      <span *ngIf="true" class="word-item__translate">&mdash; &nbsp;{{ 'translation' }}</span>
+      <strong class="word-item__word">{{word.word}}&nbsp;</strong>
+      <span class="word-item__transcription">{{word.transcription}}&nbsp;</span>
+      <span *ngIf="isShowWordTranslation$ | async" class="word-item__translate">&mdash; &nbsp;{{word.wordTranslate}}</span>
     </p>
 
     <div class="word-item__sentence-wrapper">
       <p class="word-item__text-meaning">
-        {{ 'A <i>boat</i> is a vehicle that moves across water.' }}&nbsp;
+        {{word.textMeaning}}&nbsp;
       </p>
-      <p *ngIf="true" class="word-item__text-meaning-translate">
-        {{ 'Лодка - это транспортное средство, которое движется по воде' }}&nbsp;
+      <p *ngIf="isShowWordTranslation$ | async" class="word-item__text-meaning-translate">
+        {{word.textMeaningTranslate}}&nbsp;
       </p>
       <p class="word-item__text-example">
-        &#8594; &nbsp;{{ 'There is a small <b>boat</b> on the lake.' }}
+        &#8594; &nbsp;{{word.textExample}}
       </p>
-      <p *ngIf="true" class="word-item__text-example-translate">
-        &#8594; &nbsp;{{ 'На озере есть маленькая лодка' }}
+      <p *ngIf="isShowWordTranslation$ | async" class="word-item__text-example-translate">
+        &#8594; &nbsp;{{word.textExampleTranslate}}
       </p>
     </div>
   </div>
 
   <div class="controls">
-    <button class="button-hard">
+    <button
+      *ngIf="isShowDifficultWordButton$| async"
+      class="button-hard"
+      (click)="onDiffucultButtonClick()">
       <mat-icon class="icon-hard">school</mat-icon>
     </button>
 
-    <button class="button-delete">
+    <button
+      *ngIf="isShowDeleteWordButton$ | async"
+      class="button-delete"
+      (click)="onDeleteButtonClick()">
       <mat-icon class="icon-delete">delete</mat-icon>
     </button>
 

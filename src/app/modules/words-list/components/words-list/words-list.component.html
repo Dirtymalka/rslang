@@ -1,4 +1,7 @@
 <div class="wrapper">
-  <app-words-list-item></app-words-list-item>
-  <app-words-list-item></app-words-list-item>
+  <app-words-list-item
+    *ngFor="let word of listWords; index as i"
+    [word]="word"
+  >
+  </app-words-list-item>
 </div>
