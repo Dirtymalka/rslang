@@ -1,10 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  IAggWords,
-  IUserWord,
-  IWord,
-  IWordPost,
-} from '../../modules/shared/models/wordModels';
+import { IAggWords, IUserWord, IWord, IWordPost } from '../models/word.models';
 
 export const fetchAllWords = createAction('[Words Words] Fetch Words');
 

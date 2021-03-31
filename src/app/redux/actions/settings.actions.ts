@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ISettings } from '../../modules/shared/models/settingsModels';
+import { ISettings, ISettingsModes } from '../models/settings.models';
 
 export const changeShowWordTranslation = createAction(
   '[Settings Setting] Change settings isShowWordTranslation',
@@ -15,6 +15,16 @@ export const changeDifficultWordButtonMode = createAction(
 
 export const changeDeleteWordButtonMode = createAction(
   '[Settings Setting] Change settings isShowDeleteWordButton',
+);
+
+export const changeSettingsModes = createAction(
+  '[Settings] Change settings',
+  (settingsState: ISettingsModes) => settingsState,
+);
+
+export const changeGroup = createAction(
+  '[Settings Setting] Change settings group',
+  props<{ group: number }>(),
 );
 
 export const changeSettings = createAction(

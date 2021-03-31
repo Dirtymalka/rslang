@@ -1,15 +1,15 @@
 export interface ISettingsState {
+  group: number;
+  page: number;
   isShowWordTranslation: boolean;
-  isWordsView: string;
-  isCompactView: boolean;
   isShowDifficultWordButton: boolean;
   isShowDeleteWordButton: boolean;
 }
 
 export const initialSettingsState: ISettingsState = {
+  group: 0,
+  page: 0,
   isShowWordTranslation: true,
-  isWordsView: 'param-0',
-  isCompactView: false,
-  isShowDifficultWordButton: false,
-  isShowDeleteWordButton: false,
+  isShowDifficultWordButton: true,
+  isShowDeleteWordButton: true,
 };

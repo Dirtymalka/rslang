@@ -2,30 +2,35 @@ import { createReducer, on } from '@ngrx/store';
 import { initialSettingsState } from '../state/settings.state';
 import {
   changeSettings,
+  changeSettingsModes,
   getSettingsSuccess,
   changeShowWordTranslation,
-  changeCompactView,
   changeDifficultWordButtonMode,
   changeDeleteWordButtonMode,
+  changeGroup,
 } from '../actions/settings.actions';
 
 export const settingsReducer = createReducer(
   initialSettingsState,
+  on(changeGroup, (state, group) => ({
+    ...state,
+    ...group,
+  })),
+  on(changeSettingsModes, (state, settingsState) => ({
+    ...state,
+    ...settingsState,
+  })),
   on(changeSettings, (state, { settingsState }) => ({
     ...state,
-    ...settingsState.optional,
+    ...settingsState,
   })),
   on(getSettingsSuccess, (state, { settingsState }) => ({
     ...state,
-    ...settingsState.optional,
+    ...settingsState,
   })),
   on(changeShowWordTranslation, (state) => ({
     ...state,
     isShowWordTranslation: !state.isShowWordTranslation,
-  })),
-  on(changeCompactView, (state) => ({
-    ...state,
-    isCompactView: !state.isCompactView,
   })),
   on(changeDifficultWordButtonMode, (state) => ({
     ...state,

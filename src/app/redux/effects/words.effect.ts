@@ -23,7 +23,7 @@ import {
   putUserWordFailure,
   putUserWordSuccess,
 } from '../actions/words.actions';
-import { IWordPost } from '../../modules/shared/models/wordModels';
+import { IWordPost } from '../models/word.models';
 
 @Injectable()
 export class WordsEffect {

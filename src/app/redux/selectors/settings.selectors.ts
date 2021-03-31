@@ -11,16 +11,6 @@ export const selectIsShowWordTranslation = createSelector(
   (settings: ISettingsState) => settings.isShowWordTranslation,
 );
 
-export const selectIsWordsView = createSelector(
-  selectSettings,
-  (settings) => settings.isWordsView,
-);
-
-export const selectIsCompactView = createSelector(
-  selectSettings,
-  (settings) => settings.isCompactView,
-);
-
 export const selectIsShowDifficultWordButton = createSelector(
   selectSettings,
   (settings) => settings.isShowDifficultWordButton,
@@ -29,4 +19,9 @@ export const selectIsShowDifficultWordButton = createSelector(
 export const selectIsShowDeleteWordButton = createSelector(
   selectSettings,
   (settings) => settings.isShowDeleteWordButton,
+);
+
+export const selectGroup = createSelector(
+  selectSettings,
+  (settings) => settings.group,
 );
