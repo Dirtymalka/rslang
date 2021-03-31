@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
   changeShowWordTranslation,
@@ -10,8 +10,6 @@ import {
 } from '../../../../redux/actions/settings.actions';
 import {
   selectIsShowWordTranslation,
-  selectIsWordsView,
-  selectIsCompactView,
   selectIsShowDifficultWordButton,
   selectIsShowDeleteWordButton,
 } from '../../../../redux/selectors/settings.selectors';
@@ -34,24 +32,16 @@ export class ControlBarComponent {
     { value: 'param-1', viewValue: 'Предложения' },
   ];
 
-  isShowWordTranslation$: Observable<boolean> = this.store$.pipe(
-    select(selectIsShowWordTranslation),
+  isShowWordTranslation$: Observable<boolean> = this.store$.select(
+    selectIsShowWordTranslation,
   );
 
-  isWordsView$: Observable<string> = this.store$.pipe(
-    select(selectIsWordsView),
+  isShowDifficultWordButton$: Observable<boolean> = this.store$.select(
+    selectIsShowDifficultWordButton,
   );
 
-  isCompactView$: Observable<boolean> = this.store$.pipe(
-    select(selectIsCompactView),
-  );
-
-  isShowDifficultWordButton$: Observable<boolean> = this.store$.pipe(
-    select(selectIsShowDifficultWordButton),
-  );
-
-  isShowDeleteWordButton$: Observable<boolean> = this.store$.pipe(
-    select(selectIsShowDeleteWordButton),
+  isShowDeleteWordButton$: Observable<boolean> = this.store$.select(
+    selectIsShowDeleteWordButton,
   );
 
   constructor(private store$: Store<IAppState>, public dialog: MatDialog) {}
