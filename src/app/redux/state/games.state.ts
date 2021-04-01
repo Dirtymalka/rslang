@@ -1,6 +1,7 @@
 export interface IGamesState {
   hangman: {
     contents?: unknown;
+    words?: [];
   };
   savanna: {
     contents?: unknown;
