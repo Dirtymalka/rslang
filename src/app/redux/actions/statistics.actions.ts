@@ -24,6 +24,7 @@ export const putStatistic = createAction(
 
 export const putStatisticSuccess = createAction(
   '[Statistic Statistic] Put Statistic Success',
+  props<{ statistic: { optional: IOptional } }>(),
 );
 
 export const putStatisticFailure = createAction(

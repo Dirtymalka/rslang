@@ -34,7 +34,7 @@ export class StatisticEffects {
       ofType(putStatistic),
       mergeMap(({ statistic }) =>
         this.statisticService.putStatistics(statistic).pipe(
-          map(() => putStatisticSuccess()),
+          map((stat) => putStatisticSuccess({ statistic: stat })),
           catchError((err) => {
             console.log(err);
             return of(putStatisticFailure());
