@@ -1,0 +1,51 @@
+.keypad-container {
+  max-width: 768px;
+  margin: 0 auto 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  .knob {
+    background-color: white;
+    margin: 5px;
+    display: inline-block;
+    padding: 13px 0;
+    color: #066c99;
+    border: 1px solid;
+    border-color: #ddd #ccc #ccc #ddd;
+    border-radius: 3px;
+    white-space: nowrap;
+    background-clip: padding-box;
+    cursor: pointer;
+    &:hover {
+      color: #066c99;
+      border-color: #ccc;
+      background-color: #e4f5fe;
+    }
+  }
+  .knob-letter {
+    width: 45px;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .knob-right {
+    color: #480;
+    background-color: #c1ff8d;
+    &:hover {
+      color: #480;
+      border-color: #ddd #ccc #ccc #ddd;
+      background-color: #c1ff8d;
+    }
+  }
+  .knob-wrong {
+    color: #b12525;
+    background-color: #fbc2af;
+    &:hover {
+      color: #b12525;
+      border-color: #ddd #ccc #ccc #ddd;
+      background-color: #fbc2af;
+    }
+  }
+}

@@ -10,3 +10,8 @@ export const selectAllWords = createSelector(
   selectWords,
   (words) => words.allWords,
 );
+
+export const selectUserWords = createSelector(
+  selectWords,
+  (words) => words.userWords,
+);

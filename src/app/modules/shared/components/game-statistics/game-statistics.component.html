@@ -1,0 +1,43 @@
+<div
+  class="savannah__statistics"
+>
+  <h1>
+    Процент правильных ответов:
+    {{winPercent | percent}}
+  </h1>
+  <h2 class="savannah__statistics-wrong">Неправильные ответы:</h2>
+  <div *ngFor="let answer of wrongAnswers" class="savannah__statistics-row">
+    <div class="savannah__statistics-row_word">{{answer.word}}</div>
+    <div class="savannah__statistics-row_transcription">
+      {{answer.wordTranscription }}
+    </div>
+    <div class="savannah__statistics-row_translate">
+      {{answer.wordTranslate}}
+    </div>
+    <div
+      class="savannah__statistics-row_sound" tabindex="0" role="button" label="audio">
+  </div>
+  </div>
+
+  <h2 class="savannah__statistics-right">Правильные ответы:</h2>
+  <div *ngFor="let answer of rightAnswers" class="savannah__statistics-row">
+    <div class="savannah__statistics-row_word">{{answer.word}}</div>
+    <div class="savannah__statistics-row_transcription">
+      {{answer.wordTranscription }}
+    </div>
+    <div class="savannah__statistics-row_translate">
+      {{answer.wordTranslate}}
+    </div>
+    <div
+      class="savannah__statistics-row_sound" tabindex="0" role="button" label="audio">
+    </div>
+  </div>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="goToStartPage()"
+  >Выбрать уровень</button>
+  <button mat-raised-button color="primary" (click)="goOnMainPage()">На главную страницу</button>
+
+</div>

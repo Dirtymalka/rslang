@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { GamesComponent } from './components';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: GamesComponent,
+  },
   // {
   //   path: 'games/savanna',
   //   component: savanna-game
@@ -14,10 +19,11 @@ const routes: Routes = [
   //   path: 'games/sprint',
   //   component: sprint-game
   // },
-  // {
-  //   path: 'games/hangman',
-  //   component: hangman-game
-  // }
+  {
+    path: 'games/hangman',
+    loadChildren: () =>
+      import('./hangman/hangman.module').then((m) => m.HangmanModule),
+  },
 ];
 
 @NgModule({
