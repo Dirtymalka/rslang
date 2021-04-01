@@ -17,6 +17,7 @@ import { TokenInterceptor } from './modules/shared/interceptors/token.intercepto
 import { GamesModule } from './modules/games';
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthGuard } from './modules/authentication/auth.guard';
+import { ErrorInterceptor } from './modules/shared/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +42,11 @@ import { AuthGuard } from './modules/authentication/auth.guard';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true,
     },
     AuthGuard,
