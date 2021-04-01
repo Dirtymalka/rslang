@@ -1,28 +1,23 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { IOptional, IStatistic } from '../models/statistics.models';
+import { BACKEND_URL } from '../constants/api.constants';
 import {
   selectUserId,
-  selectUserRefreshToken,
   selectUserToken,
 } from '../../../redux/selectors/user.selectors';
-import { BACKEND_URL } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
-  refreshToken: string;
-
+export class StatisticService {
   userId: string;
 
   token: string;
 
   constructor(private http: HttpClient, private store: Store) {
-    store.select(selectUserRefreshToken).subscribe((token) => {
-      this.refreshToken = token;
-    });
     store.select(selectUserId).subscribe((id) => {
       this.userId = id;
     });
@@ -31,15 +26,13 @@ export class UserService {
     });
   }
 
-  registration(email: string, password: string): Observable<unknown> {
-    return this.http.post(`${BACKEND_URL}/users`, { email, password });
+  static createObject(value: IOptional): { optional: IOptional } {
+    return {
+      optional: value,
+    };
   }
 
-  login(email: string, password: string): Observable<unknown> {
-    return this.http.post(`${BACKEND_URL}/signin`, { email, password });
-  }
-
-  getUser(userId: string): Observable<unknown> {
+  getStatistic(): Observable<IStatistic> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.token}`,
@@ -47,19 +40,25 @@ export class UserService {
       }),
     };
 
-    return this.http.get(`${BACKEND_URL}/users/${userId}`, httpOptions);
+    return this.http.get<IStatistic>(
+      `${BACKEND_URL}/users/${this.userId}/statistics`,
+      httpOptions,
+    );
   }
 
-  getNewToken(): Observable<unknown> {
+  putStatistics(statistic: IStatistic): Observable<IStatistic> {
+    const statisticCopy = { ...statistic };
+    delete statisticCopy.id;
     const httpOptions = {
       headers: new HttpHeaders({
-        Authorization: `Bearer ${this.refreshToken}`,
+        Authorization: `Bearer ${this.token}`,
         Accept: 'application/json',
       }),
     };
 
-    return this.http.get(
-      `${BACKEND_URL}/users/${this.userId}/tokens`,
+    return this.http.put<IStatistic>(
+      `${BACKEND_URL}/users/${this.userId}/statistics`,
+      statisticCopy,
       httpOptions,
     );
   }
