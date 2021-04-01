@@ -8,6 +8,7 @@ import {
   selectUserId,
   selectUserToken,
 } from '../../../redux/selectors/user.selectors';
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root',
@@ -43,12 +44,30 @@ export class StatisticService {
     return this.http.get<IStatistic>(
       `${BACKEND_URL}/users/${this.userId}/statistics`,
       httpOptions,
+    ).pipe(
+      map((res) => {
+        const resCopy = {...res};
+        const optional = resCopy.optional
+
+        Object.keys(optional).forEach((game) => {
+          resCopy.optional[game] = JSON.parse(optional[game])
+        });
+
+        return resCopy;
+      })
     );
   }
 
   putStatistics(statistic: IStatistic): Observable<IStatistic> {
-    const statisticCopy = { ...statistic };
+    const statisticCopy = { ...statistic, optional: {...statistic.optional} };
     delete statisticCopy.id;
+
+    const optional = statisticCopy.optional;
+
+    Object.keys(optional).forEach((game) => {
+      optional[game] = JSON.stringify(optional[game])
+    });
+
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.token}`,
