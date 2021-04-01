@@ -4,6 +4,7 @@ import { initialWordsState, IWordsState } from './words.state';
 import { IGamesState, initialGamesState } from './games.state';
 import { IStatistic } from '../../modules/shared/models/statistics.models';
 import { initialStatisticsState } from './statistics.state';
+import { IError, initialErrorState } from './error.state';
 
 export interface IAppState {
   user: IUserState;
@@ -11,6 +12,7 @@ export interface IAppState {
   words: IWordsState;
   games: IGamesState;
   statistics: IStatistic;
+  error: IError;
 }
 
 export const initialAppState: IAppState = {
@@ -19,6 +21,7 @@ export const initialAppState: IAppState = {
   words: initialWordsState,
   games: initialGamesState,
   statistics: initialStatisticsState,
+  error: initialErrorState,
 };
 
 export const getInitialState = (): IAppState => initialAppState;
