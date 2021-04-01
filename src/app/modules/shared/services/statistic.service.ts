@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 import { IOptional, IStatistic } from '../models/statistics.models';
 import { BACKEND_URL } from '../constants/api.constants';
 import {
   selectUserId,
   selectUserToken,
 } from '../../../redux/selectors/user.selectors';
-import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root',
@@ -41,31 +41,33 @@ export class StatisticService {
       }),
     };
 
-    return this.http.get<IStatistic>(
-      `${BACKEND_URL}/users/${this.userId}/statistics`,
-      httpOptions,
-    ).pipe(
-      map((res) => {
-        const resCopy = {...res};
-        const optional = resCopy.optional
+    return this.http
+      .get<IStatistic>(
+        `${BACKEND_URL}/users/${this.userId}/statistics`,
+        httpOptions,
+      )
+      .pipe(
+        map((res) => {
+          const resCopy = { ...res };
+          const { optional } = resCopy;
 
-        Object.keys(optional).forEach((game) => {
-          resCopy.optional[game] = JSON.parse(optional[game])
-        });
+          Object.keys(optional).forEach((game) => {
+            resCopy.optional[game] = JSON.parse(optional[game]);
+          });
 
-        return resCopy;
-      })
-    );
+          return resCopy;
+        }),
+      );
   }
 
   putStatistics(statistic: IStatistic): Observable<IStatistic> {
-    const statisticCopy = { ...statistic, optional: {...statistic.optional} };
+    const statisticCopy = { ...statistic, optional: { ...statistic.optional } };
     delete statisticCopy.id;
 
-    const optional = statisticCopy.optional;
+    const { optional } = statisticCopy;
 
     Object.keys(optional).forEach((game) => {
-      optional[game] = JSON.stringify(optional[game])
+      optional[game] = JSON.stringify(optional[game]);
     });
 
     const httpOptions = {

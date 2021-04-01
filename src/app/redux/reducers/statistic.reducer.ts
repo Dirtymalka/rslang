@@ -1,6 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialStatisticsState } from '../state/statistics.state';
-import {fetchStatisticSuccess, putStatisticSuccess} from '../actions/statistics.actions';
+import {
+  fetchStatisticSuccess,
+  putStatisticSuccess,
+} from '../actions/statistics.actions';
 
 export const statisticReducer = createReducer(
   initialStatisticsState,
@@ -8,8 +11,8 @@ export const statisticReducer = createReducer(
     ...state,
     ...statistic,
   })),
-  on(putStatisticSuccess,(state, { statistic }) => ({
+  on(putStatisticSuccess, (state, { statistic }) => ({
     ...state,
     ...statistic,
-  }))
+  })),
 );
