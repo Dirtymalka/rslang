@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './modules/authentication/auth.guard';
-import {NotFoundPageComponent} from "./modules/shared/components/not-found-page/not-found-page.component";
+import { NotFoundPageComponent } from './modules/shared/components/not-found-page/not-found-page.component';
 
 const routes: Routes = [
   // {
@@ -47,13 +47,13 @@ const routes: Routes = [
   },
   {
     path: 'not-found',
-    component: NotFoundPageComponent
+    component: NotFoundPageComponent,
   },
   {
     path: '**',
     redirectTo: '/not-found',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

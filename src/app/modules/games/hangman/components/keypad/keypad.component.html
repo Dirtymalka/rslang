@@ -1,0 +1,9 @@
+<div class="keypad-container">
+  <span
+    *ngFor="let letter of alphabet"
+    class='knob knob-letter'
+    [class.knob-right]="correctLetters.includes(letter.toLowerCase())"
+    [class.knob-wrong]="incorrectLetters.includes(letter.toLowerCase())"
+    (click)="handleClickLetter(letter)"
+  >{{letter}}</span>
+</div>
