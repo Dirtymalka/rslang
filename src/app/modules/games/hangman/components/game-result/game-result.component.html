@@ -1,0 +1,21 @@
+<div *ngIf="gameOver; else choozen" class='game-over' [class.game-over-correct]="isSuccessResult"
+     [class.game-over-incorrect]="!isSuccessResult">
+<span
+  class='game-over_result' [class.correct-result]="isSuccessResult" [class.incorrect-result]="!isSuccessResult"
+>
+{{isSuccessResult ? 'Вы ответили правильно' : 'Вы ответили неверно'}}
+</span>
+  Правильное слово:
+  <span
+    class="correct-word"
+  >{{word.toUpperCase()}}</span>
+  <button
+    (click)="continue()"
+    mat-raised-button color="primary"
+  >Продолжить
+  </button>
+</div>
+<ng-template #choozen>
+  <div class="game-hint">Выберите букву</div>
+</ng-template>
+

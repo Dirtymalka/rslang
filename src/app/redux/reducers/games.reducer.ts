@@ -1,12 +1,18 @@
-import { createReducer } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { hangmanReducer } from './games.hangman.reducer';
-import { savannaReducer } from './games.savanna.reducer';
-import { audioCallReducer } from './games.audioCall.reducer';
-import { sprintReducer } from './games.sprint.reducer';
+import { fetchWordsWithLevelsSuccess } from '../actions/hangman.actions';
 
-export const gamesReducer = createReducer({
-  hangman: hangmanReducer,
-  savanna: savannaReducer,
-  audioCall: audioCallReducer,
-  sprint: sprintReducer,
-});
+export const gamesReducer = createReducer(
+  {
+    hangman: {},
+    savanna: {},
+    audioCall: {},
+    sprint: {},
+  },
+  on(fetchWordsWithLevelsSuccess, (state, { words }) => {
+    return {
+      ...state,
+      hangman: hangmanReducer(null, fetchWordsWithLevelsSuccess({ words })),
+    };
+  }),
+);

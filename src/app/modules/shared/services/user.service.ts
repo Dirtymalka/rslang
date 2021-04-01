@@ -35,7 +35,7 @@ export class UserService {
     return this.http.post(`${BACKEND_URL}/users`, { email, password });
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<unknown> {
     return this.http.post(`${BACKEND_URL}/signin`, { email, password });
   }
 
