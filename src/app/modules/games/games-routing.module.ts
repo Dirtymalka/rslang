@@ -8,19 +8,19 @@ const routes: Routes = [
     component: GamesComponent,
   },
   // {
-  //   path: 'games/savanna',
+  //   path: 'savanna',
   //   component: savanna-game
   // },
   // {
-  //   path: 'games/audio-call',
+  //   path: 'audio-call',
   //   component: audio-game
   // },
   // {
-  //   path: 'games/sprint',
+  //   path: 'sprint',
   //   component: sprint-game
   // },
   {
-    path: 'games/hangman',
+    path: 'hangman',
     loadChildren: () =>
       import('./hangman/hangman.module').then((m) => m.HangmanModule),
   },
