@@ -27,6 +27,8 @@ export interface IOptional {
   isDifficult: boolean;
   isDeleted: boolean;
   isStudy: boolean;
+  correctCount?: number;
+  incorrectCount?: number;
 }
 
 export interface IAggWords {
