@@ -84,6 +84,10 @@ export class ControlBarComponent {
     console.log('audiocall');
   }
 
+  openHangmanGame(): void {
+    console.log('Hangman');
+  }
+
   onChangeWordsView(value: string): void {
     const wordsViewMode = this.wordParams.find((param) => param.value === value)
       .viewValue;

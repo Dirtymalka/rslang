@@ -7,7 +7,7 @@ import {
   selectIsShowDeleteWordButton,
 } from '../../../../redux/selectors/settings.selectors';
 import { IAppState } from '../../../../redux/state/app.state';
-import { IWord } from '../../../../redux/models/word.models';
+import { IWord } from '../../../shared/models/word.models';
 
 @Component({
   selector: 'app-words-list-item',

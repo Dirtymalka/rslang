@@ -4,15 +4,18 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import {
-  selectUserId,
-  selectUserToken,
-} from '../../../redux/selectors/user.selectors';
-import {
+  IAggWordsPaginator,
   IAggWords,
   IUserWord,
   IWord,
   IWordPost,
-} from '../../../redux/models/word.models';
+} from '../models/word.models';
+
+import {
+  selectUserId,
+  selectUserToken,
+} from '../../../redux/selectors/user.selectors';
+
 import { BACKEND_URL } from '../constants/api.constants';
 
 @Injectable({
@@ -141,6 +144,34 @@ export class WordsServiceService {
           return word;
         }),
       ),
+    );
+  }
+
+  getUserAggWordsToPaginator({
+    group,
+    page,
+    wordsPerPage,
+    filter,
+  }): Observable<IAggWordsPaginator> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+      }),
+    };
+    const url =
+      `${BACKEND_URL}/users/${this.userId}/aggregatedWords` +
+      `?group=${group}&page=${page}&wordsPerPage=${wordsPerPage}&filter=${JSON.stringify(
+        filter,
+      )}`;
+
+    return this.http.get<IAggWordsPaginator>(url, httpOptions).pipe(
+      map((content) => {
+        return {
+          aggWords: content[0].paginatedResults,
+          count: content[0].totalCount[0]?.count,
+        };
+      }),
     );
   }
 }

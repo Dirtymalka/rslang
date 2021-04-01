@@ -27,11 +27,18 @@ export interface IOptional {
   isDifficult: boolean;
   isDeleted: boolean;
   isStudy: boolean;
+  correctCount: number;
+  incorrectCount: number;
 }
 
 export interface IAggWords {
   paginatedResults: IWord[];
   totalCount: [{ count: number }];
+}
+
+export interface IAggWordsPaginator {
+  aggWords: [];
+  count: number;
 }
 
 export interface IAggWord {

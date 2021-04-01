@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { IAppState } from '../../../../redux/state/app.state';
 import { selectGroup } from '../../../../redux/selectors/settings.selectors';
-import { IWord } from '../../../../redux/models/word.models';
+import { IWord } from '../../../shared/models/word.models';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
 import { fetchAllWordsSuccess } from '../../../../redux/actions/words.actions';
 

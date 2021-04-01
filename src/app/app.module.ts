@@ -18,6 +18,7 @@ import { TokenInterceptor } from './modules/shared/interceptors/token.intercepto
 import { GamesModule } from './modules/games';
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthGuard } from './modules/authentication/auth.guard';
+import { DictionaryModule } from './modules/dictionary/dictionary.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { AuthGuard } from './modules/authentication/auth.guard';
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
+    GamesModule,
     AppRoutingModule,
     TextbookModule,
     StoreModule.forRoot({}, {}),
@@ -39,7 +41,7 @@ import { AuthGuard } from './modules/authentication/auth.guard';
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     EffectsModule.forRoot(rootEffects),
-    GamesModule,
+    DictionaryModule,
   ],
   providers: [
     {
