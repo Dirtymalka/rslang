@@ -12,10 +12,10 @@ export interface IOptional {
 }
 
 export interface IStatisticGame {
-  Date?: number;
-  Group?: number;
-  Page?: number;
-  Correct: number;
-  Incorrect: number;
-  Score?: number;
+  date: number;
+  group?: number;
+  page?: number;
+  correct: number;
+  incorrect: number;
+  score?: number;
 }
