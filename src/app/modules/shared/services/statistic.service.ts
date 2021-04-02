@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { IOptional, IStatistic } from '../models/statistics.models';
+import {IOptional, IStatistic, IStatisticGame} from '../models/statistics.models';
 import { BACKEND_URL } from '../constants/api.constants';
 import {
   selectUserId,
@@ -31,6 +31,10 @@ export class StatisticService {
     return {
       optional: value,
     };
+  }
+
+  static createGameStat(correct, incorrect): IStatisticGame {
+    return { date: Date.now(), correct: correct, incorrect: incorrect };
   }
 
   getStatistic(): Observable<IStatistic> {
