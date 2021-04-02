@@ -2,9 +2,14 @@
   <mat-checkbox
     class="checkbox"
     color="primary"
+    [checked]="isAllChecked()"
+    (change)="onItemChecked($event.checked)"
   ></mat-checkbox>
 
-  <div class="icon-sound">
+  <div
+    class="icon-sound"
+    (click)="onIconSoundClick()"
+    >
     <app-icon-sound></app-icon-sound>
   </div>
 

@@ -83,3 +83,15 @@ export const fetchAggUserWordsSuccess = createAction(
 export const fetchAggUserWordsFailure = createAction(
   '[Words UserWords] Fetch AggUserWords Failure',
 );
+
+export const selectUserWord = createAction(
+  '[Words UserWords] Select Word',
+  // (selectedWords: IWord[]) => selectedWords,
+  props<{ words: IWord[] }>(),
+);
+
+export const updateSelectedWords = createAction(
+  '[Words UserWords] Deselect Word',
+  // (selectedWords: IWord[]) => selectedWords,
+  props<{ words: IWord[] | [] }>(),
+);

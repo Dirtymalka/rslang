@@ -4,9 +4,6 @@ import {
   changeSettings,
   changeSettingsModes,
   getSettingsSuccess,
-  changeShowWordTranslation,
-  changeDifficultWordButtonMode,
-  changeDeleteWordButtonMode,
   changeGroup,
 } from '../actions/settings.actions';
 
@@ -27,17 +24,5 @@ export const settingsReducer = createReducer(
   on(getSettingsSuccess, (state, { settingsState }) => ({
     ...state,
     ...settingsState,
-  })),
-  on(changeShowWordTranslation, (state) => ({
-    ...state,
-    isShowWordTranslation: !state.isShowWordTranslation,
-  })),
-  on(changeDifficultWordButtonMode, (state) => ({
-    ...state,
-    isShowDifficultWordButton: !state.isShowDifficultWordButton,
-  })),
-  on(changeDeleteWordButtonMode, (state) => ({
-    ...state,
-    isShowDeleteWordButton: !state.isShowDeleteWordButton,
   })),
 );

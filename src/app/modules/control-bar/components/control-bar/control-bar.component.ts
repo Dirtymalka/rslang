@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
-  changeShowWordTranslation,
-  changeCompactView,
-  changeDifficultWordButtonMode,
-  changeDeleteWordButtonMode,
-} from '../../../../redux/actions/settings.actions';
+  selectSelectedWords,
+  selectAllWords,
+} from '../../../../redux/selectors/words.selectors';
 import {
-  selectIsShowWordTranslation,
-  selectIsShowDifficultWordButton,
-  selectIsShowDeleteWordButton,
-} from '../../../../redux/selectors/settings.selectors';
+  selectUserWord,
+  updateSelectedWords,
+} from '../../../../redux/actions/words.actions';
 import { IAppState } from '../../../../redux/state/app.state';
+import { IWord } from '../../../shared/models/word.models';
 import { SettingsComponent } from '../settings/components/settings.component';
 
 interface ISelectParam {
@@ -32,17 +30,25 @@ export class ControlBarComponent {
     { value: 'param-1', viewValue: 'Предложения' },
   ];
 
-  isShowWordTranslation$: Observable<boolean> = this.store$.select(
-    selectIsShowWordTranslation,
-  );
+  selectedAll = false;
 
-  isShowDifficultWordButton$: Observable<boolean> = this.store$.select(
-    selectIsShowDifficultWordButton,
-  );
+  selectAllWords: IWord[];
 
-  isShowDeleteWordButton$: Observable<boolean> = this.store$.select(
-    selectIsShowDeleteWordButton,
-  );
+  wordsInSelectedState: IWord[];
+
+  allWords: IWord[];
+
+  allWords$: Subscription = this.store$
+    .select(selectAllWords)
+    .subscribe((words: IWord[]) => {
+      this.allWords = words;
+    });
+
+  selectedItems$: Subscription = this.store$
+    .select(selectSelectedWords)
+    .subscribe((selectedWords: IWord[]) => {
+      this.wordsInSelectedState = selectedWords;
+    });
 
   constructor(private store$: Store<IAppState>, public dialog: MatDialog) {}
 
@@ -52,24 +58,6 @@ export class ControlBarComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
-  }
-
-  switchTranslateMode(): void {
-    this.store$.dispatch(changeShowWordTranslation());
-  }
-
-  switchCompactMode(): void {
-    this.store$.dispatch(changeCompactView());
-  }
-
-  switchShowDifficultWordButton(): void {
-    console.log('dif');
-    this.store$.dispatch(changeDifficultWordButtonMode());
-  }
-
-  switchShowDeleteWordButton(): void {
-    console.log('delete');
-    this.store$.dispatch(changeDeleteWordButtonMode());
   }
 
   openSprintGame(): void {
@@ -92,5 +80,28 @@ export class ControlBarComponent {
     const wordsViewMode = this.wordParams.find((param) => param.value === value)
       .viewValue;
     console.log(wordsViewMode);
+  }
+
+  onCheckboxChange(selectedAll: boolean): void {
+    this.selectedAll = selectedAll;
+
+    if (this.selectedAll && this.wordsInSelectedState.length === 0) {
+      this.store$.dispatch(selectUserWord({ words: this.allWords }));
+    } else if (this.selectedAll) {
+      // TODO removedDuplicateWords
+      this.store$.dispatch(updateSelectedWords({ words: this.allWords }));
+    } else {
+      this.store$.dispatch(updateSelectedWords({ words: [] }));
+    }
+  }
+
+  deleteAllSelected(): void {
+    // TODO
+    console.log('delete all');
+  }
+
+  markAsDifficult(): void {
+    // TODO
+    console.log('mark as difficult all');
   }
 }

@@ -6,12 +6,14 @@ import {
 
 export interface IWordsState {
   allWords: IWord[];
+  selectedWords: IWord[];
   userWords: IUserWord[];
   aggWords: IAggWord[];
 }
 
 export const initialWordsState: IWordsState = {
   allWords: [],
+  selectedWords: [],
   userWords: [],
   aggWords: [],
 };

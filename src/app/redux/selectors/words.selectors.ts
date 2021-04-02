@@ -16,6 +16,11 @@ export const selectUserWords = createSelector(
   (words) => words.userWords,
 );
 
+export const selectSelectedWords = createSelector(
+  selectWords,
+  (words) => words.selectedWords,
+);
+
 export const selectAggWords = createSelector(
   selectWords,
   (words) => words.aggWords,

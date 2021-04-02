@@ -4,6 +4,8 @@ import {
   fetchAllUserWordsSuccess,
   fetchAllWordsSuccess,
   putUserWordSuccess,
+  selectUserWord,
+  updateSelectedWords,
 } from '../actions/words.actions';
 import { initialWordsState } from '../state/words.state';
 
@@ -22,4 +24,12 @@ export const wordsReducer = createReducer(
     aggWords,
   })),
   on(putUserWordSuccess, (state) => ({ ...state })),
+  on(selectUserWord, (state, { words }) => ({
+    ...state,
+    selectedWords: state.selectedWords.concat(words),
+  })),
+  on(updateSelectedWords, (state, { words }) => ({
+    ...state,
+    selectedWords: words,
+  })),
 );

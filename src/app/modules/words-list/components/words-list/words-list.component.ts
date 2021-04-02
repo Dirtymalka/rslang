@@ -33,7 +33,6 @@ export class WordsListComponent {
   getWordsList(): void {
     this.wordsService.getWords(this.group, 0).subscribe(
       (listWords: IWord[]) => {
-        console.log(listWords);
         this.listWords = listWords;
         console.log('list', this.listWords);
 
