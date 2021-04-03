@@ -12,6 +12,7 @@
       <ul class="menu">
         <li
           class="menu__link"
+          [class.menu__link_disabled]="!isAuthorized"
           routerLink="dictionary"
           routerLinkActive="menu__link_active"
         >
@@ -19,6 +20,7 @@
         </li>
         <li
           class="menu__link"
+          [class.menu__link_disabled]="!isAuthorized"
           routerLink="statistics"
           routerLinkActive="menu__link_active"
         >
@@ -26,6 +28,7 @@
         </li>
         <li
           class="menu__link"
+          [class.menu__link_disabled]="!isAuthorized"
           routerLink="games"
           routerLinkActive="menu__link_active"
         >
@@ -33,13 +36,27 @@
         </li>
         <li
           class="menu__link"
+          [class.menu__link_disabled]="!isAuthorized"
           routerLink="textbook"
           routerLinkActive="menu__link_active"
         >
           TextBook
         </li>
+        <li
+          *ngIf="!isAuthorized; else logoutLink"
+          class="menu__link"
+          routerLink="authentication"
+          routerLinkActive="menu__link_active"
+        >
+          Login
+        </li>
+        <ng-template #logoutLink>
+          <li class="menu__link" (click)="logout()">
+            Logout
+          </li>
+        </ng-template>
       </ul>
     </div>
-    <app-auth-control></app-auth-control>
+<!--    <app-auth-control></app-auth-control>-->
   </header>
 </div>
