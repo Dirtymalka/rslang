@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
+import { Store } from '@ngrx/store';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { selectUserInfo } from '../../redux/selectors/user.selectors';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-header',

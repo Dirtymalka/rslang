@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { userLogout } from '../../../redux/actions/user.actions';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { userLogout } from '../../../redux/actions/user.actions';
 import { selectUserInfo } from '../../../redux/selectors/user.selectors';
 
 @Component({

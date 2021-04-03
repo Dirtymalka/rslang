@@ -18,6 +18,7 @@ import { GamesModule } from './modules/games';
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthGuard } from './modules/authentication/auth.guard';
 import { ErrorInterceptor } from './modules/shared/interceptors/error.interceptor';
+import { FooterModule } from './modules/footer/footer.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +38,7 @@ import { ErrorInterceptor } from './modules/shared/interceptors/error.intercepto
     }),
     EffectsModule.forRoot(rootEffects),
     GamesModule,
+    FooterModule,
   ],
   providers: [
     {
