@@ -42,21 +42,8 @@
         >
           TextBook
         </li>
-        <li
-          *ngIf="!isAuthorized; else logoutLink"
-          class="menu__link"
-          routerLink="authentication"
-          routerLinkActive="menu__link_active"
-        >
-          Login
-        </li>
-        <ng-template #logoutLink>
-          <li class="menu__link" (click)="logout()">
-            Logout
-          </li>
-        </ng-template>
       </ul>
     </div>
-<!--    <app-auth-control></app-auth-control>-->
+    <app-auth-control></app-auth-control>
   </header>
 </div>
