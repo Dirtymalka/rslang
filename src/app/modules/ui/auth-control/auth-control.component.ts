@@ -6,13 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./auth-control.component.scss'],
 })
 export class AuthControlComponent {
-
   isAuthorised: boolean;
 
-  user = {           //TODO: test data
+  user = {
+    // TODO: test data
     name: 'TestName',
   };
 
-  onLogin(): void {}
-  onLogout(): void {}
+  // onLogin(): void {}
+  //
+  // onLogout(): void {}
 }
