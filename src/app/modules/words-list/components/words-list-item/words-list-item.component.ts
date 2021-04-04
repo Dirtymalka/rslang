@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { WORDS_LIST_LENGTH } from '../../../../constants/global.constants';
 import {
-  selectUserWord,
+  selectWord,
   updateSelectedWords,
 } from '../../../../redux/actions/words.actions';
 import {
@@ -13,6 +14,7 @@ import {
 import { selectSelectedWords } from '../../../../redux/selectors/words.selectors';
 import { IAppState } from '../../../../redux/state/app.state';
 import { IWord } from '../../../shared/models/word.models';
+import { VoiceService } from '../../../shared/services/voice.service';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
 
 @Component({
@@ -23,6 +25,9 @@ import { WordsServiceService } from '../../../shared/services/words-service.serv
 export class WordsListItemComponent {
   @Input()
   word: IWord;
+
+  @Output()
+  markedAsDifficult = new EventEmitter<IWord>();
 
   itemSelected = false;
 
@@ -49,28 +54,34 @@ export class WordsListItemComponent {
   constructor(
     private store$: Store<IAppState>,
     private wordsService: WordsServiceService,
+    private voiceService: VoiceService,
   ) {}
 
-  onDiffucultButtonClick(): void {
-    console.log('difficult');
-    console.log(this.word);
+  onDiffucultButtonClick() {
+    console.log('click', this.word);
+    this.markedAsDifficult.emit(this.word);
   }
 
   onDeleteButtonClick(): void {
     console.log('delete');
+    //
     console.log(this.word);
   }
 
   onIconSoundClick(): void {
-    console.log('sound on');
-    console.log(this.word);
+    const text = `
+      ${this.word.word}.
+      ${this.word.textMeaning.replace('<i>', ' ').replace('</i>', ' ')}.
+      ${this.word.textExample.replace('<b>', ' ').replace('</b>', ' ')}`;
+
+    this.voiceService.synthesizeSpeechFromText(text);
   }
 
   onItemChecked(itemSelected: boolean): void {
     this.itemSelected = itemSelected;
 
     if (this.itemSelected) {
-      this.store$.dispatch(selectUserWord({ words: [this.word] }));
+      this.store$.dispatch(selectWord({ words: [this.word] }));
     } else {
       const removedDuplicateWords = this.wordsInSelected.filter(
         (word) => word.id !== this.word.id,
@@ -82,6 +93,10 @@ export class WordsListItemComponent {
   }
 
   isAllChecked(): boolean {
-    return this.wordsInSelected.length === 20;
+    return this.wordsInSelected.length === WORDS_LIST_LENGTH;
+  }
+
+  ngOnDestroy(): void {
+    this.selectedItems$.unsubscribe();
   }
 }
