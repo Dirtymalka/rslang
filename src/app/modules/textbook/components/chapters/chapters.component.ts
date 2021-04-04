@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { changeGroup } from '../../../../redux/actions/settings.actions';
-import { IChapter } from '../../../../models/chapter.models';
+import { IChapter } from '../../../shared/models/chapter.models';
 import { IAppState } from '../../../../redux/state/app.state';
 
 @Component({
@@ -23,6 +23,5 @@ export class ChaptersComponent {
 
   chooseChapter(chapter: IChapter): void {
     this.store$.dispatch(changeGroup({ group: chapter.group }));
-    console.log(chapter.group);
   }
 }
