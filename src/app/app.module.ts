@@ -10,15 +10,13 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { TextbookModule } from './modules/textbook/textbook.module';
 import { HeaderModule } from './modules/header/header.module';
 import mainReducer from './redux/reducers/index';
 import rootEffects from './redux/effects';
 import { TokenInterceptor } from './modules/shared/interceptors/token.interceptor';
-import { GamesModule } from './modules/games';
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthGuard } from './modules/authentication/auth.guard';
-import { DictionaryModule } from './modules/dictionary/dictionary.module';
+import { ErrorInterceptor } from './modules/shared/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +25,6 @@ import { DictionaryModule } from './modules/dictionary/dictionary.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    GamesModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,
     HttpClientModule,
@@ -38,13 +35,16 @@ import { DictionaryModule } from './modules/dictionary/dictionary.module';
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     EffectsModule.forRoot(rootEffects),
-    DictionaryModule,
-    TextbookModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true,
     },
     AuthGuard,

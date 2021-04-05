@@ -42,4 +42,4 @@ export const userTokenUpdateFailure = createAction(
   '[User Token] User TokenUpdate Failure',
 );
 
-export const userLogout = createAction('[USer Logout] User Logout');
+export const userLogout = createAction('[User Logout] User Logout');

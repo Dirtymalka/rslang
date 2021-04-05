@@ -73,6 +73,14 @@ export class WordsServiceService {
   }
 
   postWord(wordId: string, word: IWordPost): Observable<IWordPost> {
+    const body = {
+      ...word,
+      optional: {
+        ...word.optional,
+        debutDate: Date.now(),
+      },
+    };
+
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.token}`,
@@ -82,7 +90,7 @@ export class WordsServiceService {
 
     return this.http.post<IWordPost>(
       `${BACKEND_URL}/users/${this.userId}/words/${wordId}`,
-      word,
+      body,
       httpOptions,
     );
   }

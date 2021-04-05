@@ -39,20 +39,29 @@
     </div>
   </div>
 
-  <div class="controls">
-    <button
-      *ngIf="isShowDifficultWordButton$| async"
-      class="button-hard"
-      (click)="onDiffucultButtonClick()">
-      <mat-icon class="icon-hard">school</mat-icon>
-    </button>
+  <div class="additional">
+    <div class="statistics">
+      <p class="statistics__title">Результат изучения</p>
+      <span class="statistics__label">правильно/неправильно:</span>
 
-    <button
-      *ngIf="isShowDeleteWordButton$ | async"
-      class="button-delete"
-      (click)="onDeleteButtonClick()">
-      <mat-icon class="icon-delete">delete</mat-icon>
-    </button>
+      <span class="statistics__correct">0</span>/<span class="statistics__incorrect">0</span>
+    </div>
+
+    <div class="controls">
+      <button
+        *ngIf="isShowDifficultWordButton$| async"
+        class="button-hard"
+        (click)="onDiffucultButtonClick()">
+        <mat-icon class="icon-hard">school</mat-icon>
+      </button>
+
+      <button
+        *ngIf="isShowDeleteWordButton$ | async"
+        class="button-delete"
+        (click)="onDeleteButtonClick()">
+        <mat-icon class="icon-delete">delete</mat-icon>
+      </button>
+    </div>
 
   </div>
 </li>
