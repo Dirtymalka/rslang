@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { selectUserInfo } from '../../../../redux/selectors/user.selectors';
 import { Store } from '@ngrx/store';
+import { selectUserInfo } from '../../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 })
 export class SidebarComponent implements OnInit {
   isAuthorized: boolean;
+
   @Output() closeBar: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private store: Store) {}

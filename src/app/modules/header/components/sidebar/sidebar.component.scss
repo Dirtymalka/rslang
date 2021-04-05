@@ -50,10 +50,10 @@
     }
 
     &__link {
+      @include reset-link;
       padding-left: 10px;
       font-size: 18px;
       line-height: 22px;
-      cursor: pointer;
       font-weight: 400;
 
       &:hover {

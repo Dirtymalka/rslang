@@ -14,7 +14,6 @@ import { HeaderModule } from './modules/header/header.module';
 import mainReducer from './redux/reducers/index';
 import rootEffects from './redux/effects';
 import { TokenInterceptor } from './modules/shared/interceptors/token.interceptor';
-import { GamesModule } from './modules/games';
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthGuard } from './modules/authentication/auth.guard';
 import { ErrorInterceptor } from './modules/shared/interceptors/error.interceptor';
@@ -37,7 +36,6 @@ import { FooterModule } from './modules/footer/footer.module';
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     EffectsModule.forRoot(rootEffects),
-    GamesModule,
     FooterModule,
   ],
   providers: [
