@@ -4,6 +4,7 @@
 :host {
   display: block;
   box-shadow: 0 3px 4px rgba(149, 155, 96, 0.12);
+  transition: 0.2s;
   .header {
     display: flex;
     align-items: center;
@@ -17,10 +18,14 @@
       padding: 0 10px;
       margin-right: 10px;
       outline: none;
+      display: none;
       &:hover {
         svg>path {
           fill: $color-green;
         }
+      }
+      @media screen and (max-width: 768px) {
+        display: block;
       }
     }
     &__logo {
@@ -40,6 +45,9 @@
     list-style-type: none;
     display: flex;
     margin: 0;
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
     &__link {
       padding: 24px 10px 20px;
       font-size: 18px;
@@ -58,7 +66,7 @@
         cursor: default;
         pointer-events: none;
         filter: grayscale(100%);
-        color: rgb(106, 106, 103);;
+        color: rgb(106, 106, 103);
       }
     }
   }

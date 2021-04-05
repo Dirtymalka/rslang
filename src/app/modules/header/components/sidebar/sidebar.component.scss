@@ -16,6 +16,12 @@
       padding: 23px 0;
       margin-left: 40px;
       border-bottom: 1px solid $color-mint;
+      @media screen and (max-width: 768px) {
+        padding: 9px 0;
+      }
+    }
+    &__logo {
+      font-weight: 600;
     }
     &__close-button {
       @include reset-button();
@@ -37,17 +43,32 @@
       align-items: center;
       margin: 20px 0;
     }
+
     &__icon {
       width: 24px;
       height: 24px;
     }
-    &__item-title{
+
+    &__link {
       padding-left: 10px;
       font-size: 18px;
       line-height: 22px;
       cursor: pointer;
+      font-weight: 400;
+
       &:hover {
         color: $color-green;
+      }
+
+      &_active {
+        font-weight: 600;
+        color: $color-green;
+      }
+
+      &_disabled {
+        cursor: default;
+        pointer-events: none;
+        opacity: 0.5;
       }
     }
   }
