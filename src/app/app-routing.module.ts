@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './modules/authentication/auth.guard';
-import { TextbookComponent } from './modules/textbook/components/textbook/textbook.component';
 
 const routes: Routes = [
   // {
@@ -30,24 +29,20 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
-  // {
-  //   path: 'textbook',
-  //   loadChildren: () =>
-  //     import('./modules/textbook/textbook.module').then(
-  //       (m) => m.TextbookModule,
-  //     ),
-  //   canActivate: [AuthGuard],
-  // },
+  {
+    path: 'textbook',
+    loadChildren: () =>
+      import('./modules/textbook/textbook.module').then(
+        (m) => m.TextbookModule,
+      ),
+    canActivate: [AuthGuard],
+  },
   {
     path: 'authentication',
     loadChildren: () =>
       import('./modules/authentication/authentication.module').then(
         (m) => m.AuthenticationModule,
       ),
-  },
-  {
-    path: 'textbook',
-    component: TextbookComponent,
   },
 ];
 

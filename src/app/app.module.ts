@@ -30,8 +30,6 @@ import { DictionaryModule } from './modules/dictionary/dictionary.module';
     GamesModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,
-    BrowserAnimationsModule,
-    SharedModule,
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot(mainReducer, {}),
