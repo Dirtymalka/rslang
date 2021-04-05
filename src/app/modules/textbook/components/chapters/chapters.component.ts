@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { changeGroup } from '../../../../redux/actions/settings.actions';
+
+import { Subscription } from 'rxjs';
+import { changePaginationOptions } from '../../../../redux/actions/settings.actions';
+
 import { IChapter } from '../../../shared/models/chapter.models';
 import { IAppState } from '../../../../redux/state/app.state';
+import { selectPaginationOptions } from '../../../../redux/selectors/settings.selectors';
 
 @Component({
   selector: 'app-chapters',
   templateUrl: './chapters.component.html',
   styleUrls: ['./chapters.component.scss'],
 })
-export class ChaptersComponent {
+export class ChaptersComponent implements OnInit {
   chapters: IChapter[] = [
     { name: 'Unit 1', group: 0 },
     { name: 'Unit 2', group: 1 },
@@ -19,9 +23,22 @@ export class ChaptersComponent {
     { name: 'Unit 6', group: 5 },
   ];
 
+  paginationOptions;
+
+  paginationOptions$: Subscription;
+
   constructor(private store$: Store<IAppState>) {}
 
+  ngOnInit(): void {
+    this.paginationOptions$ = this.store$
+      .select(selectPaginationOptions)
+      .subscribe((paginationOptions) => {
+        this.paginationOptions = paginationOptions;
+      });
+  }
+
   chooseChapter(chapter: IChapter): void {
-    this.store$.dispatch(changeGroup({ group: chapter.group }));
+    const options = { group: chapter.group, page: 0 };
+    this.store$.dispatch(changePaginationOptions(options));
   }
 }

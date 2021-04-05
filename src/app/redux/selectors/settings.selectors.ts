@@ -21,7 +21,7 @@ export const selectIsShowDeleteWordButton = createSelector(
   (settings) => settings.isShowDeleteWordButton,
 );
 
-export const selectGroup = createSelector(
+export const selectPaginationOptions = createSelector(
   selectSettings,
-  (settings) => settings.group,
+  (settings) => settings.pagination,
 );

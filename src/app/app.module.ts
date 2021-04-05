@@ -24,11 +24,10 @@ import { DictionaryModule } from './modules/dictionary/dictionary.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
     GamesModule,
-    AppRoutingModule,
-    TextbookModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,
     BrowserAnimationsModule,
@@ -42,6 +41,7 @@ import { DictionaryModule } from './modules/dictionary/dictionary.module';
     }),
     EffectsModule.forRoot(rootEffects),
     DictionaryModule,
+    TextbookModule,
   ],
   providers: [
     {

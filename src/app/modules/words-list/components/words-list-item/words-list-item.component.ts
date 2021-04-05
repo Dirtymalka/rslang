@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import { Observable, Subscription } from 'rxjs';
 import { WORDS_LIST_LENGTH } from '../../../../constants/global.constants';
 import {
@@ -13,16 +14,17 @@ import {
 } from '../../../../redux/selectors/settings.selectors';
 import { selectSelectedWords } from '../../../../redux/selectors/words.selectors';
 import { IAppState } from '../../../../redux/state/app.state';
+
 import { IWord } from '../../../shared/models/word.models';
 import { VoiceService } from '../../../shared/services/voice.service';
-import { WordsServiceService } from '../../../shared/services/words-service.service';
+// import { WordsServiceService } from '../../../shared/services/words-service.service';
 
 @Component({
   selector: 'app-words-list-item',
   templateUrl: './words-list-item.component.html',
   styleUrls: ['./words-list-item.component.scss'],
 })
-export class WordsListItemComponent {
+export class WordsListItemComponent implements OnInit {
   @Input()
   word: IWord;
 
@@ -33,11 +35,7 @@ export class WordsListItemComponent {
 
   wordsInSelected: IWord[];
 
-  selectedItems$: Subscription = this.store$
-    .select(selectSelectedWords)
-    .subscribe((selectedWords: IWord[]) => {
-      this.wordsInSelected = selectedWords;
-    });
+  selectedItems$: Subscription;
 
   isShowWordTranslation$: Observable<boolean> = this.store$.select(
     selectIsShowWordTranslation,
@@ -53,11 +51,18 @@ export class WordsListItemComponent {
 
   constructor(
     private store$: Store<IAppState>,
-    private wordsService: WordsServiceService,
     private voiceService: VoiceService,
   ) {}
 
-  onDiffucultButtonClick() {
+  ngOnInit(): void {
+    this.selectedItems$ = this.store$
+      .select(selectSelectedWords)
+      .subscribe((selectedWords: IWord[]) => {
+        this.wordsInSelected = selectedWords;
+      });
+  }
+
+  onDiffucultButtonClick(): void {
     console.log('click', this.word);
     this.markedAsDifficult.emit(this.word);
   }
@@ -94,9 +99,5 @@ export class WordsListItemComponent {
 
   isAllChecked(): boolean {
     return this.wordsInSelected.length === WORDS_LIST_LENGTH;
-  }
-
-  ngOnDestroy(): void {
-    this.selectedItems$.unsubscribe();
   }
 }

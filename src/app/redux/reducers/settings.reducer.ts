@@ -5,6 +5,7 @@ import {
   changeSettingsModes,
   getSettingsSuccess,
   changeGroup,
+  changePaginationOptions,
 } from '../actions/settings.actions';
 
 export const settingsReducer = createReducer(
@@ -12,6 +13,10 @@ export const settingsReducer = createReducer(
   on(changeGroup, (state, group) => ({
     ...state,
     ...group,
+  })),
+  on(changePaginationOptions, (state, pagination) => ({
+    ...state,
+    pagination: { group: pagination.group, page: pagination.page },
   })),
   on(changeSettingsModes, (state, settingsState) => ({
     ...state,

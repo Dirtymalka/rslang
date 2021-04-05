@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ISettings, ISettingsModes } from '../models/settings.models';
+import { IPagination } from '../state/settings.state';
 
 export const changeShowWordTranslation = createAction(
   '[Settings Setting] Change settings isShowWordTranslation',
@@ -20,6 +21,14 @@ export const changeDeleteWordButtonMode = createAction(
 export const changeSettingsModes = createAction(
   '[Settings] Change settings',
   (settingsState: ISettingsModes) => settingsState,
+);
+
+export const changePaginationOptions = createAction(
+  '[Settings Setting] Change settings pagination',
+  (pagination: IPagination) => pagination,
+  // props<{ pagination: IPagination }>(),
+  // props<{ pagination: IPagination }>(),
+  // props<{ settingsState.pagination: IPagination }>(),
 );
 
 export const changeGroup = createAction(

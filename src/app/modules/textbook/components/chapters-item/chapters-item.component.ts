@@ -10,9 +10,11 @@ import {
   AfterViewChecked,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import { Subscription } from 'rxjs';
-import { selectGroup } from '../../../../redux/selectors/settings.selectors';
+import { selectPaginationOptions } from '../../../../redux/selectors/settings.selectors';
 import { IAppState } from '../../../../redux/state/app.state';
+
 import { IChapter } from '../../../shared/models/chapter.models';
 
 @Component({
@@ -30,18 +32,21 @@ export class ChaptersItemComponent
 
   @ViewChild('chapterItemRef') elementLabel: ElementRef;
 
-  @Input()
   currentGroup;
 
-  currentGroupSub$: Subscription;
+  paginationOptions;
+
+  paginationSub$: Subscription;
 
   constructor(private store$: Store<IAppState>) {}
 
-  ngOnInit() {
-    this.currentGroupSub$ = this.store$
-      .select(selectGroup)
-      .subscribe((group: number) => {
+  ngOnInit(): void {
+    this.paginationSub$ = this.store$
+      .select(selectPaginationOptions)
+      .subscribe((options) => {
+        const { group, page } = options;
         this.currentGroup = group;
+        this.paginationOptions = { group, page };
       });
   }
 

@@ -7,7 +7,7 @@ import {
   selectAllWords,
 } from '../../../../redux/selectors/words.selectors';
 import {
-  selectUserWord,
+  selectWord,
   updateSelectedWords,
 } from '../../../../redux/actions/words.actions';
 import { IAppState } from '../../../../redux/state/app.state';
@@ -86,9 +86,8 @@ export class ControlBarComponent {
     this.selectedAll = selectedAll;
 
     if (this.selectedAll && this.wordsInSelectedState.length === 0) {
-      this.store$.dispatch(selectUserWord({ words: this.allWords }));
+      this.store$.dispatch(selectWord({ words: this.allWords }));
     } else if (this.selectedAll) {
-      // TODO removedDuplicateWords
       this.store$.dispatch(updateSelectedWords({ words: this.allWords }));
     } else {
       this.store$.dispatch(updateSelectedWords({ words: [] }));
@@ -96,12 +95,10 @@ export class ControlBarComponent {
   }
 
   deleteAllSelected(): void {
-    // TODO
     console.log('delete all');
   }
 
   markAsDifficult(): void {
-    // TODO
     console.log('mark as difficult all');
   }
 }

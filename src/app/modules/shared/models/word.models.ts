@@ -1,5 +1,7 @@
 export interface IWord {
   id: string;
+  group: number;
+  page: number;
   word: string;
   image: string;
   audio: string;
@@ -8,11 +10,9 @@ export interface IWord {
   textMeaning: string;
   textExample: string;
   transcription: string;
-  wordTranslate: string;
-  textMeaningTranslate: string;
   textExampleTranslate: string;
-  group: number;
-  page: number;
+  textMeaningTranslate: string;
+  wordTranslate: string;
   wordsPerExampleSentence: number;
 }
 
@@ -20,7 +20,7 @@ export interface IUserWord {
   difficulty: string;
   id: string;
   optional: IOptional;
-  wordId: string;
+  wordId?: string;
 }
 
 export interface IOptional {
