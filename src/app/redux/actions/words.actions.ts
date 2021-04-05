@@ -1,10 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import {
-  IAggWords,
   IUserWord,
   IWord,
   IWordPost,
-} from '../../modules/shared/models/wordModels';
+} from '../../modules/shared/models/word.models';
 
 export const fetchAllWords = createAction('[Words Words] Fetch Words');
 
@@ -78,9 +77,21 @@ export const fetchAggUserWords = createAction(
 
 export const fetchAggUserWordsSuccess = createAction(
   '[Words UserWords] Fetch AggUserWords Success',
-  props<{ aggWords: IAggWords }>(),
+  props<{ aggWords: any }>(),
 );
 
 export const fetchAggUserWordsFailure = createAction(
   '[Words UserWords] Fetch AggUserWords Failure',
+);
+
+export const selectWord = createAction(
+  '[Words SelectedWords] Select Word',
+  // (selectedWords: IWord[]) => selectedWords,
+  props<{ words: IWord[] | [] }>(),
+);
+
+export const updateSelectedWords = createAction(
+  '[Words SelectedWords] Deselect Word',
+  // (selectedWords: IWord[]) => selectedWords,
+  props<{ words: IWord[] | [] }>(),
 );

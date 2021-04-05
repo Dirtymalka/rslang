@@ -1,0 +1,67 @@
+<li class="row">
+  <mat-checkbox
+    class="checkbox"
+    color="primary"
+    [checked]="isAllChecked()"
+    (change)="onItemChecked($event.checked)"
+  ></mat-checkbox>
+
+  <div
+    class="icon-sound"
+    (click)="onIconSoundClick()"
+    >
+    <app-icon-sound></app-icon-sound>
+  </div>
+
+  <img class="word-item__image" src="https://via.placeholder.com/44x44" alt="{{word.word}}">
+
+  <div
+    class="word-item__word-set">
+    <p class="word-item__word-wrapper">
+      <strong class="word-item__word">{{word.word}}&nbsp;</strong>
+      <span class="word-item__transcription">{{word.transcription}}&nbsp;</span>
+      <span *ngIf="isShowWordTranslation$ | async" class="word-item__translate">&mdash; &nbsp;{{word.wordTranslate}}</span>
+    </p>
+
+    <div class="word-item__sentence-wrapper">
+      <p class="word-item__text-meaning">
+        {{word.textMeaning}}&nbsp;
+      </p>
+      <p *ngIf="isShowWordTranslation$ | async" class="word-item__text-meaning-translate">
+        {{word.textMeaningTranslate}}&nbsp;
+      </p>
+      <p class="word-item__text-example">
+        &#8594; &nbsp;{{word.textExample}}
+      </p>
+      <p *ngIf="isShowWordTranslation$ | async" class="word-item__text-example-translate">
+        &#8594; &nbsp;{{word.textExampleTranslate}}
+      </p>
+    </div>
+  </div>
+
+  <div class="additional">
+    <div class="statistics">
+      <p class="statistics__title">Результат изучения</p>
+      <span class="statistics__label">правильно/неправильно:</span>
+
+      <span class="statistics__correct">0</span>/<span class="statistics__incorrect">0</span>
+    </div>
+
+    <div class="controls">
+      <button
+        *ngIf="isShowDifficultWordButton$| async"
+        class="button-hard"
+        (click)="onDiffucultButtonClick()">
+        <mat-icon class="icon-hard">school</mat-icon>
+      </button>
+
+      <button
+        *ngIf="isShowDeleteWordButton$ | async"
+        class="button-delete"
+        (click)="onDeleteButtonClick()">
+        <mat-icon class="icon-delete">delete</mat-icon>
+      </button>
+    </div>
+
+  </div>
+</li>

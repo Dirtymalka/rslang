@@ -1,0 +1,38 @@
+<div class="settings__wrapper">
+<h2 mat-dialog-title class="settings__title">Настройки</h2>
+<mat-dialog-content class="mat-typography" [formGroup]="formGroup">
+  <mat-list class="settings__list">
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <mat-slide-toggle
+        [(ngModel)]="isShowWordTranslation"
+        formControlName="isShowWordTranslation">
+        Отображать перевод
+      </mat-slide-toggle>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <mat-slide-toggle
+        [(ngModel)]="isShowDifficultWordButton"
+        formControlName="isShowDifficultWordButton">
+        Отображать кнопки "Сложные слова"
+      </mat-slide-toggle>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <mat-slide-toggle
+        [(ngModel)]="isShowDeleteWordButton"
+        formControlName="isShowDeleteWordButton">
+        Отображать кнопки "Удалённые слова"
+      </mat-slide-toggle>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+   </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Отмена</button>
+  <button
+    (click)="saveSettings()"
+    mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="primary">Применить</button>
+</mat-dialog-actions>
+</div>

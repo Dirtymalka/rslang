@@ -1,0 +1,8 @@
+<div class="chapters">
+  <app-chapters-item
+    *ngFor="let chapter of chapters; index as i"
+    [chapter]="chapter"
+    (chooseChapter)="chooseChapter($event)"
+  >
+  </app-chapters-item>
+</div>
