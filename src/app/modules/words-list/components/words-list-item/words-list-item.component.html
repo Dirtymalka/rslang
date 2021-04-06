@@ -13,7 +13,10 @@
     <app-icon-sound></app-icon-sound>
   </div>
 
-  <img class="word-item__image" src="https://via.placeholder.com/44x44" alt="{{word.word}}">
+  <img
+    class="word-item__image"
+    src="https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/{{word.image}}"
+    alt="{{word.word}}">
 
   <div
     class="word-item__word-set">
@@ -49,7 +52,7 @@
 
     <div class="controls">
       <button
-        *ngIf="isShowDifficultWordButton$| async"
+        *ngIf="isShowDifficultWordButton$ | async"
         class="button-hard"
         (click)="onDiffucultButtonClick()">
         <mat-icon class="icon-hard">school</mat-icon>

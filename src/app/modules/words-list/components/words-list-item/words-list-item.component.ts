@@ -17,6 +17,7 @@ import { IAppState } from '../../../../redux/state/app.state';
 
 import { IWord } from '../../../shared/models/word.models';
 import { VoiceService } from '../../../shared/services/voice.service';
+import { WordsServiceService } from '../../../shared/services/words-service.service';
 // import { WordsServiceService } from '../../../shared/services/words-service.service';
 
 @Component({
@@ -52,6 +53,7 @@ export class WordsListItemComponent implements OnInit {
   constructor(
     private store$: Store<IAppState>,
     private voiceService: VoiceService,
+    private wordsServiceService: WordsServiceService,
   ) {}
 
   ngOnInit(): void {
