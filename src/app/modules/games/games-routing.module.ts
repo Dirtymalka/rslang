@@ -16,6 +16,11 @@ const routes: Routes = [
   //   component: audio-game
   // },
   {
+    path: 'savanna',
+    loadChildren: () =>
+      import('./savanna/savanna.module').then((m) => m.SavannaModule),
+  },
+  {
     path: 'sprint',
     loadChildren: () =>
       import('./sprint/sprint.module').then((m) => m.SprintModule),

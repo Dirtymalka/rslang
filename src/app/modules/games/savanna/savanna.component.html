@@ -1,7 +1,10 @@
 <audio #stream src="{{audioForRoundUrl}}" (canplay)="playAudio()" (ended)="audioEnded()"></audio>
 <app-spinner *ngIf="!answers.length && gameStep!==4"></app-spinner>
-<div class="audioChallenge" *ngIf="answers.length && gameStep!==4">
-  <div class="audioComponent">
+<div class="savanna" *ngIf="answers.length && gameStep!==4">
+  <div class="questionWrapper" [ngStyle]="{'top': topValueString}">
+    <p class="question">вопрос</p>
+  </div>
+  <!-- <div class="audioComponent">
     <div class="audioComponentWrapper"
       [ngClass]="{
         'block': gameStep===0 || gameStep===1,
@@ -34,7 +37,7 @@
         </mat-icon>
       </div>
       <p
-        class=audioComponentTranslate
+        class="audioComponentTranslate"
         [ngClass]="{
           'none': gameStep===1 || gameStep===0,
           'block': gameStep!==1 || gameStep!==0
@@ -43,7 +46,7 @@
         {{answers[gameRound].word}}
       </p>
     </div>
-  </div>
+  </div> -->
   <div>
     <ul class="answersList">
       <li class="answer"

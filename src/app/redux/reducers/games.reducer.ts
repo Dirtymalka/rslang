@@ -1,12 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
-import { fetchACallWordsWithLevelsSuccess } from '../actions/audioCall.actions';
 import { hangmanReducer } from './games.hangman.reducer';
 import { fetchWordsWithLevelsSuccess } from '../actions/hangman.actions';
-<<<<<<< HEAD
 import { userLogout } from '../actions/user.actions';
-=======
->>>>>>> 59ea3c2 (implement-audio-challenge)
 import { audioCallReducer } from './games.audioCall.reducer';
+import { fetchACallWordsWithLevelsSuccess } from '../actions/audioCall.actions';
 
 const initialGamesState = {
   hangman: {},
