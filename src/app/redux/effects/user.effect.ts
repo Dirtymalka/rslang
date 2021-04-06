@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import {
@@ -41,17 +41,28 @@ export class UserEffect {
       ofType(userLogin),
       switchMap(({ email, password }) =>
         this.userService.login(email, password).pipe(
-          map((userInfo: { token; refreshToken; userId; name }) => {
-            LocalStorageService.setItemToLocalStorage(USER, {
-              userId: userInfo.userId,
-              tokenOptions: {
-                token: userInfo.token,
-                refreshToken: userInfo.refreshToken,
-              },
-            });
-            this.router.navigate(['/']);
-            return userLoginSuccess(userInfo);
-          }),
+          map(
+            (userInfo: {
+              token;
+              refreshToken;
+              clientTokenTime;
+              userId;
+              name;
+            }) => {
+              LocalStorageService.setItemToLocalStorage(USER, {
+                userId: userInfo.userId,
+                tokenOptions: {
+                  token: userInfo.token,
+                  refreshToken: userInfo.refreshToken,
+                  clientTokenTime: userInfo.clientTokenTime
+                    ? userInfo.clientTokenTime
+                    : Date.now() + 3 * 60 * 60 * 1000,
+                },
+              });
+              this.router.navigate(['/']);
+              return userLoginSuccess(userInfo);
+            },
+          ),
           catchError((err) => {
             console.log(err);
             return of(userLoginFailure());
@@ -61,11 +72,15 @@ export class UserEffect {
     ),
   );
 
-  userLogout$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(userLogout),
-      map(() => LocalStorageService.deleteItemFromLocalStorageByKey('user')),
-    ),
+  userLogout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(userLogout),
+        tap(() => {
+          LocalStorageService.deleteItemFromLocalStorageByKey('user');
+        }),
+      ),
+    { dispatch: false },
   );
 
   userToken$ = createEffect(() =>

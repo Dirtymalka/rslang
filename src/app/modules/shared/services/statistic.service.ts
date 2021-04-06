@@ -37,7 +37,7 @@ export class StatisticService {
     };
   }
 
-  static createGameStat(correct, incorrect): IStatisticGame {
+  static createGameStat(correct: number, incorrect: number): IStatisticGame {
     return { date: Date.now(), correct, incorrect };
   }
 

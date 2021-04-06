@@ -31,7 +31,11 @@ export const fetchAllUserWordsFailure = createAction(
 
 export const postUserWord = createAction(
   '[Words UserWords] Post Word',
-  props<{ wordId: string; word: IWordPost }>(),
+  props<{
+    wordId: string;
+    word: IWordPost;
+    gameName?: 'hangman' | 'audioCall' | 'savanna' | 'sprint';
+  }>(),
 );
 
 export const postUserWordSuccess = createAction(
@@ -45,7 +49,11 @@ export const postUserWordFailure = createAction(
 
 export const putUserWord = createAction(
   '[Words UserWords] Put Word',
-  props<{ wordId: string; word: IWordPost }>(),
+  props<{
+    wordId: string;
+    word: IWordPost;
+    gameName?: 'hangman' | 'audioCall' | 'savanna' | 'sprint';
+  }>(),
 );
 
 export const putUserWordSuccess = createAction(

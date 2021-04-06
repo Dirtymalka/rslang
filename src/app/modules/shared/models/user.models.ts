@@ -3,5 +3,6 @@ export interface IUser {
   tokenOptions: {
     token: string;
     refreshToken: string;
+    clientTokenTime?: number;
   };
 }

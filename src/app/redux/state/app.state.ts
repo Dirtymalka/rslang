@@ -11,7 +11,7 @@ export interface IAppState {
   settings: ISettingsState;
   words: IWordsState;
   games: IGamesState;
-  statistics: IStatistic;
+  statistic: IStatistic;
   error: IError;
 }
 
@@ -20,7 +20,7 @@ export const initialAppState: IAppState = {
   settings: initialSettingsState,
   words: initialWordsState,
   games: initialGamesState,
-  statistics: initialStatisticsState,
+  statistic: initialStatisticsState,
   error: initialErrorState,
 };
 

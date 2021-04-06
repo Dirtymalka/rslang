@@ -14,6 +14,8 @@ import {
 } from '../../../redux/selectors/user.selectors';
 import { userTokenUpdateSuccess } from '../../../redux/actions/user.actions';
 import { UserService } from '../services/user.service';
+import { LocalStorageService } from '../services/local-storage.service';
+import { USER } from '../../../constants/global.constants';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -42,9 +44,17 @@ export class TokenInterceptor implements HttpInterceptor {
       this.userService
         .getNewToken()
         .pipe(
-          map((res: { token; refreshToken }) =>
-            this.store.dispatch(userTokenUpdateSuccess(res)),
-          ),
+          map((res: { token; refreshToken }) => {
+            LocalStorageService.setItemToLocalStorage(USER, {
+              userId: this.userId,
+              tokenOptions: {
+                token: res.token,
+                refreshToken: res.refreshToken,
+                clientTokenTime: Date.now() + 3 * 60 * 60 * 1000,
+              },
+            });
+            return this.store.dispatch(userTokenUpdateSuccess(res));
+          }),
         )
         .subscribe();
     }

@@ -1,0 +1,8 @@
+<div class="statistic__container" style="position: relative">
+  <app-spinner *ngIf="!statistic || !((userWords$ | async).length); else stat"></app-spinner>
+  <ng-template #stat>
+    <app-total-progress [userWords]="userWords$ | async"></app-total-progress>
+  </ng-template>
+</div>
+
+

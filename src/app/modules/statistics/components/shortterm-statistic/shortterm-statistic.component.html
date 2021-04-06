@@ -1,0 +1,5 @@
+<app-spinner *ngIf="!statistic || !((userWords | async).length); else stat"></app-spinner>
+<ng-template #stat>
+  <app-stat-details [statistic]="statistic" [userWords]="userWords | async"></app-stat-details>
+</ng-template>
+

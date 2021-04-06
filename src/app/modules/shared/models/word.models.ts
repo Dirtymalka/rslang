@@ -24,6 +24,8 @@ export interface IUserWord {
 }
 
 export interface IOptional {
+  game?: string;
+  studiedDate?: number;
   isDifficult: boolean;
   isDeleted: boolean;
   isStudy: boolean;
