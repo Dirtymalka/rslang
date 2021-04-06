@@ -24,6 +24,7 @@ export const userLoginSuccess = createAction(
   props<{
     token: string;
     refreshToken: string;
+    clientTokenTime?: number;
     userId: string;
     name?: string;
   }>(),

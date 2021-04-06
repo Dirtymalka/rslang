@@ -60,8 +60,8 @@ export class WordsEffect {
   postUserWord$ = createEffect(() =>
     this.actions$.pipe(
       ofType(postUserWord),
-      switchMap(({ wordId, word }) =>
-        this.wordService.postWord(wordId, word).pipe(
+      switchMap(({ wordId, word, gameName }) =>
+        this.wordService.postWord(wordId, word, gameName).pipe(
           map((wordsInfo: IWordPost) => postUserWordSuccess({ wordsInfo })),
           catchError((err) => {
             console.log(err);
@@ -75,8 +75,8 @@ export class WordsEffect {
   putUserWord$ = createEffect(() =>
     this.actions$.pipe(
       ofType(putUserWord),
-      switchMap(({ wordId, word }) =>
-        this.wordService.putWord(wordId, word).pipe(
+      switchMap(({ wordId, word, gameName }) =>
+        this.wordService.putWord(wordId, word, gameName).pipe(
           map((wordsInfo: { wordId; word }) => putUserWordSuccess(wordsInfo)),
           catchError((err) => {
             console.log(err);

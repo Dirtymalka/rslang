@@ -14,6 +14,11 @@ import {
 } from '../../../redux/actions/words.actions';
 import { selectUserWords } from '../../../redux/selectors/words.selectors';
 import { ALPHABET } from '../../shared/constants/global.constants';
+import { selectStatistic } from '../../../redux/selectors/statistic.selectors';
+import { IStatistic } from '../../shared/models/statistics.models';
+import { StatisticService } from '../../shared/services/statistic.service';
+import { putStatistic } from '../../../redux/actions/statistics.actions';
+import { HANGMAN } from '../../../constants/global.constants';
 
 @Component({
   selector: 'app-hangman',
@@ -33,7 +38,13 @@ export class HangmanComponent implements OnInit, OnDestroy {
 
   userWord;
 
-  userWords;
+  userWords = [];
+
+  statistic: IStatistic;
+
+  correctAnswerSeries = 0;
+
+  bestCorrectAnswerSeries = 0;
 
   roundOver: boolean;
 
@@ -73,12 +84,15 @@ export class HangmanComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch(fetchAllUserWords());
     this.store.select(selectHangmanWords).subscribe((w) => {
-      this.words =
-        !!w && (group - (1 % 2) === 0 ? w.slice(0, 10) : w.slice(10, 20));
+      this.words = !!w && w;
+      //   !!w && (group - 1 % 2 === 0 ? w.slice(0, 10) : w.slice(10, 20));
       this.word = this.words[this.indexWord];
     });
     this.store.select(selectUserWords).subscribe((words) => {
       this.userWords = words;
+    });
+    this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
+      this.statistic = stat;
     });
     document.addEventListener('keydown', this.keyBoardHandler);
   }
@@ -111,6 +125,11 @@ export class HangmanComponent implements OnInit, OnDestroy {
     if (this.incorrectLetters.length === this.IMAGES_GAL.length - 1) {
       this.roundOver = true;
       this.isSuccessResult = false;
+      this.bestCorrectAnswerSeries = Math.max(
+        this.bestCorrectAnswerSeries,
+        this.correctAnswerSeries,
+      );
+      this.correctAnswerSeries = 0;
       this.addToResults(
         'dontKnow',
         this.word.word,
@@ -124,6 +143,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
     if (this.correctLetters.length === this.word.word.length) {
       this.roundOver = true;
       this.isSuccessResult = true;
+      this.correctAnswerSeries += 1;
       this.addToResults(
         'know',
         this.word.word,
@@ -152,14 +172,43 @@ export class HangmanComponent implements OnInit, OnDestroy {
   }
 
   continue(): void {
-    if (this.indexWord < 9) {
+    if (this.indexWord < this.words.length - 1) {
       this.indexWord += 1;
       this.word = this.words[this.indexWord];
       this.resetState();
       return;
     }
-
+    this.bestCorrectAnswerSeries = Math.max(
+      this.bestCorrectAnswerSeries,
+      this.correctAnswerSeries,
+    );
     this.gameOver = true;
+    this.sendStatistic();
+  }
+
+  sendStatistic(): void {
+    const statistic: IStatistic = {
+      ...this.statistic,
+      optional: {
+        ...this.statistic.optional,
+        hangman: {
+          ...this.statistic.optional.hangman,
+          result: [
+            ...this.statistic.optional.hangman.result,
+            StatisticService.createGameStat(
+              this.wordsResult.know.length,
+              this.wordsResult.dontKnow.length,
+            ),
+          ],
+          bestAnswersSeries: Math.max(
+            this.statistic.optional.hangman.bestAnswersSeries,
+            this.bestCorrectAnswerSeries,
+          ),
+        },
+      },
+    };
+
+    this.store.dispatch(putStatistic({ statistic }));
   }
 
   resetState(): void {
@@ -201,6 +250,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
               [result]: this.userWord.optional[result]
                 ? this.userWord.optional[result] + 1
                 : 1,
+              game: HANGMAN,
             },
           },
         }),
@@ -217,6 +267,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
               isStudy: true,
             },
           },
+          gameName: HANGMAN,
         }),
       );
     }

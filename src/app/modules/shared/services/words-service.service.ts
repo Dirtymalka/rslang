@@ -27,10 +27,10 @@ export class WordsServiceService {
   userId: string;
 
   constructor(private http: HttpClient, private store: Store) {
-    store.select(selectUserId).subscribe((v) => {
+    store.select(selectUserId).subscribe((v: string) => {
       this.userId = v;
     });
-    store.select(selectUserToken).subscribe((v) => {
+    store.select(selectUserToken).subscribe((v: string) => {
       this.token = v;
     });
   }
@@ -72,14 +72,24 @@ export class WordsServiceService {
     );
   }
 
-  postWord(wordId: string, word: IWordPost): Observable<IWordPost> {
+  postWord(
+    wordId: string,
+    word: IWordPost,
+    gameName?: 'hangman' | 'audioCall' | 'savanna' | 'sprint',
+  ): Observable<IWordPost> {
     const body = {
       ...word,
       optional: {
+        game: undefined,
         ...word.optional,
         debutDate: Date.now(),
       },
     };
+
+    if (word.optional?.correctCount) {
+      body.optional.studiedDate = Date.now();
+      body.optional.game = gameName;
+    }
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -95,7 +105,26 @@ export class WordsServiceService {
     );
   }
 
-  putWord(wordId: string, word: IWordPost): Observable<unknown> {
+  putWord(
+    wordId: string,
+    word: IWordPost,
+    gameName?: 'hangman' | 'audioCall' | 'savanna' | 'sprint',
+  ): Observable<unknown> {
+    const body = {
+      ...word,
+      optional: {
+        ...word.optional,
+        studiedDate:
+          word.optional?.correctCount && !word.optional?.studiedDate
+            ? Date.now()
+            : word.optional?.studiedDate,
+        game:
+          word.optional?.correctCount && !word.optional?.game
+            ? gameName
+            : word.optional?.game,
+      },
+    };
+
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.token}`,
@@ -105,7 +134,7 @@ export class WordsServiceService {
 
     return this.http.put(
       `${BACKEND_URL}/users/${this.userId}/words/${wordId}`,
-      word,
+      body,
       httpOptions,
     );
   }
