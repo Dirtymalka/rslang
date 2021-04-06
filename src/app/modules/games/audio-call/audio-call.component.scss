@@ -59,8 +59,9 @@
 }
 
 .audioChallenge {
+  min-height: calc(100vh - 123px);
+  position: relative;
   display: flex;
-  min-height: 100%;
   flex-grow: 1;
   flex-flow: column;
   color: #ffffff;
@@ -169,4 +170,23 @@
 .audioComponentTranslate {
   grid-area: translate;
   font-size: 32px;
+}
+
+.full-screen {
+  position: absolute;
+  right: 18px;
+  top: 0;
+  cursor: pointer;
+  transition: transform 0.3s, filter 0.2s;
+  filter: invert(80%);
+  font-size: 45px;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    filter: invert(50%);
+  }
 }

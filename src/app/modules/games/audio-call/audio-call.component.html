@@ -1,16 +1,14 @@
-<audio #stream src="{{audioForRoundUrl}}" (canplay)="playAudio()" (ended)="audioEnded()"></audio>
 <app-spinner *ngIf="!answers.length && gameStep!==4"></app-spinner>
-<div class="audioChallenge" *ngIf="answers.length && gameStep!==4">
+<div #audioCall id="audioCall" class="audioChallenge" *ngIf="answers.length && gameStep!==4">
   <div class="audioComponent">
-    <div class="audioComponentWrapper"
-      [ngClass]="{
+    <div class="audioComponentWrapper" [ngClass]="{
         'block': gameStep===0 || gameStep===1,
         'grid': gameStep===2 || gameStep===3
       }"
     >
       <div class="audioComponentImg"
         [ngStyle]="{
-          'background-image': 'url(https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/' + answers[gameRound].image + ')'
+          'background-image': 'url(https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/' + answerObjForThisRound.image + ')'
         }"
         [ngClass]="{
           'none': gameStep===1 || gameStep===0,
@@ -23,7 +21,7 @@
           'audioComponentButtonWait': gameStep===1 || gameStep===0,
           'audioComponentButtonAnswer': gameStep===2 || gameStep===3
         }"
-        (click)="playAudio()">
+        (click)="onAudioClickHandler(answerObjForThisRound.audio, false)">
         <mat-icon class="audioIcon"
           [ngClass]="{
             'audioIconWait': gameStep===1 || gameStep===0,
@@ -40,7 +38,7 @@
           'block': gameStep!==1 || gameStep!==0
         }"
       >
-        {{answers[gameRound].word}}
+        {{answerObjForThisRound.word}}
       </p>
     </div>
   </div>
@@ -48,27 +46,23 @@
     <ul class="answersList">
       <li class="answer"
         [ngClass]="{
-          'incorrectAnswer': gameStep===3 && item.word===userAnswer,
-          'incorrectAnswers': (gameStep===2 || gameStep===3) && item.word!==answers[gameRound].word
+          'incorrectAnswer': gameStep===3 && word===userAnswer,
+          'incorrectAnswers': (gameStep===2 || gameStep===3) && word!==answers[gameRound]
           }"
-        *ngFor="let item of wordsForRounds[gameRound]; index as i"
-          (click)="checkAnswer(item.word)"
+        *ngFor="let word of wordsForRounds[gameRound]; index as i"
+          (click)="checkAnswer(word)"
       >
-        {{i+1}} {{item.wordTranslate}}
-        <mat-icon class="correctMark" *ngIf="gameStep===2 && item.word === answers[gameRound].word">done</mat-icon>
+        {{i+1}} {{getWordTranslate(word)}}
+        <mat-icon class="correctMark" *ngIf="gameStep===2 && word === answers[gameRound]">done</mat-icon>
       </li>
     </ul>
   </div>
-
-  <p>gameRound: {{gameRound}}</p>
-  <p>gameStep: {{gameStep}}</p>
-  <p>maxRound: {{maxRound}}</p>
-
-
   <button mat-button class="continueButton" disabled="{{gameStep===0}}" color="primary" (click)="handlerNextButton()">
     <span *ngIf="gameStep === 1 || gameStep === 0">НЕ ЗНАЮ</span>
     <span *ngIf="gameStep === 2 || gameStep === 3">Следующее</span>
   </button>
+  <mat-icon *ngIf="!fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen</mat-icon>
+  <mat-icon *ngIf="fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen_exit</mat-icon>
 </div>
 <app-game-statistics *ngIf="gameStep===4"
     [gameName]="'audio-call'" [wrongAnswers]="wordsResult.dontKnow"
