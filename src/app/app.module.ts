@@ -36,6 +36,7 @@ import { FooterModule } from './modules/footer/footer.module';
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     EffectsModule.forRoot(rootEffects),
+    FooterModule,
   ],
   providers: [
     {

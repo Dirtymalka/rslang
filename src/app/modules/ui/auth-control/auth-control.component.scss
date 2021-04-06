@@ -4,6 +4,9 @@
   display: flex;
   align-items: center;
   &__user {
+    @media screen and (max-width: 450px) {
+      display: none;
+    }
     font-weight: bold;
   }
   &__divider {

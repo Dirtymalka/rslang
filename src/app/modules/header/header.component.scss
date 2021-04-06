@@ -3,6 +3,11 @@
 
 :host {
   display: block;
+  position: fixed;
+  background-color: $color-white;
+  left: 0;
+  right: 0;
+  z-index: 100;
   box-shadow: 0 3px 4px rgba(149, 155, 96, 0.12);
   transition: 0.2s;
   .header {
