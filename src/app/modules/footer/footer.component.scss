@@ -1,0 +1,46 @@
+@import "src/styles/resets";
+@import "src/styles/variables";
+
+.footer {
+  border-top: 1px solid $color-mint;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &__logo {
+    width: 130px;
+    display: flex;
+    align-items: flex-end;
+    img {
+      width: 100%;
+      min-width: 50px;
+    }
+    a {
+      margin-right: 10px;
+        &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+.team {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  &__member {
+    margin: 0 5px;
+    padding: 0 5px;
+  }
+  &__member-link {
+    @include reset-link;
+    font-size: 10px;
+    opacity: 0.8;
+    &:hover {
+      opacity: 0.4;
+    }
+  }
+}

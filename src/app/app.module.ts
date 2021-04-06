@@ -17,6 +17,7 @@ import { TokenInterceptor } from './modules/shared/interceptors/token.intercepto
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthGuard } from './modules/authentication/auth.guard';
 import { ErrorInterceptor } from './modules/shared/interceptors/error.interceptor';
+import { FooterModule } from './modules/footer/footer.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +36,7 @@ import { ErrorInterceptor } from './modules/shared/interceptors/error.intercepto
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     EffectsModule.forRoot(rootEffects),
+    FooterModule,
   ],
   providers: [
     {
