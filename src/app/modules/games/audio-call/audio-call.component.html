@@ -64,7 +64,6 @@
   <p>gameStep: {{gameStep}}</p>
   <p>maxRound: {{maxRound}}</p>
 
-
   <button mat-button class="continueButton" disabled="{{gameStep===0}}" color="primary" (click)="handlerNextButton()">
     <span *ngIf="gameStep === 1 || gameStep === 0">НЕ ЗНАЮ</span>
     <span *ngIf="gameStep === 2 || gameStep === 3">Следующее</span>
