@@ -31,7 +31,8 @@
             "style": "camelCase"
           }
         ],
-        "@typescript-eslint/no-empty-interface": "off"
+        "@typescript-eslint/no-empty-interface": "off",
+        "class-methods-use-this": "off"
       }
     },
     {

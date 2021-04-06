@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IWord } from '../../modules/shared/models/wordModels';
+import { IWord } from '../../modules/shared/models/word.models';
 
 export const fetchWordsWithLevels = createAction(
   '[Hangman Words] Fetch Hangman Words',

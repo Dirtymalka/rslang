@@ -24,10 +24,10 @@ import { FooterModule } from './modules/footer/footer.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
-    HeaderModule,
     BrowserAnimationsModule,
     SharedModule,
+    StoreModule.forRoot({}, {}),
+    HeaderModule,
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot(mainReducer, {}),
@@ -36,7 +36,6 @@ import { FooterModule } from './modules/footer/footer.module';
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     EffectsModule.forRoot(rootEffects),
-    FooterModule,
   ],
   providers: [
     {

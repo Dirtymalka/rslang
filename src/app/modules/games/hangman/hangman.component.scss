@@ -30,15 +30,18 @@
         padding-right: 50px;
         display: flex;
         align-items: center;
+
         @media (max-width: 710px) {
           padding-right: 3px;
         }
       }
+
       @media (max-width: 710px) {
         flex-direction: column;
         height: 140px;
         position: static;
       }
+
       @media (max-width: 420px) {
         flex-direction: column;
         height: 200px;
@@ -89,6 +92,7 @@
             font-size: 35px;
             border-bottom: 1px solid #333;
             line-height: 30px;
+
             @media (max-width: 420px) {
               width: 13px;
               font-size: 19px;

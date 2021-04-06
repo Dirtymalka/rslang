@@ -1,5 +1,40 @@
 import { createAction, props } from '@ngrx/store';
-import { ISettings } from '../../modules/shared/models/settingsModels';
+import { ISettings, ISettingsModes } from '../models/settings.models';
+import { IPagination } from '../state/settings.state';
+
+export const changeShowWordTranslation = createAction(
+  '[Settings Setting] Change settings isShowWordTranslation',
+);
+
+export const changeCompactView = createAction(
+  '[Settings Setting] Change settings isCompactView',
+);
+
+export const changeDifficultWordButtonMode = createAction(
+  '[Settings Setting] Change settings isShowDifficultWordButton',
+);
+
+export const changeDeleteWordButtonMode = createAction(
+  '[Settings Setting] Change settings isShowDeleteWordButton',
+);
+
+export const changeSettingsModes = createAction(
+  '[Settings] Change settings',
+  (settingsState: ISettingsModes) => settingsState,
+);
+
+export const changePaginationOptions = createAction(
+  '[Settings Setting] Change settings pagination',
+  (pagination: IPagination) => pagination,
+  // props<{ pagination: IPagination }>(),
+  // props<{ pagination: IPagination }>(),
+  // props<{ settingsState.pagination: IPagination }>(),
+);
+
+export const changeGroup = createAction(
+  '[Settings Setting] Change settings group',
+  props<{ group: number }>(),
+);
 
 export const changeSettings = createAction(
   '[Settings Setting] Change settings',

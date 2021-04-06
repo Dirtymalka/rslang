@@ -6,7 +6,7 @@ import {
   fetchWordsWithLevelsSuccess,
 } from '../../../redux/actions/hangman.actions';
 import { selectHangmanWords } from '../../../redux/selectors/hangman.selectors';
-import { IWord } from '../../shared/models/wordModels';
+import { IWord } from '../../shared/models/word.models';
 import {
   fetchAllUserWords,
   postUserWord,

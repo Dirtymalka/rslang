@@ -1,0 +1,48 @@
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+.chapter__label {
+  height: 140px;
+  width: 100%;
+  background: $color-blue;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  @include unselectable;
+  border: none;
+}
+
+.chapter__label:focus,
+.chapter__label:active {
+  outline: none;
+}
+
+.chapter__label--active {
+  background: $color-primary-light;
+}
+
+.chapter__unit-title {
+  font-weight: bold;
+  color: $color-white;
+  font-size: 16px;
+  line-height: 34px;
+}
+
+@media screen and (max-width: 768px) {
+  .chapter__unit-title {
+    font-size: 16px;
+    line-height: 34px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .chapter__label {
+    border-radius: 15px;
+  }
+
+  .chapter__unit-title {
+    font-size: 14px;
+    line-height: 28px;
+  }
+}

@@ -1,0 +1,87 @@
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+:host {
+  grid-column-start: 0;
+  grid-column-end: span 6;
+  grid-row-start: 2;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #e6e9ee;
+  border-bottom: 1px solid #e6e9ee;
+  padding-bottom: 12px;
+}
+
+.checkbox {
+  margin-right: 14px;
+}
+
+.input-wrapper {
+  margin-right: auto;
+}
+
+.menu-block {
+  margin-left: auto;
+}
+
+.button-games {
+  height: 40px;
+  margin-right: 14px;
+  font-weight: bold;
+}
+
+.button-settings .icon-settings {
+  color: rgb(126, 145, 159);
+  transition: color .2s ease;
+}
+
+.button-settings:hover .icon-settings {
+  color: $color-blue;
+}
+
+.controls {
+  display: flex;
+}
+
+.button-delete,
+.button-hard {
+  outline: none;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  transition: background-color .2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 14px;
+}
+
+.button-delete:hover {
+  background-color: #fff2f0;
+  cursor: pointer;
+}
+
+.button-hard:hover {
+  background-color: #FF843820;
+  cursor: pointer;
+}
+
+.icon-hard,
+.icon-delete {
+  color: rgb(126, 145, 159);
+  transition: color .2s ease;
+}
+
+.button-delete .icon-delete {
+  color: $color-red;
+}
+
+.button-hard .icon-hard {
+  color: $color-orange;
+}

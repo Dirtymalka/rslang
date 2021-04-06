@@ -10,5 +10,5 @@ if (environment.production) {
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
-  /*eslint-disable */
+  /* eslint-disable */
   .catch((err) => console.error(err));
