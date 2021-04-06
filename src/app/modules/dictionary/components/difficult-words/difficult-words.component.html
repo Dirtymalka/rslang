@@ -2,10 +2,10 @@
 
   <button mat-button [matMenuTriggerFor]="menu">Игры</button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item [disabled]=wordsLength (click)="startGame(hangman)">Виселица</button>
-    <button mat-menu-item [disabled]=wordsLength (click)="startGame(sprint)">Спринт</button>
-    <button mat-menu-item [disabled]=wordsLength (click)="startGame(savanna)">Саванна</button>
-    <button mat-menu-item [disabled]=wordsLength (click)="startGame(audioCall)">Аудио звонок</button>
+    <button mat-menu-item [disabled]=wordsLength (click)="startGame('hangman')">Виселица</button>
+    <button mat-menu-item [disabled]=wordsLength (click)="startGame('sprint')">Спринт</button>
+    <button mat-menu-item [disabled]=wordsLength (click)="startGame('savanna')">Саванна</button>
+    <button mat-menu-item [disabled]=wordsLength (click)="startGame('audio-call')">Аудио звонок</button>
   </mat-menu>
 
   <div class="chapters-wrapper">

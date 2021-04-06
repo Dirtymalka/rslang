@@ -4,25 +4,26 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { WordsServiceService } from '../../modules/shared/services/words-service.service';
 import {
-  fetchWordsWithLevels,
-  fetchWordsWithLevelsFailure,
-  fetchWordsWithLevelsSuccess,
-} from '../actions/hangman.actions';
+  fetchACallWordsWithLevels,
+  fetchACallWordsWithLevelsFailure,
+  fetchACallWordsWithLevelsSuccess,
+} from '../actions/audioCall.actions';
 
 @Injectable()
-export class HangmanEffect {
-  fetchWordsWithLevels$ = createEffect(() =>
+export class AudioCallEffect {
+  fetchWordsACWithLevels$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fetchWordsWithLevels),
+      ofType(fetchACallWordsWithLevels),
       switchMap(({ level, group }) =>
         this.wordService.getWords(+level, +group).pipe(
           map((words) => {
+            console.log('effect');
             console.log(words);
-            return fetchWordsWithLevelsSuccess({ words });
+            return fetchACallWordsWithLevelsSuccess({ words });
           }),
           catchError((err) => {
             console.log(err);
-            return of(fetchWordsWithLevelsFailure());
+            return of(fetchACallWordsWithLevelsFailure());
           }),
         ),
       ),
