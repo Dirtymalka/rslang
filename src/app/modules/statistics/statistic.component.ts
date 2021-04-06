@@ -25,8 +25,4 @@ export class StatisticComponent implements OnInit {
     this.router.navigate(['statistics', 'long-term-progress']);
   }
 
-  // toggleTab(link: { path: string; title: string }) {
-  //   this.activeLink = link;
-  //   this.router.navigate(['statistics', link.path])
-  // }
 }

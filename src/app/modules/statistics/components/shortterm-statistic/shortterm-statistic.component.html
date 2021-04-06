@@ -1,5 +1,7 @@
-<app-spinner *ngIf="statistic.fetch.isFetching || (wordsFetchState$ | async).userWordsIsFetching; else stat"></app-spinner>
-<ng-template #stat>
-  <app-stat-details [statistic]="statistic.statisticState" [userWords]="userWords | async"></app-stat-details>
-</ng-template>
+<div style="position: relative">
+  <app-spinner *ngIf="statistic.fetch.isFetching || (wordsFetchState$ | async).userWordsIsFetching; else stat"></app-spinner>
+  <ng-template #stat>
+    <app-stat-details [statistic]="statistic.statisticState" [userWords]="userWords | async"></app-stat-details>
+  </ng-template>
+</div>
 
