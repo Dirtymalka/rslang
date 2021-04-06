@@ -21,25 +21,29 @@ export class StatDetailsComponent implements OnInit {
 
   studyWordsToday = 0;
 
-  totalSuccessPercent: number;
+  totalSuccessPercent = 0;
 
   statisticByGames: {
     name: string;
     totalLearnedWords: number;
     bestAnswersSeries: number;
     totalGameSuccessPercent: number;
-  }[];
+  }[] = GAMES.map((game: string) => ({
+    name: game,
+    bestAnswersSeries: 0,
+    totalGameSuccessPercent: 0,
+    totalLearnedWords: 0,
+  }));
 
   games = GAMES;
 
   ngOnInit(): void {
     const filteredWords: IUserWord[] =
       this.userWords?.length &&
-      this.userWords.filter((word: IUserWord) => word.optional.studiedDate);
-    this.studyWordsToday = getCountByStudiedWordsByDate(
-      getDayFromDate(Date.now()),
-      filteredWords,
-    );
+      this.userWords.filter((word: IUserWord) => word.optional?.studiedDate);
+    this.studyWordsToday = filteredWords.length
+      ? getCountByStudiedWordsByDate(getDayFromDate(Date.now()), filteredWords)
+      : 0;
     this.totalSuccessPercent = getTotalSuccessPercentByDate(
       getDayFromDate(Date.now()),
       this.statistic.optional,

@@ -9,6 +9,10 @@ export interface IWordsState {
   selectedWords: IWord[];
   userWords: IUserWord[];
   aggWords: IAggWord[];
+  fetchState: {
+    userWordsIsFetching: boolean;
+    userWordsIsError: boolean;
+  };
 }
 
 export const initialWordsState: IWordsState = {
@@ -16,4 +20,8 @@ export const initialWordsState: IWordsState = {
   selectedWords: [],
   userWords: [],
   aggWords: [],
+  fetchState: {
+    userWordsIsFetching: false,
+    userWordsIsError: false,
+  },
 };

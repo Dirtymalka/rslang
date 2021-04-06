@@ -1,8 +1,70 @@
-import * as Highcharts from 'highcharts';
+import { Options } from 'highcharts';
 import { IUserWord } from '../models/word.models';
 import { getDayFromDate } from './utils';
 
-export const toLineChartConfig = (words: IUserWord[]): Highcharts.Options => {
+const emptyLineChartConfig: Options = {
+  title: {
+    text: 'Общий прогресс',
+    style: {
+      fontWeight: 'bold',
+    },
+  },
+  series: [
+    {
+      type: 'line',
+      name: 'Общий прогресс изучения',
+      data: [],
+    },
+  ],
+  lang: {
+    noData: 'Нет данных',
+  },
+  noData: {
+    style: {
+      fontWeight: 'bold',
+      fontSize: '15px',
+      color: 'black',
+    },
+  },
+  yAxis: {
+    title: { text: 'Количество слов' },
+  },
+};
+
+const emptyColumnChartConfig: Options = {
+  title: {
+    text: 'Ежедневный прогресс',
+    style: {
+      fontWeight: 'bold',
+    },
+  },
+  series: [
+    {
+      type: 'line',
+      name: 'Ежедневный прогресс изучения',
+      data: [],
+    },
+  ],
+  lang: {
+    noData: 'No data',
+  },
+  noData: {
+    style: {
+      fontWeight: 'bold',
+      fontSize: '15px',
+      color: 'black',
+    },
+  },
+  yAxis: {
+    title: { text: 'Количество слов' },
+  },
+};
+
+export const toLineChartConfig = (words: IUserWord[]): Options => {
+  if (!words.length) {
+    return emptyLineChartConfig;
+  }
+
   const data = words.reduce((acc, word: IUserWord) => {
     const date = getDayFromDate(word.optional.studiedDate);
     return {
@@ -47,7 +109,11 @@ export const toLineChartConfig = (words: IUserWord[]): Highcharts.Options => {
   };
 };
 
-export const toColumnChartConfig = (words: IUserWord[]): Highcharts.Options => {
+export const toColumnChartConfig = (words: IUserWord[]): Options => {
+  if (!words.length) {
+    return emptyColumnChartConfig;
+  }
+
   const data = words.reduce((acc, word: IUserWord) => {
     const date = getDayFromDate(word.optional.studiedDate);
     return {

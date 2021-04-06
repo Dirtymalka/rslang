@@ -1,6 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   fetchAggUserWordsSuccess,
+  fetchAllUserWords,
+  fetchAllUserWordsFailure,
   fetchAllUserWordsSuccess,
   fetchAllWordsSuccess,
   putUserWordSuccess,
@@ -15,9 +17,30 @@ export const wordsReducer = createReducer(
     ...state,
     allWords: words,
   })),
+  on(fetchAllUserWords, (state) => ({
+    ...state,
+    fetchState: {
+      ...state.fetchState,
+      userWordsIsFetching: true,
+      userWordsIsError: false,
+    },
+  })),
   on(fetchAllUserWordsSuccess, (state, { userWords }) => ({
     ...state,
     userWords,
+    fetchState: {
+      ...state.fetchState,
+      userWordsIsError: false,
+      userWordsIsFetching: false,
+    },
+  })),
+  on(fetchAllUserWordsFailure, (state) => ({
+    ...state,
+    fetchState: {
+      ...state.fetchState,
+      userWordsIsFetching: false,
+      userWordsIsError: false,
+    },
   })),
   on(fetchAggUserWordsSuccess, (state, { aggWords }) => ({
     ...state,

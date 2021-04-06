@@ -42,8 +42,7 @@ export class TotalProgressComponent implements OnInit, OnChanges {
     const filteredWords =
       this.userWords?.length &&
       this.userWords.filter((word) => word.optional.studiedDate);
-    this.chart = filteredWords && new Chart(toLineChartConfig(filteredWords));
-    this.columnChart =
-      filteredWords && new Chart(toColumnChartConfig(filteredWords));
+    this.chart = new Chart(toLineChartConfig(filteredWords));
+    this.columnChart = new Chart(toColumnChartConfig(filteredWords));
   }
 }

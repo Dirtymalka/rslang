@@ -1,7 +1,13 @@
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IAppState } from '../state/app.state';
-import { IStatistic } from '../../modules/shared/models/statistics.models';
+import { IStatisticState } from '../state/statistics.state';
 
-export const selectStatistic = createFeatureSelector<IAppState, IStatistic>(
-  'statistic',
+export const selectStatisticState = createFeatureSelector<
+  IAppState,
+  IStatisticState
+>('statistic');
+
+export const selectStatistic = createSelector(
+  selectStatisticState,
+  (state) => state.statisticState,
 );

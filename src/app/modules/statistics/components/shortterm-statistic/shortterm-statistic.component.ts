@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectStatistic } from '../../../../redux/selectors/statistic.selectors';
-import { selectUserWords } from '../../../../redux/selectors/words.selectors';
-import { IStatistic } from '../../../shared/models/statistics.models';
+import { selectStatisticState } from '../../../../redux/selectors/statistic.selectors';
+import {
+  selectFetchState,
+  selectUserWords,
+} from '../../../../redux/selectors/words.selectors';
 import { IUserWord } from '../../../shared/models/word.models';
+import { IStatisticState } from '../../../../redux/state/statistics.state';
 
 @Component({
   selector: 'app-shortterm-statistic',
@@ -12,17 +15,25 @@ import { IUserWord } from '../../../shared/models/word.models';
   styleUrls: ['./shortterm-statistic.component.scss'],
 })
 export class ShorttermStatisticComponent implements OnInit, OnDestroy {
-  statistic: IStatistic;
+  statistic: IStatisticState;
+
+  wordsFetchState$: Observable<{
+    userWordsIsFetching: boolean;
+    userWordsIsError: boolean;
+  }>;
 
   userWords: Observable<IUserWord[]>;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.select(selectStatistic).subscribe((stat) => {
-      this.statistic = stat;
-    });
+    this.store
+      .select(selectStatisticState)
+      .subscribe((stat: IStatisticState) => {
+        this.statistic = stat;
+      });
     this.userWords = this.store.select(selectUserWords);
+    this.wordsFetchState$ = this.store.select(selectFetchState);
   }
 
   ngOnDestroy(): void {
