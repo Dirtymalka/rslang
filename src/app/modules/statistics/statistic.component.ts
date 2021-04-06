@@ -24,5 +24,4 @@ export class StatisticComponent implements OnInit {
     this.store.dispatch(fetchAllUserWords());
     this.router.navigate(['statistics', 'long-term-progress']);
   }
-
 }

@@ -191,20 +191,16 @@ export class HangmanComponent implements OnInit, OnDestroy {
       ...this.statistic,
       optional: {
         ...this.statistic.optional,
-        hangman: {
-          ...this.statistic.optional.hangman,
-          result: [
-            ...this.statistic.optional.hangman.result,
-            StatisticService.createGameStat(
+        hangman: [
+          {
+            ...this.statistic.optional.hangman,
+            ...StatisticService.createGameStat(
               this.wordsResult.know.length,
               this.wordsResult.dontKnow.length,
+              this.bestCorrectAnswerSeries,
             ),
-          ],
-          bestAnswersSeries: Math.max(
-            this.statistic.optional.hangman.bestAnswersSeries,
-            this.bestCorrectAnswerSeries,
-          ),
-        },
+          },
+        ],
       },
     };
 

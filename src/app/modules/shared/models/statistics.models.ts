@@ -5,10 +5,10 @@ export interface IStatistic {
 }
 
 export interface IOptional {
-  audioCall: { bestAnswersSeries: number; result: IStatisticGame[] };
-  savanna: { bestAnswersSeries: number; result: IStatisticGame[] };
-  hangman: { bestAnswersSeries: number; result: IStatisticGame[] };
-  sprint: { bestAnswersSeries: number; result: IStatisticGame[] };
+  audioCall: IStatisticGame[];
+  savanna: IStatisticGame[];
+  hangman: IStatisticGame[];
+  sprint: IStatisticGame[];
 }
 
 export interface IStatisticGame {
@@ -18,4 +18,5 @@ export interface IStatisticGame {
   correct: number;
   incorrect: number;
   score?: number;
+  bestAnswersSeries: number;
 }
