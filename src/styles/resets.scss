@@ -7,3 +7,8 @@
   text-align: left;
   cursor: pointer;
 }
+
+@mixin reset-link {
+  color: currentColor;
+  text-decoration: none;
+}

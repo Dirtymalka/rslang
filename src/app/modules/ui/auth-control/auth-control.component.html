@@ -1,1 +1,12 @@
-<span>Login</span>
+<div class="control">
+  <ng-container *ngIf="!isAuthorized">
+    <button mat-button mat-stroked-button routerLink="authentication">
+      Войти
+    </button>
+  </ng-container>
+  <ng-container *ngIf="isAuthorized">
+    <div class="control__user">{{ user.name }}</div>
+    <span class="control__divider"></span>
+    <button mat-button mat-stroked-button (click)="onLogout()">Выйти</button>
+  </ng-container>
+</div>
