@@ -36,7 +36,7 @@ export const getTotalSuccessPercentByDate = (
   gameStatistic: IOptional,
 ): number => {
   const filteredStatByDate = Object.values(gameStatistic)
-    .map((gameStat) => gameStat.result)
+    // .map((gameStat) => gameStat.result)
     .reduce((res, game: IStatisticGame) => res.concat(game), [])
     .map((game: IStatisticGame) => ({
       ...game,
@@ -60,14 +60,13 @@ export const getTotalSuccessPercentByDate = (
 };
 
 export const getTotalSuccessPercentByGame = (
-  game: string,
-  statistic: IStatistic,
+  statistic: IStatisticGame[],
 ): number => {
-  const correctCount = statistic.optional[game]?.result.reduce(
+  const correctCount = statistic.reduce(
     (total: number, gameStat: IStatisticGame) => total + gameStat.correct,
     0,
   );
-  const incorrectCount = statistic.optional[game]?.result.reduce(
+  const incorrectCount = statistic.reduce(
     (total: number, gameStat: IStatisticGame) => total + gameStat.incorrect,
     0,
   );
@@ -77,6 +76,7 @@ export const getTotalSuccessPercentByGame = (
 };
 
 export const getStatByGames = (
+  date: number,
   statistic: IStatistic,
   userWords: IUserWord[],
 ): {
@@ -85,19 +85,43 @@ export const getStatByGames = (
   bestAnswersSeries: number;
   totalGameSuccessPercent: number;
 }[] => {
+  const transformedWordsByDate: IUserWord[] = userWords.map(
+    (word: IUserWord) => {
+      const transformDate = getDayFromDate(word.optional.studiedDate);
+      return {
+        ...word,
+        optional: {
+          ...word.optional,
+          studiedDate: transformDate,
+        },
+      };
+    },
+  );
+
+  const filteredWordsByDate: IUserWord[] = transformedWordsByDate.filter(
+    (word: IUserWord) => word.optional.studiedDate === date,
+  );
+
   return GAMES.reduce((result: [], game: string) => {
-    const totalLearnedWords = userWords.filter(
+    const totalLearnedWords = filteredWordsByDate.filter(
       (word: IUserWord) => word.optional.game === game,
     );
+
+    const filteredStatisticByDate: IStatisticGame[] = statistic.optional[
+      game
+    ].filter((gameStatistic: IStatisticGame) => gameStatistic.date === date);
+
     const totalGameSuccessPercent = getTotalSuccessPercentByGame(
-      game,
-      statistic,
+      filteredStatisticByDate,
     );
 
     const gameStat = {
       name: GAMES_NAMES[game],
       totalLearnedWords: totalLearnedWords.length,
-      bestAnswersSeries: statistic.optional[game]?.bestAnswersSeries || 0,
+      bestAnswersSeries: filteredStatisticByDate.reduce(
+        (res, gameStatistic) => Math.max(res, gameStatistic.bestAnswersSeries),
+        0,
+      ) || 0,
       totalGameSuccessPercent,
     };
     return [...result, gameStat];

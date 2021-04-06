@@ -17,6 +17,7 @@ import {
 } from '../../../redux/selectors/user.selectors';
 
 import { BACKEND_URL } from '../constants/api.constants';
+import { getDayFromDate } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -87,7 +88,7 @@ export class WordsServiceService {
     };
 
     if (word.optional?.correctCount) {
-      body.optional.studiedDate = Date.now();
+      body.optional.studiedDate = getDayFromDate(Date.now());
       body.optional.game = gameName;
     }
 
@@ -116,7 +117,7 @@ export class WordsServiceService {
         ...word.optional,
         studiedDate:
           word.optional?.correctCount && !word.optional?.studiedDate
-            ? Date.now()
+            ? getDayFromDate(Date.now())
             : word.optional?.studiedDate,
         game:
           word.optional?.correctCount && !word.optional?.game

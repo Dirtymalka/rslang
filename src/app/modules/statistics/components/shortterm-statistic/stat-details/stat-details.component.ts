@@ -48,6 +48,10 @@ export class StatDetailsComponent implements OnInit {
       getDayFromDate(Date.now()),
       this.statistic.optional,
     );
-    this.statisticByGames = getStatByGames(this.statistic, this.userWords);
+    this.statisticByGames = getStatByGames(
+      getDayFromDate(Date.now()),
+      this.statistic,
+      this.userWords,
+    );
   }
 }
