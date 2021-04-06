@@ -16,7 +16,7 @@
           routerLink="dictionary"
           routerLinkActive="menu__link_active"
         >
-          Dictionary
+          Словарь
         </li>
         <li
           class="menu__link"
@@ -24,7 +24,7 @@
           routerLink="statistics"
           routerLinkActive="menu__link_active"
         >
-          Statistics
+          Статистика
         </li>
         <li
           class="menu__link"
@@ -32,7 +32,7 @@
           routerLink="games"
           routerLinkActive="menu__link_active"
         >
-          Games
+          Игры
         </li>
         <li
           class="menu__link"
@@ -40,23 +40,10 @@
           routerLink="textbook"
           routerLinkActive="menu__link_active"
         >
-          TextBook
+          Учебник
         </li>
-        <li
-          *ngIf="!isAuthorized; else logoutLink"
-          class="menu__link"
-          routerLink="authentication"
-          routerLinkActive="menu__link_active"
-        >
-          Login
-        </li>
-        <ng-template #logoutLink>
-          <li class="menu__link" (click)="logout()">
-            Logout
-          </li>
-        </ng-template>
       </ul>
     </div>
-<!--    <app-auth-control></app-auth-control>-->
+    <app-auth-control></app-auth-control>
   </header>
 </div>
