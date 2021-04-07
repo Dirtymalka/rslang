@@ -118,12 +118,25 @@ export const getStatByGames = (
     const gameStat = {
       name: GAMES_NAMES[game],
       totalLearnedWords: totalLearnedWords.length,
-      bestAnswersSeries: filteredStatisticByDate.reduce(
-        (res, gameStatistic) => Math.max(res, gameStatistic.bestAnswersSeries),
-        0,
-      ) || 0,
+      bestAnswersSeries:
+        filteredStatisticByDate.reduce(
+          (res, gameStatistic) =>
+            Math.max(res, gameStatistic.bestAnswersSeries),
+          0,
+        ) || 0,
       totalGameSuccessPercent,
     };
     return [...result, gameStat];
   }, []);
+};
+
+export const cancelFullscreen = (): void => {
+  const { document }: any = window;
+  if (document.cancelFullScreen) {
+    document.cancelFullScreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitCancelFullScreen) {
+    document.webkitCancelFullScreen();
+  }
 };

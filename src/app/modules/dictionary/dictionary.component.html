@@ -5,7 +5,10 @@
     <a mat-tab-link label="Удалённые слова" [routerLink]="['deleted-words']">Удалённые слова</a>
     <button mat-button [matMenuTriggerFor]="menu">Игры</button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="startGame()">Hangman</button>
+      <button mat-menu-item (click)="startGame('hangman')">Виселица</button>
+      <button mat-menu-item (click)="startGame('sprint')">Спринт</button>
+      <button mat-menu-item (click)="startGame('savanna')">Саванна</button>
+      <button mat-menu-item (click)="startGame('audio-call')">Аудио звонок</button>
     </mat-menu>
   </nav>
 </div>

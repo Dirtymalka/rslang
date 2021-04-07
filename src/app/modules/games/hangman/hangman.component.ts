@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -6,19 +6,31 @@ import {
   fetchWordsWithLevelsSuccess,
 } from '../../../redux/actions/hangman.actions';
 import { selectHangmanWords } from '../../../redux/selectors/hangman.selectors';
-import { IWord } from '../../shared/models/word.models';
+import {
+  IAggWordsPaginator,
+  IUserWord,
+  IWord,
+} from '../../shared/models/word.models';
 import {
   fetchAllUserWords,
   postUserWord,
   putUserWord,
 } from '../../../redux/actions/words.actions';
-import { selectUserWords } from '../../../redux/selectors/words.selectors';
+import {
+  selectDifficultWordsData,
+  selectUserWords,
+  selectWordsForGame,
+} from '../../../redux/selectors/words.selectors';
 import { ALPHABET } from '../../shared/constants/global.constants';
 import { selectStatistic } from '../../../redux/selectors/statistic.selectors';
 import { IStatistic } from '../../shared/models/statistics.models';
 import { StatisticService } from '../../shared/services/statistic.service';
-import { putStatistic } from '../../../redux/actions/statistics.actions';
-import { HANGMAN } from '../../../constants/global.constants';
+import {
+  fetchStatistic,
+  putStatistic,
+} from '../../../redux/actions/statistics.actions';
+import { HANGMAN, MEDIA_PREFIX } from '../../../constants/global.constants';
+import { cancelFullscreen } from '../../shared/utils/utils';
 
 @Component({
   selector: 'app-hangman',
@@ -26,6 +38,8 @@ import { HANGMAN } from '../../../constants/global.constants';
   styleUrls: ['./hangman.component.scss'],
 })
 export class HangmanComponent implements OnInit, OnDestroy {
+  @ViewChild('hangman') hangman;
+
   IMAGES_GAL = [
     'assets/hangman/gal0.png',
     'assets/hangman/gal1.png',
@@ -36,9 +50,17 @@ export class HangmanComponent implements OnInit, OnDestroy {
     'assets/hangman/gal6.png',
   ];
 
-  userWord;
+  level: number;
 
-  userWords = [];
+  group: number;
+
+  fromBook: boolean;
+
+  fromDictionary: boolean;
+
+  userWord: IUserWord;
+
+  userWords: IUserWord[] = [];
 
   statistic: IStatistic;
 
@@ -67,39 +89,73 @@ export class HangmanComponent implements OnInit, OnDestroy {
     dontKnow: [],
   };
 
+  audioPlayer = new Audio();
+
+  fullScreen = false;
+
   constructor(private store: Store, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    let level: number;
-    let group: number;
     this.route.queryParams.subscribe((params) => {
-      level = params.level;
-      group = params.group;
+      this.level = params.level;
+      this.group = params.group;
+      this.fromBook = !!params.fromBook;
+      this.fromDictionary = !!params.fromDictionary;
     });
-    this.store.dispatch(
-      fetchWordsWithLevels({
-        level: (level - 1).toString(),
-        group: (group - 1).toString(),
-      }),
-    );
+
+    this.getWordsForGame();
+
     this.store.dispatch(fetchAllUserWords());
-    this.store.select(selectHangmanWords).subscribe((w) => {
-      this.words = !!w && w;
-      //   !!w && (group - 1 % 2 === 0 ? w.slice(0, 10) : w.slice(10, 20));
-      this.word = this.words[this.indexWord];
-    });
+    this.store.dispatch(fetchStatistic());
+
     this.store.select(selectUserWords).subscribe((words) => {
       this.userWords = words;
     });
+
     this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
       this.statistic = stat;
     });
+
     document.addEventListener('keydown', this.keyBoardHandler);
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(fetchWordsWithLevelsSuccess({ words: [] }));
     document.removeEventListener('keydown', this.keyBoardHandler);
+  }
+
+  getWordsForGame(): void {
+    if (this.fromBook) {
+      this.store.select(selectWordsForGame).subscribe((words: IWord[]) => {
+        this.words = words;
+        this.word = this.words[this.indexWord];
+      });
+      return;
+    }
+
+    if (this.fromDictionary) {
+      this.store
+        .select(selectDifficultWordsData)
+        .subscribe((words: IAggWordsPaginator) => {
+          this.words = words.aggWords;
+          this.word = this.words[this.indexWord];
+        });
+      return;
+    }
+
+    this.store.dispatch(
+      fetchWordsWithLevels({
+        level: (this.level - 1).toString(),
+        group: (this.group - 1).toString(),
+      }),
+    );
+
+    this.store.select(selectHangmanWords).subscribe((w: IWord[]) => {
+      if (w) {
+        this.words = w;
+        this.word = this.words[this.indexWord];
+      }
+    });
   }
 
   checkLetter(letter: string): void {
@@ -140,6 +196,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
 
       this.sendWordResult('incorrectCount');
     }
+
     if (this.correctLetters.length === this.word.word.length) {
       this.roundOver = true;
       this.isSuccessResult = true;
@@ -172,18 +229,20 @@ export class HangmanComponent implements OnInit, OnDestroy {
   }
 
   continue(): void {
-    if (this.indexWord < this.words.length - 1) {
-      this.indexWord += 1;
-      this.word = this.words[this.indexWord];
-      this.resetState();
-      return;
-    }
-    this.bestCorrectAnswerSeries = Math.max(
-      this.bestCorrectAnswerSeries,
-      this.correctAnswerSeries,
-    );
-    this.gameOver = true;
-    this.sendStatistic();
+    setTimeout(() => {
+      if (this.indexWord < this.words.length - 1) {
+        this.indexWord += 1;
+        this.word = this.words[this.indexWord];
+        this.resetState();
+        return;
+      }
+      this.bestCorrectAnswerSeries = Math.max(
+        this.bestCorrectAnswerSeries,
+        this.correctAnswerSeries,
+      );
+      this.gameOver = true;
+      this.sendStatistic();
+    }, 300);
   }
 
   sendStatistic(): void {
@@ -192,8 +251,8 @@ export class HangmanComponent implements OnInit, OnDestroy {
       optional: {
         ...this.statistic.optional,
         hangman: [
+          ...this.statistic.optional.hangman,
           {
-            ...this.statistic.optional.hangman,
             ...StatisticService.createGameStat(
               this.wordsResult.know.length,
               this.wordsResult.dontKnow.length,
@@ -246,9 +305,10 @@ export class HangmanComponent implements OnInit, OnDestroy {
               [result]: this.userWord.optional[result]
                 ? this.userWord.optional[result] + 1
                 : 1,
-              game: HANGMAN,
+              isStudy: this.fromBook || this.fromDictionary,
             },
           },
+          gameName: HANGMAN,
         }),
       );
     } else {
@@ -260,7 +320,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
               [result]: 1,
               isDifficult: false,
               isDeleted: false,
-              isStudy: true,
+              isStudy: this.fromBook || this.fromDictionary,
             },
           },
           gameName: HANGMAN,
@@ -272,6 +332,11 @@ export class HangmanComponent implements OnInit, OnDestroy {
   dontKnowHandler(): void {
     this.roundOver = true;
     this.isSuccessResult = false;
+    this.bestCorrectAnswerSeries = Math.max(
+      this.bestCorrectAnswerSeries,
+      this.correctAnswerSeries,
+    );
+    this.correctAnswerSeries = 0;
     this.addToResults(
       'dontKnow',
       this.word.word,
@@ -281,5 +346,22 @@ export class HangmanComponent implements OnInit, OnDestroy {
     );
 
     this.sendWordResult('incorrectCount');
+  }
+
+  onAudioClickHandler = (audioSrc: string): void => {
+    if (this.audioPlayer.src !== `${MEDIA_PREFIX}${audioSrc}`) {
+      this.audioPlayer.src = `${MEDIA_PREFIX}${audioSrc}`;
+    }
+    this.audioPlayer.play();
+  };
+
+  toggleFullScreen(): void {
+    if (this.fullScreen) {
+      cancelFullscreen();
+      this.fullScreen = false;
+    } else {
+      this.hangman.nativeElement.requestFullscreen();
+      this.fullScreen = true;
+    }
   }
 }

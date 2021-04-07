@@ -15,3 +15,6 @@ export const SPRINT = 'sprint';
 export const PAGINATION = 'pagination';
 export const WORDS_LIST_LENGTH = 20;
 export const VOICE_SPEED = 0.9;
+
+export const MEDIA_PREFIX =
+  'https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/';
