@@ -22,7 +22,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
       .select(selectPaginationOptions)
       .subscribe((paginationOptions) => {
         this.paginationOptions = paginationOptions;
-        console.log('paginationOptions onInit', this.paginationOptions);
+        // console.log('paginationOptions onInit', this.paginationOptions);
       });
 
     const pagination: IPagination = LocalStorageService.getItemFromLocalStorage(
@@ -38,7 +38,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('on destroy store pagination', this.paginationOptions);
+    // console.log('on destroy store pagination', this.paginationOptions);
     const pagination: IPagination = LocalStorageService.getItemFromLocalStorage(
       PAGINATION,
     );

@@ -32,6 +32,9 @@ export class WordsListItemComponent implements OnInit {
   @Output()
   markedAsDifficult = new EventEmitter<IWord>();
 
+  @Output()
+  markedAsDeleted = new EventEmitter<IWord>();
+
   itemSelected = false;
 
   wordsInSelected: IWord[];
@@ -65,14 +68,13 @@ export class WordsListItemComponent implements OnInit {
   }
 
   onDiffucultButtonClick(): void {
-    console.log('click', this.word);
+    console.log('click mark as difficult', this.word);
     this.markedAsDifficult.emit(this.word);
   }
 
   onDeleteButtonClick(): void {
-    console.log('delete');
-    //
-    console.log(this.word);
+    // console.log(this.word);
+    // this.markedAsDeleted.emit(this.word);
   }
 
   onIconSoundClick(): void {

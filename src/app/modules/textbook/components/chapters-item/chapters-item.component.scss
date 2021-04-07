@@ -11,6 +11,7 @@
   cursor: pointer;
   @include unselectable;
   border: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .chapter__label:focus,

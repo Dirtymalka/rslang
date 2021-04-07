@@ -52,12 +52,13 @@ export class ControlBarComponent {
 
   constructor(private store$: Store<IAppState>, public dialog: MatDialog) {}
 
-  openSettings() {
+  openSettings(): void {
     const dialogRef = this.dialog.open(SettingsComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed();
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
   }
 
   openSprintGame(): void {

@@ -38,7 +38,7 @@ export class WordsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store$
+    this.paginationOptions$ = this.store$
       .select(selectPaginationOptions)
       .subscribe((paginationOptions) => {
         this.paginationOptions = paginationOptions;
@@ -72,7 +72,7 @@ export class WordsListComponent implements OnInit {
     console.log(word);
   }
 
-  markAsDelete(word: IWord): void {
+  markAsDeleted(word: IWord): void {
     console.log(word);
   }
 

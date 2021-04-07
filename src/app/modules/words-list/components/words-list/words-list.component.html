@@ -3,6 +3,7 @@
     *ngFor="let word of listWords; index as i"
     [word]="word"
     (markedAsDifficult)="markAsDifficult($event)"
+    (markedAsDeleted)="markAsDeleted($event)"
   >
   </app-words-list-item>
   <mat-paginator #paginatorRef
