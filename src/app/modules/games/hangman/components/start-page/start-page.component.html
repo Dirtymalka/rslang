@@ -6,27 +6,32 @@
       <br/>
       <p>Вы можете выбирать буквы, используя клавиатуру или мышь</p>
       <br/>
-      <p>На каждый уровень сложности задействовано 20 слов, но их количество может меняться в зависимости от того, от
+      <p>Есть 6 уровней сложности, которые соответствуют 6-ти разделам учебника. Каждый такой уровень содержит 30 ступеней.</p>
+      <br/>
+      <p>На каждую ступень задействовано 20 слов, но их количество может меняться в зависимости от того, от
         куда был выполнен вход в игру</p>
       <br/>
       <p>Убедитесь, что для вашей клавиатуры активирован английский язык</p>
     </div>
     <div class="hangman-start">
-      <mat-form-field>
-        <mat-select [(value)]="level">
-          <mat-option value="1">1</mat-option>
-          <mat-option value="2">2</mat-option>
-          <mat-option value="3">3</mat-option>
-          <mat-option value="4">4</mat-option>
-          <mat-option value="5">5</mat-option>
-          <mat-option value="6">6</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select [(value)]="group">
-          <mat-option *ngFor="let g of groups" [value]="g.toString()">{{g}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div *ngIf="!fromDictionary && !fromBook">
+        <span>Выберите уровень сложности:</span>
+        <mat-form-field>
+          <mat-select [(value)]="level">
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+            <mat-option value="6">6</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select [(value)]="group">
+            <mat-option *ngFor="let g of groups" [value]="g.toString()">{{g}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <button
         class="button btn-start"
         mat-raised-button color="primary"

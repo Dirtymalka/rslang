@@ -14,9 +14,9 @@
     <div class="savannah__statistics-row_translate">
       {{answer.wordTranslate}}
     </div>
-    <div
-      class="savannah__statistics-row_sound" tabindex="0" role="button" label="audio">
-  </div>
+    <div>
+      <button class="button__audio" (click)="onAudioClickHandler(answer.audioUrl)"></button>
+    </div>
   </div>
 
   <h2 class="savannah__statistics-right">Правильные ответы:</h2>
@@ -28,8 +28,8 @@
     <div class="savannah__statistics-row_translate">
       {{answer.wordTranslate}}
     </div>
-    <div
-      class="savannah__statistics-row_sound" tabindex="0" role="button" label="audio">
+    <div>
+      <button class="button__audio" (click)="onAudioClickHandler(answer.audioUrl)"></button>
     </div>
   </div>
 
@@ -37,7 +37,8 @@
     mat-raised-button
     color="primary"
     (click)="goToStartPage()"
-  >Выбрать уровень</button>
+  >Выбрать уровень
+  </button>
   <button mat-raised-button color="primary" (click)="goOnMainPage()">На главную страницу</button>
 
 </div>

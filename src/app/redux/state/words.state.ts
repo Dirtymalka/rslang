@@ -15,6 +15,7 @@ export interface IWordsState {
     userWordsIsError: boolean;
   };
   difficultWordsData: IAggWordsPaginator;
+  wordsForGame: IWord[];
 }
 
 export const initialWordsState: IWordsState = {
@@ -27,4 +28,5 @@ export const initialWordsState: IWordsState = {
     userWordsIsError: false,
   },
   difficultWordsData: null,
+  wordsForGame: [],
 };

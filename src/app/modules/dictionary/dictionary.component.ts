@@ -9,7 +9,11 @@ import { Component } from '@angular/core';
 export class DictionaryComponent {
   constructor(private router: Router) {}
 
-  public startGame(): void {
-    this.router.navigate(['games/hangman/']);
+  public startGame(game): void {
+    this.router.navigate([`games/${game}/`], {
+      queryParams: {
+        fromDictionary: true,
+      },
+    });
   }
 }

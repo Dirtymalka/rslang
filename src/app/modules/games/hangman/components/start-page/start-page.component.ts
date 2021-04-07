@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { fetchStatistic } from '../../../../../redux/actions/statistics.actions';
 
 @Component({
   selector: 'app-start-page',
@@ -15,15 +14,53 @@ export class StartPageComponent implements OnInit {
 
   groups = new Array(30).fill(null).map((item, idx) => idx + 1);
 
-  constructor(private router: Router, private store: Store) {}
+  fromBook: boolean;
+
+  fromDictionary: boolean;
+
+  constructor(
+    private router: Router,
+    private store: Store,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(fetchStatistic());
+    this.route.queryParams.subscribe((params) => {
+      this.fromBook = !!params.fromBook;
+      this.level = params.group || '1';
+      this.group = params.page || '1';
+      this.fromDictionary = !!params.fromDictionary;
+    });
   }
 
   startGame(): void {
+    const queryParamsFromBook = {
+      fromBook: true,
+      level: this.level,
+      group: this.group,
+    };
+
+    const queryParamsFromDictionary = {
+      fromDictionary: true,
+    };
+
+    const queryParamsFromSelect = {
+      level: this.level,
+      group: this.group,
+    };
+
+    let queryParams;
+
+    if (this.fromBook) {
+      queryParams = queryParamsFromBook;
+    } else if (this.fromDictionary) {
+      queryParams = queryParamsFromDictionary;
+    } else {
+      queryParams = queryParamsFromSelect;
+    }
+
     this.router.navigate(['games/hangman/game'], {
-      queryParams: { level: this.level, group: this.group },
+      queryParams,
     });
   }
 }

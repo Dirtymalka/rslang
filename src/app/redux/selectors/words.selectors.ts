@@ -55,3 +55,8 @@ export const selectDifficultWordsData = createSelector(
   selectWords,
   (words) => words.difficultWordsData,
 );
+
+export const selectWordsForGame = createSelector(
+  selectWords,
+  (words) => words.wordsForGame,
+);

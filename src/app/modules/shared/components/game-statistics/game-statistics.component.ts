@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MEDIA_PREFIX } from '../../../../constants/global.constants';
 
 interface IAnswer {
   word: string;
@@ -22,6 +23,8 @@ export class GameStatisticsComponent implements OnInit {
 
   winPercent: number;
 
+  audioPlayer = new Audio();
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
@@ -38,4 +41,11 @@ export class GameStatisticsComponent implements OnInit {
   goToStartPage(): void {
     this.router.navigate([`games/${this.gameName}`, 'start-page']);
   }
+
+  onAudioClickHandler = (audioSrc: string): void => {
+    if (this.audioPlayer.src !== `${MEDIA_PREFIX}${audioSrc}`) {
+      this.audioPlayer.src = `${MEDIA_PREFIX}${audioSrc}`;
+    }
+    this.audioPlayer.play();
+  };
 }
