@@ -1,8 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  IOptional,
-  IStatistic,
-} from '../../modules/shared/models/statistics.models';
+import { IStatistic } from '../../modules/shared/models/statistics.models';
 
 export const fetchStatistic = createAction(
   '[Statistic Statistic] Fetch Statistic',
@@ -19,12 +16,12 @@ export const fetchStatisticFailure = createAction(
 
 export const putStatistic = createAction(
   '[Statistic Statistic] Put Statistic',
-  props<{ statistic: { optional: IOptional } }>(),
+  props<{ statistic: IStatistic }>(),
 );
 
 export const putStatisticSuccess = createAction(
   '[Statistic Statistic] Put Statistic Success',
-  props<{ statistic: { optional: IOptional } }>(),
+  props<{ statistic: IStatistic }>(),
 );
 
 export const putStatisticFailure = createAction(

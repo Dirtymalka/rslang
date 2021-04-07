@@ -45,3 +45,8 @@ export const selectDifficultWords = createSelector(selectWords, (words) =>
 export const selectDeletedWords = createSelector(selectWords, (words) =>
   words.aggWords.filter((word) => word.userWord.optional.isDeleted === true),
 );
+
+export const selectFetchState = createSelector(
+  selectWords,
+  (state) => state.fetchState,
+);

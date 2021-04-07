@@ -2,13 +2,15 @@ import { createReducer, on } from '@ngrx/store';
 import { hangmanReducer } from './games.hangman.reducer';
 import { fetchWordsWithLevelsSuccess } from '../actions/hangman.actions';
 
+const initialGamesState = {
+  hangman: {},
+  savanna: {},
+  audioCall: {},
+  sprint: {},
+};
+
 export const gamesReducer = createReducer(
-  {
-    hangman: {},
-    savanna: {},
-    audioCall: {},
-    sprint: {},
-  },
+  initialGamesState,
   on(fetchWordsWithLevelsSuccess, (state, { words }) => {
     return {
       ...state,

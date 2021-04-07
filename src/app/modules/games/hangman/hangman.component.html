@@ -21,7 +21,7 @@
         <app-keypad (clickLetter)="checkLetter($event)" [correctLetters]="correctLetters"
                     [incorrectLetters]="incorrectLetters" [gameOver]="roundOver"></app-keypad>
         <div class="progress-bar-game">
-          <div class="progress-percent-game" [style.width]="indexWord * 10 + '%'"></div>
+          <div class="progress-percent-game" [style.width]="indexWord * (100 / words.length) + '%'"></div>
         </div>
         <div class="buttons-block">
           <button *ngIf="!roundOver" mat-raised-button color="primary" (click)="dontKnowHandler()">Не знаю</button>

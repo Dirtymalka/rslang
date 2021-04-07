@@ -18,4 +18,5 @@ export interface IStatisticGame {
   correct: number;
   incorrect: number;
   score?: number;
+  bestAnswersSeries: number;
 }
