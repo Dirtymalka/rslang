@@ -103,3 +103,22 @@ export const updateSelectedWords = createAction(
   // (selectedWords: IWord[]) => selectedWords,
   props<{ words: IWord[] | [] }>(),
 );
+
+export const fetchDifficultWords = createAction(
+  '[Words UserWords] Fetch DifficultWords',
+  props<{
+    group: string | number;
+    filter: any;
+    wordsPerPage: number;
+    page: number;
+  }>(),
+);
+
+export const fetchDifficultWordsSuccess = createAction(
+  '[Words UserWords] Fetch DifficultWords Success',
+  props<{ difficultWordsData: any }>(),
+);
+
+export const fetchDifficultWordsFailure = createAction(
+  '[Words UserWords] Fetch DifficultWords Failure',
+);
