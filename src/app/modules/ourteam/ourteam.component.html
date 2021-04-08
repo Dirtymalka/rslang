@@ -1,0 +1,37 @@
+<h1 class="caption">Наша команда</h1>
+<div class="ourteam-container">
+  <div class="team-member" 
+    *ngFor="let TeamMember of myteam"
+    >
+    <img
+      src="assets/images/team/{{ TeamMember.photo }}.jpg"
+      alt="{{ TeamMember.name }}"
+    />
+    <div class="team-member-card">
+      <h2 class="team-member-name">{{ TeamMember.name }}</h2>
+      <div class="team-member-action-area">
+        <img
+          class="team-member-github-icon"
+          src="assets/icons/github.svg"
+          alt="Github icon"
+        />
+        <a
+          class="team-member-github-link"
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/{{ TeamMember.github }}"
+        >
+          <p>{{ TeamMember.github }}</p>
+        </a>
+      </div>
+      <p class="team-member-role">{{ TeamMember.role }}</p>
+      <ol class="team-member-list">
+        <li class="team-member-list-items" 
+          *ngFor="let task of TeamMember.tasks"
+         >
+          {{ task }}
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
