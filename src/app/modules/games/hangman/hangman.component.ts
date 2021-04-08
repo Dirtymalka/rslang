@@ -305,7 +305,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
               [result]: this.userWord.optional[result]
                 ? this.userWord.optional[result] + 1
                 : 1,
-              isStudy: this.fromBook || this.fromDictionary,
+              isStudy: this.userWord.optional.isStudy || this.fromBook || this.fromDictionary,
             },
           },
           gameName: HANGMAN,
