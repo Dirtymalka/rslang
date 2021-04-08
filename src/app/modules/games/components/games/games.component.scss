@@ -1,9 +1,17 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: calc(100vh - 123px);
+}
+
 .all-games {
   display: grid;
   max-width: 800px;
   margin: auto;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 50px;
 }
 
 .game-card {
@@ -13,7 +21,7 @@
   margin: auto;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px 30px;
-  
+
   &:hover {
     cursor: pointer;
   }

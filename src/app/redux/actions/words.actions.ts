@@ -113,3 +113,12 @@ export const fetchDifficultWords = createAction(
     page: number;
   }>(),
 );
+
+export const fetchDifficultWordsSuccess = createAction(
+  '[Words UserWords] Fetch DifficultWords Success',
+  props<{ difficultWordsData: any }>(),
+);
+
+export const fetchDifficultWordsFailure = createAction(
+  '[Words UserWords] Fetch DifficultWords Failure',
+);

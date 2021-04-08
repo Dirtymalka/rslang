@@ -23,6 +23,7 @@ import { FooterModule } from './modules/footer/footer.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,

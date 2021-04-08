@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { WordsServiceService } from '../../modules/shared/services/words-service.service';
 import {
+  fetchDifficultWords,
+  fetchDifficultWordsSuccess,
+  fetchDifficultWordsFailure,
   deleteUserWord,
   deleteUserWordFailure,
   deleteUserWordSuccess,
@@ -23,6 +25,9 @@ import {
   putUserWordFailure,
   putUserWordSuccess,
 } from '../actions/words.actions';
+
+import { WordsServiceService } from '../../modules/shared/services/words-service.service';
+
 import { IWordPost } from '../../modules/shared/models/word.models';
 
 @Injectable()
@@ -113,6 +118,27 @@ export class WordsEffect {
             return of(fetchAggUserWordsFailure());
           }),
         ),
+      ),
+    ),
+  );
+
+  fetchDifficultWords$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fetchDifficultWords),
+      switchMap(({ group, page, wordsPerPage, filter }) =>
+        this.wordService
+          .getUserAggWordsToPaginator({ group, page, wordsPerPage, filter })
+          .pipe(
+            map((difficultWordsData) => {
+              return fetchDifficultWordsSuccess({
+                difficultWordsData,
+              });
+            }),
+            catchError((err) => {
+              console.log(err);
+              return of(fetchDifficultWordsFailure());
+            }),
+          ),
       ),
     ),
   );

@@ -1,3 +1,81 @@
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
 .table {
   width: 100%;
+}
+
+.word-item__image {
+  border-radius: 20px;
+  height: 130px;
+  width: 130px;
+  margin-left: 14px;
+}
+
+.word-item__word-set,
+.word-item__sentense-wrapper {
+  min-width: auto;
+  padding: 8px;
+  margin-left: 14px;
+  display: flex;
+  flex-direction: column;
+  @include unselectable;
+}
+
+.word-item__sentense-wrapper,
+.word-item__word-wrapper {
+  margin: 0;
+}
+
+.word-item__word {
+  color: $color-light-blue;
+  color: $color-dark-green;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.word-item__transcription {
+  color: grey;
+  font-weight: 400;
+}
+
+.word-item__translate,
+.word-item__text-meaning {
+  font-weight: 500;
+}
+
+.word-item__text-meaning i {
+  font-weight: 700;
+}
+
+.word-item__text-meaning,
+.word-item__text-meaning-translate,
+.word-item__text-example,
+.word-item__text-example-translate {
+  margin: 0;
+}
+
+.word-item__text-example,
+.word-item__text-example-translate {
+  padding-left: 10px;
+  font-style: italic;
+}
+
+@media screen and (max-width: 768px) {
+  .word-item__image {
+    height: 114px;
+    width: 114px;
+    margin-left: 10px;
+  }
+
+  .word-item__sentence-wrapper {
+    margin-left: 10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .word-item__word-set,
+  .word-item__sentense-wrapper {
+   padding-left: 60px;
+   }
 }

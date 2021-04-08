@@ -129,3 +129,14 @@ export const getStatByGames = (
     return [...result, gameStat];
   }, []);
 };
+
+export const cancelFullscreen = (): void => {
+  const { document }: any = window;
+  if (document.cancelFullScreen) {
+    document.cancelFullScreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  } else if (document.webkitCancelFullScreen) {
+    document.webkitCancelFullScreen();
+  }
+};

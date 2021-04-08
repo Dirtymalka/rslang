@@ -1,3 +1,4 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,6 +28,7 @@ import { DictionaryComponent } from './dictionary.component';
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
+    MatMenuModule,
   ],
   providers: [WordsServiceService],
   exports: [],

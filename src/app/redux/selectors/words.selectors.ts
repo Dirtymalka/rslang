@@ -50,3 +50,13 @@ export const selectFetchState = createSelector(
   selectWords,
   (state) => state.fetchState,
 );
+
+export const selectDifficultWordsData = createSelector(
+  selectWords,
+  (words) => words.difficultWordsData,
+);
+
+export const selectWordsForGame = createSelector(
+  selectWords,
+  (words) => words.wordsForGame,
+);

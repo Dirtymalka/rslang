@@ -190,6 +190,11 @@ export class WordsServiceService {
     page,
     wordsPerPage,
     filter,
+  }: {
+    group: string | number;
+    page: number;
+    wordsPerPage: number;
+    filter: any;
   }): Observable<IAggWordsPaginator> {
     const httpOptions = {
       headers: new HttpHeaders({
