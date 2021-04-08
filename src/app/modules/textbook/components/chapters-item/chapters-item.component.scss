@@ -2,10 +2,10 @@
 @import "src/styles/mixins";
 
 .chapter__label {
-  height: 140px;
+  height: 36px;
   width: 100%;
   background: $color-blue;
-  border-radius: 20px;
+  border-radius: 20px 20px 0 0;
   display: flex;
   justify-content: center;
   cursor: pointer;
@@ -39,7 +39,8 @@
 
 @media screen and (max-width: 568px) {
   .chapter__label {
-    border-radius: 15px;
+    border-radius: 15px 15px 0 0;
+    height: 28px;
   }
 
   .chapter__unit-title {

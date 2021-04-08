@@ -1,21 +1,13 @@
-:host {
-  //margin-top: 200px;
-  margin-top: 70px;
-}
-
 .textbook-wrapper {
   display: grid;
   max-width: 1000px;
   margin: 0 auto;
   margin-top: 30px;
-  position: relative;
 }
 
 .list-wrapper {
-  position: absolute;
   background: white;
   width: 100%;
-  top: 36px;
 }
 
 @media screen and (max-width: 1023px) {

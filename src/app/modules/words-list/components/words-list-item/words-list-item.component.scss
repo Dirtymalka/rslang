@@ -13,10 +13,24 @@
   padding-top: 8px;
   padding-bottom: 8px;
   border-bottom: 1px solid #e6e9ee;
+  position: relative;
 }
 
 .checkbox {
   margin-right: 14px;
+}
+
+.difficult-mark {
+  position: absolute;
+  left: 30px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #FF843820;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .word-item__image {
@@ -148,6 +162,10 @@
 .icon-delete {
   color: rgb(126, 145, 159);
   transition: color .2s ease;
+}
+
+.icon-hard--active {
+  color: $color-orange;
 }
 
 .button-delete:hover .icon-delete {

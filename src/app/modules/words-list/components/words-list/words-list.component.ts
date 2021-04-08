@@ -8,10 +8,10 @@ import { selectPaginationOptions } from '../../../../redux/selectors/settings.se
 import { changePaginationOptions } from '../../../../redux/actions/settings.actions';
 import {
   fetchAllWordsSuccess,
-  // fetchAllUserWords,
+  fetchAllUserWordsSuccess,
 } from '../../../../redux/actions/words.actions';
 
-import { IWord } from '../../../shared/models/word.models';
+import { IUserWord, IWord } from '../../../shared/models/word.models';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
 
 @Component({
@@ -25,6 +25,10 @@ export class WordsListComponent implements OnInit {
   paginationOptions;
 
   paginationOptions$: Subscription;
+
+  userWords: IUserWord[];
+
+  userWords$: Subscription;
 
   pageIndex = 0;
 
@@ -45,6 +49,22 @@ export class WordsListComponent implements OnInit {
         this.pageIndex = paginationOptions.page;
         this.getWordsList();
       });
+
+    this.getUserWords();
+  }
+
+  getUserWords() {
+    this.wordsService.getUserWords().subscribe(
+      (data) => {
+        this.userWords = data;
+        this.store$.dispatch(
+          fetchAllUserWordsSuccess({ userWords: this.userWords }),
+        );
+      },
+      (error) => {
+        console.log(error.message, 'user words not found');
+      },
+    );
   }
 
   swicthPaginationIndex() {
@@ -58,18 +78,29 @@ export class WordsListComponent implements OnInit {
     this.wordsService.getWords(group, page).subscribe(
       (listWords: IWord[]) => {
         this.listWords = listWords;
-        console.log('list', this.listWords);
-
         this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
       },
       (error) => {
-        console.log(error.message);
+        console.log(error.message, 'user words not found');
       },
     );
   }
 
   markAsDifficult(word: IWord): void {
-    console.log(word);
+    if (!this.userWords.length) {
+      const optional = {
+        isDifficult: true,
+        isDeleted: false,
+        isStudy: true,
+      };
+
+      this.wordsService
+        .postWord(word.id, { optional })
+        .subscribe(() => this.getWordsList());
+    }
+    // this.wordsService.getUserWord(word.id).subscribe((data) => {
+    //   console.log(data);
+    // });
   }
 
   markAsDeleted(word: IWord): void {

@@ -1,7 +1,14 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  AfterViewInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { WORDS_LIST_LENGTH } from '../../../../constants/global.constants';
 import {
   selectWord,
@@ -12,10 +19,13 @@ import {
   selectIsShowDifficultWordButton,
   selectIsShowDeleteWordButton,
 } from '../../../../redux/selectors/settings.selectors';
-import { selectSelectedWords } from '../../../../redux/selectors/words.selectors';
+import {
+  selectUserWords,
+  selectSelectedWords,
+} from '../../../../redux/selectors/words.selectors';
 import { IAppState } from '../../../../redux/state/app.state';
 
-import { IWord } from '../../../shared/models/word.models';
+import { IWord, IUserWord } from '../../../shared/models/word.models';
 import { VoiceService } from '../../../shared/services/voice.service';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
 // import { WordsServiceService } from '../../../shared/services/words-service.service';
@@ -25,7 +35,7 @@ import { WordsServiceService } from '../../../shared/services/words-service.serv
   templateUrl: './words-list-item.component.html',
   styleUrls: ['./words-list-item.component.scss'],
 })
-export class WordsListItemComponent implements OnInit {
+export class WordsListItemComponent implements OnInit, AfterViewInit {
   @Input()
   word: IWord;
 
@@ -39,7 +49,9 @@ export class WordsListItemComponent implements OnInit {
 
   wordsInSelected: IWord[];
 
-  selectedItems$: Subscription;
+  userWords: IUserWord[];
+
+  isDifficult;
 
   isShowWordTranslation$: Observable<boolean> = this.store$.select(
     selectIsShowWordTranslation,
@@ -56,15 +68,37 @@ export class WordsListItemComponent implements OnInit {
   constructor(
     private store$: Store<IAppState>,
     private voiceService: VoiceService,
-    private wordsServiceService: WordsServiceService,
+    private wordsService: WordsServiceService,
   ) {}
 
   ngOnInit(): void {
-    this.selectedItems$ = this.store$
+    this.store$
       .select(selectSelectedWords)
       .subscribe((selectedWords: IWord[]) => {
         this.wordsInSelected = selectedWords;
       });
+
+    this.store$.select(selectUserWords).subscribe((userWords: IUserWord[]) => {
+      this.userWords = userWords;
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.isWordDifficult();
+  }
+
+  isWordDifficult(): void {
+    console.log(this.word.id);
+    console.log(this.userWords[0].wordId);
+    const isDifficult = this.userWords.find(
+      (userWord) => userWord.wordId === this.word.id,
+    );
+
+    console.log(isDifficult);
+  }
+
+  removeTags(text: string): string {
+    return text.replace(/<\/?[^>]+(>|$)/g, '');
   }
 
   onDiffucultButtonClick(): void {

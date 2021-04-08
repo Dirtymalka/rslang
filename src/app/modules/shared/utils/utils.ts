@@ -118,10 +118,12 @@ export const getStatByGames = (
     const gameStat = {
       name: GAMES_NAMES[game],
       totalLearnedWords: totalLearnedWords.length,
-      bestAnswersSeries: filteredStatisticByDate.reduce(
-        (res, gameStatistic) => Math.max(res, gameStatistic.bestAnswersSeries),
-        0,
-      ) || 0,
+      bestAnswersSeries:
+        filteredStatisticByDate.reduce(
+          (res, gameStatistic) =>
+            Math.max(res, gameStatistic.bestAnswersSeries),
+          0,
+        ) || 0,
       totalGameSuccessPercent,
     };
     return [...result, gameStat];

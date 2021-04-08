@@ -13,6 +13,10 @@
     <app-icon-sound></app-icon-sound>
   </div>
 
+  <span *ngIf="false" class="difficult-mark">
+    <mat-icon class="icon-hard--active">school</mat-icon>
+  </span>
+
   <img
     class="word-item__image"
     src="https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/{{word.image}}"
@@ -28,13 +32,13 @@
 
     <div class="word-item__sentence-wrapper">
       <p class="word-item__text-meaning">
-        {{word.textMeaning}}&nbsp;
+        {{removeTags(word.textMeaning)}}&nbsp;
       </p>
       <p *ngIf="isShowWordTranslation$ | async" class="word-item__text-meaning-translate">
         {{word.textMeaningTranslate}}&nbsp;
       </p>
       <p class="word-item__text-example">
-        &#8594; &nbsp;{{word.textExample}}
+        &#8594; &nbsp;{{removeTags(word.textExample)}}
       </p>
       <p *ngIf="isShowWordTranslation$ | async" class="word-item__text-example-translate">
         &#8594; &nbsp;{{word.textExampleTranslate}}
