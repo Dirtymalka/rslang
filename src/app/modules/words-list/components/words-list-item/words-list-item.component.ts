@@ -4,7 +4,8 @@ import {
   Input,
   Output,
   OnInit,
-  AfterViewInit,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
@@ -27,15 +28,13 @@ import { IAppState } from '../../../../redux/state/app.state';
 
 import { IWord, IUserWord } from '../../../shared/models/word.models';
 import { VoiceService } from '../../../shared/services/voice.service';
-import { WordsServiceService } from '../../../shared/services/words-service.service';
-// import { WordsServiceService } from '../../../shared/services/words-service.service';
 
 @Component({
   selector: 'app-words-list-item',
   templateUrl: './words-list-item.component.html',
   styleUrls: ['./words-list-item.component.scss'],
 })
-export class WordsListItemComponent implements OnInit, AfterViewInit {
+export class WordsListItemComponent implements OnInit {
   @Input()
   word: IWord;
 
@@ -45,13 +44,21 @@ export class WordsListItemComponent implements OnInit, AfterViewInit {
   @Output()
   markedAsDeleted = new EventEmitter<IWord>();
 
+  @ViewChild('itemIconRef') itemIcon: ElementRef;
+
   itemSelected = false;
 
   wordsInSelected: IWord[];
 
   userWords: IUserWord[];
 
-  isDifficult;
+  isDifficult: boolean | IUserWord;
+
+  isDeleted: boolean | IUserWord;
+
+  correctCount: number | IUserWord;
+
+  incorrectCount: number | IUserWord;
 
   isShowWordTranslation$: Observable<boolean> = this.store$.select(
     selectIsShowWordTranslation,
@@ -68,7 +75,6 @@ export class WordsListItemComponent implements OnInit, AfterViewInit {
   constructor(
     private store$: Store<IAppState>,
     private voiceService: VoiceService,
-    private wordsService: WordsServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -80,21 +86,29 @@ export class WordsListItemComponent implements OnInit, AfterViewInit {
 
     this.store$.select(selectUserWords).subscribe((userWords: IUserWord[]) => {
       this.userWords = userWords;
+
+      this.isDifficult = userWords.find(
+        (userWord) =>
+          userWord.wordId === this.word.id && userWord.optional.isDifficult,
+      );
+
+      this.isDeleted = userWords.find(
+        (userWord) =>
+          userWord.wordId === this.word.id && userWord.optional.isDeleted,
+      );
+
+      this.correctCount =
+        userWords.find(
+          (userWord) =>
+            userWord.wordId === this.word.id && userWord.optional.correctCount,
+        ) || 0;
+
+      this.incorrectCount =
+        userWords.find(
+          (userWord) =>
+            userWord.wordId === this.word.id && userWord.optional.correctCount,
+        ) || 0;
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.isWordDifficult();
-  }
-
-  isWordDifficult(): void {
-    console.log(this.word.id);
-    console.log(this.userWords[0].wordId);
-    const isDifficult = this.userWords.find(
-      (userWord) => userWord.wordId === this.word.id,
-    );
-
-    console.log(isDifficult);
   }
 
   removeTags(text: string): string {
@@ -102,13 +116,13 @@ export class WordsListItemComponent implements OnInit, AfterViewInit {
   }
 
   onDiffucultButtonClick(): void {
-    console.log('click mark as difficult', this.word);
+    this.isDifficult = true;
     this.markedAsDifficult.emit(this.word);
   }
 
   onDeleteButtonClick(): void {
-    // console.log(this.word);
-    // this.markedAsDeleted.emit(this.word);
+    console.log(this.word);
+    this.markedAsDeleted.emit(this.word);
   }
 
   onIconSoundClick(): void {

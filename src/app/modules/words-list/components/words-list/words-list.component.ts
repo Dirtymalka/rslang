@@ -22,11 +22,11 @@ import { WordsServiceService } from '../../../shared/services/words-service.serv
 export class WordsListComponent implements OnInit {
   listWords: IWord[];
 
+  userWords: IUserWord[];
+
   paginationOptions;
 
-  paginationOptions$: Subscription;
-
-  userWords: IUserWord[];
+  wordList$: Subscription;
 
   userWords$: Subscription;
 
@@ -42,21 +42,34 @@ export class WordsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.paginationOptions$ = this.store$
+    this.store$
       .select(selectPaginationOptions)
       .subscribe((paginationOptions) => {
         this.paginationOptions = paginationOptions;
         this.pageIndex = paginationOptions.page;
+
         this.getWordsList();
       });
 
     this.getUserWords();
+    this.getFilteredWords();
   }
 
-  getUserWords() {
+  getFilteredWords(): void {
+    this.wordsService.getUserWords().subscribe((userWords) => {
+      console.log(userWords);
+      const { group, page } = this.paginationOptions;
+      this.wordsService
+        .getWords(group, page)
+        .subscribe((wordsList) => console.log(wordsList));
+    });
+  }
+
+  getUserWords(): void {
     this.wordsService.getUserWords().subscribe(
       (data) => {
         this.userWords = data;
+        console.log('user words!', data);
         this.store$.dispatch(
           fetchAllUserWordsSuccess({ userWords: this.userWords }),
         );
@@ -67,7 +80,7 @@ export class WordsListComponent implements OnInit {
     );
   }
 
-  swicthPaginationIndex() {
+  swicthPaginationIndex(): void {
     this.paginatorRef.nativeElement.pageIndex = this.paginationOptions.page;
     this.paginatorRef.nativeElement.previousPageIndex =
       this.paginationOptions.page - 1;
@@ -78,7 +91,8 @@ export class WordsListComponent implements OnInit {
     this.wordsService.getWords(group, page).subscribe(
       (listWords: IWord[]) => {
         this.listWords = listWords;
-        this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
+
+        this.store$.dispatch(fetchAllWordsSuccess({ words: listWords }));
       },
       (error) => {
         console.log(error.message, 'user words not found');
@@ -86,8 +100,16 @@ export class WordsListComponent implements OnInit {
     );
   }
 
+  filterByDeleted(): void {
+    console.log('filter magic');
+  }
+
+  isInUserWords(word: IWord): IUserWord {
+    return this.userWords.find((userWord) => userWord.wordId === word.id);
+  }
+
   markAsDifficult(word: IWord): void {
-    if (!this.userWords.length) {
+    if (!this.userWords.length || !this.isInUserWords(word)) {
       const optional = {
         isDifficult: true,
         isDeleted: false,
@@ -98,13 +120,48 @@ export class WordsListComponent implements OnInit {
         .postWord(word.id, { optional })
         .subscribe(() => this.getWordsList());
     }
-    // this.wordsService.getUserWord(word.id).subscribe((data) => {
-    //   console.log(data);
-    // });
+
+    if (this.isInUserWords(word)) {
+      const { wordId } = this.isInUserWords(word);
+
+      this.wordsService.getUserWord(wordId).subscribe((data) =>
+        this.wordsService
+          .putWord(data.wordId, {
+            difficulty: data.difficulty,
+            optional: { ...data.optional, isDifficult: true, isStudy: true },
+          })
+          .subscribe(() => this.getUserWords()),
+      );
+    }
   }
 
   markAsDeleted(word: IWord): void {
-    console.log(word);
+    if (!this.userWords.length || !this.isInUserWords(word)) {
+      const optional = {
+        isDifficult: false,
+        isDeleted: true,
+        isStudy: false,
+      };
+
+      this.wordsService.postWord(word.id, { optional }).subscribe(() => {
+        this.getUserWords();
+      });
+    }
+
+    if (this.isInUserWords(word)) {
+      const { wordId } = this.isInUserWords(word);
+
+      this.wordsService.getUserWord(wordId).subscribe((data) =>
+        this.wordsService
+          .putWord(data.wordId, {
+            difficulty: data.difficulty,
+            optional: { ...data.optional, isDeleted: true, isStudy: false },
+          })
+          .subscribe(() => {
+            this.getUserWords();
+          }),
+      );
+    }
   }
 
   pageChangeEvent(event: PageEvent): void {

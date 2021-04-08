@@ -1,4 +1,4 @@
-<li class="row">
+<li *ngIf="!isDeleted" class="row">
   <mat-checkbox
     class="checkbox"
     color="primary"
@@ -13,7 +13,7 @@
     <app-icon-sound></app-icon-sound>
   </div>
 
-  <span *ngIf="false" class="difficult-mark">
+  <span *ngIf="isDifficult" class="difficult-mark">
     <mat-icon class="icon-hard--active">school</mat-icon>
   </span>
 
@@ -51,7 +51,7 @@
       <p class="statistics__title">Результат изучения</p>
       <span class="statistics__label">правильно/неправильно:</span>
 
-      <span class="statistics__correct">0</span>/<span class="statistics__incorrect">0</span>
+      <span class="statistics__correct">{{correctCount}}</span>/<span class="statistics__incorrect">{{incorrectCount}}</span>
     </div>
 
     <div class="controls">

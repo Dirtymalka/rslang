@@ -1,18 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+
 import {
   selectSelectedWords,
   selectAllWords,
+  selectUserWords,
 } from '../../../../redux/selectors/words.selectors';
 import {
+  fetchAllWordsSuccess,
   selectWord,
   updateSelectedWords,
 } from '../../../../redux/actions/words.actions';
+
 import { IAppState } from '../../../../redux/state/app.state';
-import { IWord } from '../../../shared/models/word.models';
+import { IUserWord, IWord } from '../../../shared/models/word.models';
 import { SettingsComponent } from '../settings/components/settings.component';
+import { WordsServiceService } from '../../../shared/services/words-service.service';
 
 interface ISelectParam {
   value: string;
@@ -24,7 +28,7 @@ interface ISelectParam {
   templateUrl: './control-bar.component.html',
   styleUrls: ['./control-bar.component.scss'],
 })
-export class ControlBarComponent {
+export class ControlBarComponent implements OnInit {
   wordParams: ISelectParam[] = [
     { value: 'param-0', viewValue: 'Слова' },
     { value: 'param-1', viewValue: 'Предложения' },
@@ -32,33 +36,38 @@ export class ControlBarComponent {
 
   selectedAll = false;
 
-  selectAllWords: IWord[];
-
   wordsInSelectedState: IWord[];
+
+  userWords: IUserWord[];
 
   allWords: IWord[];
 
-  allWords$: Subscription = this.store$
-    .select(selectAllWords)
-    .subscribe((words: IWord[]) => {
+  constructor(
+    private store$: Store<IAppState>,
+    public dialog: MatDialog,
+    private wordsService: WordsServiceService,
+  ) {}
+
+  ngOnInit(): void {
+    this.store$.select(selectAllWords).subscribe((words: IWord[]) => {
       this.allWords = words;
     });
 
-  selectedItems$: Subscription = this.store$
-    .select(selectSelectedWords)
-    .subscribe((selectedWords: IWord[]) => {
-      this.wordsInSelectedState = selectedWords;
-    });
+    this.store$
+      .select(selectSelectedWords)
+      .subscribe((selectedWords: IWord[]) => {
+        this.wordsInSelectedState = selectedWords;
+      });
 
-  constructor(private store$: Store<IAppState>, public dialog: MatDialog) {}
+    this.store$.select(selectUserWords).subscribe((userWords: IUserWord[]) => {
+      this.userWords = userWords;
+    });
+  }
 
   openSettings(): void {
     const dialogRef = this.dialog.open(SettingsComponent);
 
     dialogRef.afterClosed();
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
   }
 
   openSprintGame(): void {
@@ -95,11 +104,47 @@ export class ControlBarComponent {
     }
   }
 
-  deleteAllSelected(): void {
+  markAsDifficultHandler(): void {
+    console.log('mark as difficult all');
+    console.log(this.allWords);
+    this.allWords.forEach((word) => this.markAsDifficult(word));
+  }
+
+  deleteAllSelectedHandler(): void {
     console.log('delete all');
   }
 
-  markAsDifficult(): void {
-    console.log('mark as difficult all');
+  isInUserWords(word: IWord): IUserWord {
+    return this.userWords.find((userWord) => userWord.wordId === word.id);
+  }
+
+  markAsDifficult(word: IWord): void {
+    if (!this.userWords.length || !this.isInUserWords(word)) {
+      const optional = {
+        isDifficult: true,
+        isDeleted: false,
+        isStudy: true,
+      };
+      console.log(word.id);
+      this.wordsService.postWord(word.id, { optional });
+      // .subscribe(() => this.getWordsList());
+    }
+
+    if (this.isInUserWords(word)) {
+      const { wordId } = this.isInUserWords(word);
+      console.log(wordId);
+      this.wordsService.getUserWord(wordId).subscribe((data) =>
+        this.wordsService
+          .putWord(data.wordId, {
+            difficulty: data.difficulty,
+            optional: { ...data.optional, isDifficult: true, isStudy: true },
+          })
+          .subscribe(() => this.updateAllWords()),
+      );
+    }
+  }
+
+  updateAllWords(): void {
+    this.store$.dispatch(fetchAllWordsSuccess({ words: this.allWords }));
   }
 }
