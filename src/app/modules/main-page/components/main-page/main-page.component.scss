@@ -1,0 +1,14 @@
+.main-page__wrapper {
+  width: 1000px;
+  margin: 0 auto;
+  outline: 1px solid red;
+}
+
+@media screen and (max-width: 1220px) {
+  .main-page__wrapper {
+    max-width: 1200px;
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

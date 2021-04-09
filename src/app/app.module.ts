@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { HeaderModule } from './modules/header/header.module';
-import { OurteamModule } from './modules/ourteam/ourteam.module';
 import mainReducer from './redux/reducers/index';
 import rootEffects from './redux/effects';
 import { TokenInterceptor } from './modules/shared/interceptors/token.interceptor';
@@ -28,7 +27,6 @@ import { FooterModule } from './modules/footer/footer.module';
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     HeaderModule,
-    OurteamModule,
     BrowserAnimationsModule,
     SharedModule,
     StoreModule.forRoot({}, {}),

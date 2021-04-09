@@ -1,0 +1,22 @@
+.team__wrapper {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(4,1fr);
+}
+
+.team__title {
+  margin-top: 40px;
+  text-align: center;
+}
+
+@media screen and (max-width: 1220px) {
+  .team__wrapper {
+    grid-template-columns: repeat(3,1fr);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .team__wrapper {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
