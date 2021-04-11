@@ -1,14 +1,169 @@
+@import "src/styles/variables";
+
 .main-page__wrapper {
-  width: 1000px;
-  margin: 0 auto;
-  outline: 1px solid red;
+  background-image: url("../../../../../assets/images/green-bubble.svg");
+  background-color: #f8f2ee;
+  background-position: 70% -250px;
+  background-size: 800px;
+  background-repeat: no-repeat;
+  padding-top: 70px;
 }
 
-@media screen and (max-width: 1220px) {
-  .main-page__wrapper {
-    max-width: 1200px;
-    width: auto;
+.registration {
+  background-position: 60% 150px;
+  background-size: 380px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.registration__wrapper {
+  width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.registration__lead {
+  width: 80%;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 44px;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 2px;
+  margin: 0 auto;
+  margin-bottom: 80px;
+  color: #103482;
+  margin-top: 0;
+}
+
+.tablet-image {
+  width: 768px;
+  height: auto;
+  display: inline-block;
+  margin: 0 auto;
+  box-shadow: 0 0 10px 0 grey;
+  border-radius: 27px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.video-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+#aboutVideo ::slotted(div) {
+  padding: 30px;
+  height: 768px;
+  width: 768px;
+  overflow: hidden;
+}
+
+iframe {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 768px;
+  height: 400px;
+  border-radius: 10px;
+}
+
+.games__title,
+.about-app__title,
+.video-block__title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 80px;
+  margin-top: 0;
+  color: #103482;
+  text-align: center;
+}
+
+.about-app {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: $color-mint;
+}
+
+.about-app__desc {
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  color: #1a3b71;
+  font-family: "Montserrat";
+}
+
+.about-app__wrapper {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1023px) {
+  .registration__wrapper,
+  .about-app__wrapper  {
+    width: calc(100% - 60px);
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+
+  .registration__lead {
+    font-size: 32px;
+    line-height: 38px;
+    letter-spacing: 1px;
+    margin-bottom: 60px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .registration__wrapper,
+  .about-app__wrapper  {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .tablet-image {
+    width: 600px;
+  }
+
+  #aboutVideo ::slotted(div) {
+    padding: 0;
+    height: 400px;
+    width: 600px;
+  }
+
+  iframe {
+    height: 400px;
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .registration__lead {
+    width: 100%;
     padding-left: 20px;
     padding-right: 20px;
+    font-size: 26px;
+    line-height: 28px;
+  }
+
+  .tablet-image {
+    width: 600px;
+    margin-left: 70px;
+  }
+
+  #aboutVideo ::slotted(div) {
+    height: 300px;
+    width: 460px;
+  }
+
+  iframe {
+    height: 300px;
+    width: 460px;
   }
 }

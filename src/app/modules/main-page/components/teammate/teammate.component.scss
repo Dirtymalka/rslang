@@ -1,5 +1,5 @@
 .teammate {
-  width: auto;
+  min-height: 476px;
 }
 
 .card__title {
@@ -32,4 +32,34 @@
 
 .teammate .mat-card-subtitle {
   text-align: center;
+}
+
+@media screen and (max-width: 1224px) {
+  .teammate {
+    height: 576px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .teammate {
+    height: 530px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .teammate {
+    height: 655px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .teammate {
+    height: 558px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .teammate {
+    height: auto;
+  }
 }

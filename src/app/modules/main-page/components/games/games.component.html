@@ -1,0 +1,22 @@
+<section class="games">
+  <h3 class="games__title">Мини-игры.</h3>
+  <div class="games__wrapper">
+
+    <carousel class="carousel">
+      <ng-container *ngFor="let game of games">
+        <ng-container *carouselItem>
+          <div class="game">
+              <div class="game__desc">
+                <h3 class="game__title">{{ game.name }}</h3>
+                <p class="game__text">{{ game.description }}</p>
+              </div>
+              <div class="game__view">
+                <div class="game__card" [class]="game.style"></div>
+              </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </carousel>
+
+  </div>
+</section>
