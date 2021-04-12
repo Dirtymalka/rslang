@@ -17,7 +17,6 @@ import {
 } from '../../../redux/selectors/user.selectors';
 
 import { BACKEND_URL } from '../constants/api.constants';
-import { getDayFromDate } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -88,7 +87,7 @@ export class WordsServiceService {
     };
 
     if (word.optional?.correctCount) {
-      body.optional.studiedDate = getDayFromDate(Date.now());
+      body.optional.studiedDate = Date.now();
       body.optional.game = gameName;
     }
 
@@ -117,7 +116,7 @@ export class WordsServiceService {
         ...word.optional,
         studiedDate:
           word.optional?.correctCount && !word.optional?.studiedDate
-            ? getDayFromDate(Date.now())
+            ? Date.now()
             : word.optional?.studiedDate,
         game:
           word.optional?.correctCount && !word.optional?.game
@@ -152,6 +151,24 @@ export class WordsServiceService {
       `${BACKEND_URL}/users/${this.userId}/words/${wordId}`,
       httpOptions,
     );
+  }
+
+  getWordsExt(
+    group: string | number,
+    page: string | number,
+    maxWordCountInExample: number,
+    wordsPerPage: number,
+  ): Observable<IWord[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+      }),
+    };
+    const url = `${BACKEND_URL}/words?group=${group}&page=${page}&wordsPerExampleSentenceLTE=${maxWordCountInExample}&wordsPerPage=${wordsPerPage}`;
+    // так как мы сами указваем количество записей на странице, то
+    // количество страниц в группе уже не 30, а getWordsCount
+    return this.http.get<IWord[]>(url, httpOptions);
   }
 
   getUserAggWords(

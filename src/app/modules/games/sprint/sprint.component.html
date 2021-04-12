@@ -1,0 +1,10 @@
+<div *ngIf="!gameOver; else stat" >
+  <app-game-page (gameOver)="gameOverHandler($event)"></app-game-page>
+</div>
+
+
+<ng-template #stat>
+  <app-game-statistics [gameName]="'sprint'" [wrongAnswers]="wordsResult.dontKnow"
+                       [rightAnswers]="wordsResult.know" [totalScore]="totalScore"></app-game-statistics>
+</ng-template>
+

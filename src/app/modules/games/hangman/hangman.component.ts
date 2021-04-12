@@ -355,7 +355,11 @@ export class HangmanComponent implements OnInit, OnDestroy {
     if (this.audioPlayer.src !== `${MEDIA_PREFIX}${audioSrc}`) {
       this.audioPlayer.src = `${MEDIA_PREFIX}${audioSrc}`;
     }
-    this.audioPlayer.play();
+    this.audioPlayer.load();
+    this.audioPlayer
+      .play()
+      .then((r) => r)
+      .catch((e) => e);
   };
 
   toggleFullScreen(): void {
