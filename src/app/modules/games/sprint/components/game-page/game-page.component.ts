@@ -96,7 +96,7 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
 
   isCorrect = false;
 
-  count = 10;
+  count = 60;
 
   counter;
 
@@ -105,6 +105,8 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
   disableButtons: boolean;
 
   audioPlayer = new Audio();
+
+  playedOutWords: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -141,7 +143,10 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   ngDoCheck(): void {
-    if (this.count !== null && this.count <= 0) {
+    if (
+      (this.count !== null && this.count <= 0) ||
+      this.playedOutWords.length === this.words.length
+    ) {
       clearInterval(this.counter);
       this.gameOver.emit({
         wordsResult: this.wordsResult,
@@ -192,14 +197,18 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
       .getWordsExt(this.level - 1, this.group - 1, 100, 100)
       .subscribe((words: IWord[]) => {
         this.words = words;
-        this.isLoading = false;
         this.getWordsForRound();
+        this.isLoading = false;
       });
   }
 
   getWordsForRound(): void {
     const randomIndex = randomInteger(0, this.words.length - 1);
     this.word = this.words[randomIndex];
+
+    if (this.playedOutWords.includes(this.word.id)) {
+      this.word = this.getAnotherWord(this.word);
+    }
     const isRight = Math.random() > 0.5;
 
     if (isRight) {
@@ -245,6 +254,8 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
       default:
         break;
     }
+
+    this.playedOutWords.push(this.word.id);
 
     this.disableButtons = true;
     setTimeout(() => {
