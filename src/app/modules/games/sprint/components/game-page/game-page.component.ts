@@ -108,6 +108,8 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
 
   playedOutWords: string[] = [];
 
+  factorsLength: number[] = new Array(1);
+
   constructor(
     private route: ActivatedRoute,
     private store: Store,
@@ -337,18 +339,22 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
     if (this.correctAnswerSeries < 4) {
       this.scoreForWord = 10;
       this.checkCount = this.correctAnswerSeries;
+      this.factorsLength = new Array(1);
     }
     if (this.correctAnswerSeries >= 4 && this.correctAnswerSeries < 8) {
       this.scoreForWord = 20;
       this.checkCount = this.correctAnswerSeries - 4;
+      this.factorsLength = new Array(2);
     }
     if (this.correctAnswerSeries >= 8 && this.correctAnswerSeries < 12) {
       this.scoreForWord = 40;
       this.checkCount = this.correctAnswerSeries - 8;
+      this.factorsLength = new Array(3);
     }
     if (this.correctAnswerSeries > 12) {
       this.scoreForWord = 80;
       this.checkCount = 3;
+      this.factorsLength = new Array(4);
     }
   }
 
