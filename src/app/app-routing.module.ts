@@ -4,10 +4,13 @@ import { AuthGuard } from './modules/authentication/auth.guard';
 import { NotFoundPageComponent } from './modules/shared/components/not-found-page/not-found-page.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   // TODO loadChildren: () => import('./modules/main/main.module').then((m) => m.main),
-  // },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./modules/main-page/main-page.module').then(
+        (m) => m.MainPageModule,
+      ),
+  },
   {
     path: 'games',
     loadChildren: () =>

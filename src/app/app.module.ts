@@ -25,6 +25,8 @@ import { FooterModule } from './modules/footer/footer.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    StoreModule.forRoot({}, {}),
+    HeaderModule,
     BrowserAnimationsModule,
     SharedModule,
     StoreModule.forRoot({}, {}),
