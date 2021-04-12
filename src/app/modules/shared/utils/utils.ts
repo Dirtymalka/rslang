@@ -109,7 +109,10 @@ export const getStatByGames = (
 
     const filteredStatisticByDate: IStatisticGame[] = statistic.optional[
       game
-    ].filter((gameStatistic: IStatisticGame) => gameStatistic.date === date);
+    ].filter(
+      (gameStatistic: IStatisticGame) =>
+        getDayFromDate(gameStatistic.date) === date,
+    );
 
     const totalGameSuccessPercent = getTotalSuccessPercentByGame(
       filteredStatisticByDate,
@@ -139,4 +142,9 @@ export const cancelFullscreen = (): void => {
   } else if (document.webkitCancelFullScreen) {
     document.webkitCancelFullScreen();
   }
+};
+
+export const randomInteger = (min: number, max: number): number => {
+  const rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
 };

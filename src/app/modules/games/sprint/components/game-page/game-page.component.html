@@ -1,0 +1,64 @@
+<div #sprint id="sprint" class="sprint" >
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <div *ngIf="!isLoading" class="sprint-container">
+
+    <div class="sprint-content_container">
+
+      <div class="sprint-content">
+        <div class="panel">
+          <div class="words_selection">&nbsp;</div>
+          <div class="score">
+            <span>{{totalScore}}</span>
+          </div>
+          <div class="timer">
+            <span>{{count}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sprint-content" [class.wrong]="isWrong" [class.correct]="isCorrect">
+        <div class="words-score">
+          <div class="yes_container">
+            <div *ngIf="checkCount > 0; else empty" class="yes">&nbsp;</div>
+            <div *ngIf="checkCount > 1; else empty" class="yes">&nbsp;</div>
+            <div *ngIf="checkCount > 2; else empty" class="yes">&nbsp;</div>
+            <ng-template #empty>
+              <div class="empty">&nbsp;</div>
+            </ng-template>
+          </div>
+          <p>
+            <span>+ {{scoreForWord}}</span>
+            <span>очков за слово</span>
+          </p>
+        </div>
+        <div class="factors">
+          <div class="factors_container">
+            <div class="factor">&nbsp;</div>
+          </div>
+        </div>
+        <div class="words-container">
+          <div class="words">
+            <div class="eng_word">{{word.word}}</div>
+            <div class="rus_word">{{wordForCheck.wordTranslate}}</div>
+          </div>
+        </div>
+        <div class="buttons-block">
+          <button mat-raised-button color="warn" (click)="checkAnswer('incorrect')">Неверно</button>
+          <button mat-raised-button color="accent" style="background: #1DA362" (click)="checkAnswer('correct')">Верно</button>
+        </div>
+        <mat-icon *ngIf="!fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen</mat-icon>
+        <mat-icon *ngIf="fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen_exit</mat-icon>
+      </div>
+
+      <div class="sprint-content">
+        <div class="arrow_buttons">
+          <button id="wrong_arrow" type="button" (click)="checkAnswer('incorrect')">&nbsp;</button>
+          <button id="correct_arrow" type="button" (click)="checkAnswer('correct')">&nbsp;</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

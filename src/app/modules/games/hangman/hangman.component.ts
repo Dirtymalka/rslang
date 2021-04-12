@@ -305,7 +305,10 @@ export class HangmanComponent implements OnInit, OnDestroy {
               [result]: this.userWord.optional[result]
                 ? this.userWord.optional[result] + 1
                 : 1,
-              isStudy: this.userWord.optional.isStudy || this.fromBook || this.fromDictionary,
+              isStudy:
+                this.userWord.optional.isStudy ||
+                this.fromBook ||
+                this.fromDictionary,
             },
           },
           gameName: HANGMAN,
@@ -352,7 +355,11 @@ export class HangmanComponent implements OnInit, OnDestroy {
     if (this.audioPlayer.src !== `${MEDIA_PREFIX}${audioSrc}`) {
       this.audioPlayer.src = `${MEDIA_PREFIX}${audioSrc}`;
     }
-    this.audioPlayer.play();
+    this.audioPlayer.load();
+    this.audioPlayer
+      .play()
+      .then((r) => r)
+      .catch((e) => e);
   };
 
   toggleFullScreen(): void {

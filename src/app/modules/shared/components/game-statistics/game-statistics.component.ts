@@ -19,6 +19,8 @@ export class GameStatisticsComponent implements OnInit {
 
   @Input() rightAnswers: IAnswer[];
 
+  @Input() totalScore: number = null;
+
   @Input() gameName: string;
 
   winPercent: number;
@@ -29,8 +31,9 @@ export class GameStatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.winPercent = Math.round(
-      this.rightAnswers.length / (this.wrongAnswers.length || 1) +
-        this.rightAnswers.length * 100,
+      (this.rightAnswers.length /
+        ((this.wrongAnswers.length || 1) + this.rightAnswers.length)) *
+        100,
     );
   }
 
@@ -46,6 +49,10 @@ export class GameStatisticsComponent implements OnInit {
     if (this.audioPlayer.src !== `${MEDIA_PREFIX}${audioSrc}`) {
       this.audioPlayer.src = `${MEDIA_PREFIX}${audioSrc}`;
     }
-    this.audioPlayer.play();
+    this.audioPlayer.load();
+    this.audioPlayer
+      .play()
+      .then((r) => r)
+      .catch((e) => e);
   };
 }
