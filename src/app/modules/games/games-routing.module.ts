@@ -15,10 +15,11 @@ const routes: Routes = [
   //   path: 'audio-call',
   //   component: audio-game
   // },
-  // {
-  //   path: 'sprint',
-  //   component: sprint-game
-  // },
+  {
+    path: 'sprint',
+    loadChildren: () =>
+      import('./sprint/sprint.module').then((m) => m.SprintModule),
+  },
   {
     path: 'hangman',
     loadChildren: () =>

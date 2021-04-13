@@ -13,7 +13,6 @@ import {
   selectUserId,
   selectUserToken,
 } from '../../../redux/selectors/user.selectors';
-import { getDayFromDate } from '../utils/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +43,7 @@ export class StatisticService {
     bestAnswersSeries: number,
   ): IStatisticGame {
     return {
-      date: getDayFromDate(Date.now()),
+      date: Date.now(),
       correct,
       incorrect,
       bestAnswersSeries,
