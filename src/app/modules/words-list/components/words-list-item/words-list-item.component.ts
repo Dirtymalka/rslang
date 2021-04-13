@@ -115,7 +115,7 @@ export class WordsListItemComponent implements OnInit {
     return text.replace(/<\/?[^>]+(>|$)/g, '');
   }
 
-  onDiffucultButtonClick(): void {
+  onDifficultButtonClick(): void {
     this.isDifficult = true;
     this.markedAsDifficult.emit(this.word);
   }

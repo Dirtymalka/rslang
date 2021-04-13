@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 
 import { IAppState } from '../../../../redux/state/app.state';
@@ -25,10 +24,6 @@ export class WordsListComponent implements OnInit {
   userWords: IUserWord[];
 
   paginationOptions;
-
-  wordList$: Subscription;
-
-  userWords$: Subscription;
 
   pageIndex = 0;
 
@@ -106,6 +101,11 @@ export class WordsListComponent implements OnInit {
 
   isInUserWords(word: IWord): IUserWord {
     return this.userWords.find((userWord) => userWord.wordId === word.id);
+  }
+
+  markAllAsDifficult(allWords: IWord[]): void {
+    console.log('list emit', allWords);
+    allWords.forEach((word) => this.markAsDifficult(word));
   }
 
   markAsDifficult(word: IWord): void {
