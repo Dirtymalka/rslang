@@ -32,7 +32,7 @@ export class GameStatisticsComponent implements OnInit {
   ngOnInit(): void {
     this.winPercent = Math.round(
       (this.rightAnswers.length /
-        ((this.wrongAnswers.length + this.rightAnswers.length) || 1)) *
+        (this.wrongAnswers.length + this.rightAnswers.length || 1)) *
         100,
     );
   }

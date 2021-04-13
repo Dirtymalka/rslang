@@ -8,6 +8,13 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
+import { Router } from '@angular/router';
+import {
+  AUDIO_CALL,
+  HANGMAN,
+  SAVANNA,
+  SPRINT,
+} from '../../../../../constants/global.constants';
 import { selectPaginationOptions } from '../../../../../redux/selectors/settings.selectors';
 import {
   selectSelectedWords,
@@ -48,10 +55,19 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
   @Output()
   markedAllAsDeleted = new EventEmitter<IWord[]>();
 
+  hangman = HANGMAN;
+
+  audioCall = AUDIO_CALL;
+
+  savanna = SAVANNA;
+
+  sprint = SPRINT;
+
   constructor(
     private store$: Store<IAppState>,
     public dialog: MatDialog,
     private wordsService: WordsServiceService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -77,14 +93,9 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    if (
+    this.isAllChecked =
       this.allWords.length &&
-      this.wordsInSelectedState.length === this.allWords.length
-    ) {
-      this.isAllChecked = true;
-    } else {
-      this.isAllChecked = false;
-    }
+      this.wordsInSelectedState.length === this.allWords.length;
   }
 
   getUserWords(): void {
@@ -106,20 +117,12 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
     dialogRef.afterClosed();
   }
 
-  openSprintGame(): void {
-    console.log('sprint');
-  }
-
-  openSavannaGame(): void {
-    console.log('savanna');
-  }
-
-  openAudioCallGame(): void {
-    console.log('audiocall');
-  }
-
-  openHangmanGame(): void {
-    console.log('Hangman');
+  startGame(game: string): void {
+    this.router.navigate([`games/${game}/`], {
+      queryParams: {
+        fromBook: true,
+      },
+    });
   }
 
   onCheckboxChange(isAllChecked: boolean): void {

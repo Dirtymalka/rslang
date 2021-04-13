@@ -7,6 +7,12 @@ import { selectDifficultWordsData } from '../../../../redux/selectors/words.sele
 import { fetchDifficultWords } from '../../../../redux/actions/words.actions';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
 import { IAggWord } from '../../../shared/models/word.models';
+import {
+  AUDIO_CALL,
+  HANGMAN,
+  SAVANNA,
+  SPRINT,
+} from '../../../../constants/global.constants';
 
 @Component({
   selector: 'app-difficult-words',
@@ -33,6 +39,14 @@ export class DifficultWordsComponent implements OnInit {
   public chapterNumber = 0;
 
   public wordsLength = true;
+
+  hangman = HANGMAN;
+
+  audioCall = AUDIO_CALL;
+
+  savanna = SAVANNA;
+
+  sprint = SPRINT;
 
   constructor(
     private store: Store,

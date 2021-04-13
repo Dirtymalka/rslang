@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import {
-  fetchWordsWithLevels,
-  fetchWordsWithLevelsSuccess,
-} from '../../../redux/actions/hangman.actions';
+import { Subscription } from 'rxjs';
+import { fetchWordsWithLevels } from '../../../redux/actions/hangman.actions';
 import { selectHangmanWords } from '../../../redux/selectors/hangman.selectors';
 import {
   IAggWordsPaginator,
@@ -93,53 +91,66 @@ export class HangmanComponent implements OnInit, OnDestroy {
 
   fullScreen = false;
 
+  subscription: Subscription = new Subscription();
+
   constructor(private store: Store, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.level = params.level;
-      this.group = params.group;
-      this.fromBook = !!params.fromBook;
-      this.fromDictionary = !!params.fromDictionary;
-    });
+    this.subscription.add(
+      this.route.queryParams.subscribe((params) => {
+        this.level = params.level;
+        this.group = params.group;
+        this.fromBook = !!params.fromBook;
+        this.fromDictionary = !!params.fromDictionary;
+      }),
+    );
 
     this.getWordsForGame();
 
     this.store.dispatch(fetchAllUserWords());
     this.store.dispatch(fetchStatistic());
 
-    this.store.select(selectUserWords).subscribe((words) => {
-      this.userWords = words;
-    });
+    this.subscription.add(
+      this.store.select(selectUserWords).subscribe((words) => {
+        this.userWords = words;
+      }),
+    );
 
-    this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
-      this.statistic = stat;
-    });
+    this.subscription.add(
+      this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
+        this.statistic = stat;
+      }),
+    );
 
     document.addEventListener('keydown', this.keyBoardHandler);
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(fetchWordsWithLevelsSuccess({ words: [] }));
+    this.subscription.unsubscribe();
     document.removeEventListener('keydown', this.keyBoardHandler);
   }
 
   getWordsForGame(): void {
     if (this.fromBook) {
-      this.store.select(selectWordsForGame).subscribe((words: IWord[]) => {
-        this.words = words;
-        this.word = this.words[this.indexWord];
-      });
+      this.subscription.add(
+        this.store.select(selectWordsForGame).subscribe((words: IWord[]) => {
+          this.words = words;
+          this.word = this.words[this.indexWord];
+        }),
+      );
       return;
     }
 
     if (this.fromDictionary) {
-      this.store
-        .select(selectDifficultWordsData)
-        .subscribe((words: IAggWordsPaginator) => {
-          this.words = words.aggWords;
-          this.word = this.words[this.indexWord];
-        });
+      this.subscription.add(
+        this.store
+          .select(selectDifficultWordsData)
+          .subscribe((words: IAggWordsPaginator) => {
+            this.words = words.aggWords;
+            this.word = this.words[this.indexWord];
+          }),
+      );
+
       return;
     }
 
@@ -150,12 +161,14 @@ export class HangmanComponent implements OnInit, OnDestroy {
       }),
     );
 
-    this.store.select(selectHangmanWords).subscribe((w: IWord[]) => {
-      if (w) {
-        this.words = w;
-        this.word = this.words[this.indexWord];
-      }
-    });
+    this.subscription.add(
+      this.store.select(selectHangmanWords).subscribe((w: IWord[]) => {
+        if (w) {
+          this.words = w;
+          this.word = this.words[this.indexWord];
+        }
+      }),
+    );
   }
 
   checkLetter(letter: string): void {
