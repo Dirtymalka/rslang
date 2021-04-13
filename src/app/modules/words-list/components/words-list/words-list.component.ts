@@ -13,6 +13,7 @@ import {
 
 import { IUserWord, IWord } from '../../../shared/models/word.models';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
+import { WORDS_LIST_LENGTH } from '../../../../constants/global.constants';
 
 @Component({
   selector: 'app-words-list',
@@ -60,13 +61,29 @@ export class WordsListComponent implements OnInit {
         const currentPageWords = wordsList.filter((word) =>
           userWords.find(
             (userWord) =>
-              userWord.wordId === word.id && !userWord.optional.isDeleted,
+              userWord.wordId === word.id && userWord.optional.isDeleted,
           ),
         );
+        console.log('currentPageWords', currentPageWords);
 
-        this.listWords = currentPageWords;
-        this.store$.dispatch(fetchAllWordsSuccess({ words: currentPageWords }));
+        if (currentPageWords.length === WORDS_LIST_LENGTH) {
+          this.store$.dispatch(
+            changePaginationOptions({ group, page: page + 1 }),
+          );
+          this.getAllWords();
+        }
       });
+    });
+  }
+
+  getAllWords(): void {
+    const { group, page } = this.paginationOptions;
+
+    this.wordsService.getWords(group, page).subscribe((wordsList) => {
+      this.store$.dispatch(fetchWordsForGame({ words: wordsList }));
+
+      this.listWords = wordsList;
+      this.store$.dispatch(fetchAllWordsSuccess({ words: wordsList }));
     });
   }
 
@@ -177,6 +194,6 @@ export class WordsListComponent implements OnInit {
     const options = { ...this.paginationOptions, page: this.pageIndex };
 
     this.store$.dispatch(changePaginationOptions(options));
-    this.getFilteredWords();
+    this.getAllWords();
   }
 }

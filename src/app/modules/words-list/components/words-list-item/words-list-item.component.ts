@@ -50,6 +50,8 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
 
   userWords: IUserWord[];
 
+  isDeleted: boolean | IUserWord;
+
   isDifficult: boolean | IUserWord;
 
   correctCount: number | IUserWord;
@@ -84,6 +86,11 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
 
     this.store$.select(selectUserWords).subscribe((userWords: IUserWord[]) => {
       this.userWords = userWords;
+
+      this.isDeleted = !!userWords.find(
+        (userWord) =>
+          userWord.wordId === this.word.id && userWord.optional.isDeleted,
+      );
 
       this.isDifficult = userWords.find(
         (userWord) =>
