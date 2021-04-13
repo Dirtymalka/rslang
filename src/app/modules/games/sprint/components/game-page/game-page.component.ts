@@ -1,6 +1,5 @@
 import {
   Component,
-  DoCheck,
   EventEmitter,
   OnDestroy,
   OnInit,
@@ -9,6 +8,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import {
   IAggWordsPaginator,
   IUserWord,
@@ -46,7 +46,7 @@ import { StatisticService } from '../../../../shared/services/statistic.service'
   templateUrl: './game-page.component.html',
   styleUrls: ['./game-page.component.scss'],
 })
-export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
+export class GamePageComponent implements OnInit, OnDestroy {
   @ViewChild('sprint') sprint;
 
   @Output() gameOver = new EventEmitter<{
@@ -110,6 +110,10 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
 
   factorsLength: number[] = new Array(1);
 
+  subscription: Subscription = new Subscription();
+
+  gameOver1: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private store: Store,
@@ -117,25 +121,31 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.level = params.level;
-      this.group = params.group;
-      this.fromBook = !!params.fromBook;
-      this.fromDictionary = !!params.fromDictionary;
-    });
+    this.subscription.add(
+      this.route.queryParams.subscribe((params) => {
+        this.level = params.level;
+        this.group = params.group;
+        this.fromBook = !!params.fromBook;
+        this.fromDictionary = !!params.fromDictionary;
+      }),
+    );
 
     this.getGameWords();
 
     this.store.dispatch(fetchAllUserWords());
     this.store.dispatch(fetchStatistic());
 
-    this.store.select(selectUserWords).subscribe((words) => {
-      this.userWords = words;
-    });
+    this.subscription.add(
+      this.store.select(selectUserWords).subscribe((words) => {
+        this.userWords = words;
+      }),
+    );
 
-    this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
-      this.statistic = stat;
-    });
+    this.subscription.add(
+      this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
+        this.statistic = stat;
+      }),
+    );
 
     document.addEventListener('keydown', this.handleKeyDown);
 
@@ -144,27 +154,8 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
     }, 1000);
   }
 
-  ngDoCheck(): void {
-    if (
-      (this.count !== null && this.count <= 0) ||
-      this.playedOutWords.length === this.words.length
-    ) {
-      clearInterval(this.counter);
-      this.gameOver.emit({
-        wordsResult: this.wordsResult,
-        totalScore: this.totalScore,
-      });
-      this.bestCorrectAnswerSeries = Math.max(
-        this.bestCorrectAnswerSeries,
-        this.correctAnswerSeries,
-      );
-
-      this.sendStatistic();
-      this.count = null;
-    }
-  }
-
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
     document.removeEventListener('keydown', this.handleKeyDown);
     clearInterval(this.counter);
     this.count = null;
@@ -174,43 +165,45 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
     this.isLoading = true;
 
     if (this.fromBook) {
-      this.store.select(selectWordsForGame).subscribe((words: IWord[]) => {
-        this.words = words;
-        this.getWordsForRound();
-        this.isLoading = false;
-      });
+      this.subscription.add(
+        this.store.select(selectWordsForGame).subscribe((words: IWord[]) => {
+          this.words = words;
+          this.getWordsForRound();
+          this.isLoading = false;
+        }),
+      );
 
       return;
     }
 
     if (this.fromDictionary) {
-      this.store
-        .select(selectDifficultWordsData)
-        .subscribe((words: IAggWordsPaginator) => {
-          this.words = words.aggWords;
-          this.getWordsForRound();
-          this.isLoading = false;
-        });
+      this.subscription.add(
+        this.store
+          .select(selectDifficultWordsData)
+          .subscribe((words: IAggWordsPaginator) => {
+            this.words = words.aggWords;
+            this.getWordsForRound();
+            this.isLoading = false;
+          }),
+      );
 
       return;
     }
 
-    this.wordService
-      .getWordsExt(this.level - 1, this.group - 1, 100, 100)
-      .subscribe((words: IWord[]) => {
-        this.words = words;
-        this.getWordsForRound();
-        this.isLoading = false;
-      });
+    this.subscription.add(
+      this.wordService
+        .getWordsExt(this.level - 1, this.group - 1, 100, 100)
+        .subscribe((words: IWord[]) => {
+          this.words = words;
+          this.getWordsForRound();
+          this.isLoading = false;
+        }),
+    );
   }
 
   getWordsForRound(): void {
-    const randomIndex = randomInteger(0, this.words.length - 1);
-    this.word = this.words[randomIndex];
+    this.getUniqueWord();
 
-    if (this.playedOutWords.includes(this.word.id)) {
-      this.word = this.getAnotherWord(this.word);
-    }
     const isRight = Math.random() > 0.5;
 
     if (isRight) {
@@ -219,13 +212,22 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
       this.wordForCheck = this.getAnotherWord(this.word);
     }
 
-    this.onAudioClickHandler(this.word.audio, false);
+    this.onAudioClickHandler(this.word?.audio, false);
+  }
+
+  getUniqueWord(): void {
+    const randomIndex = randomInteger(0, this.words.length - 1);
+    this.word = this.words[randomIndex];
+
+    if (this.playedOutWords.includes(this.word?.id)) {
+      this.getUniqueWord();
+    }
   }
 
   getAnotherWord(word: IWord): IWord {
     const randomIndex = randomInteger(0, this.words.length - 1);
     const anotherWord: IWord = this.words[randomIndex];
-    if (word.id === anotherWord.id) {
+    if (word?.id === anotherWord?.id) {
       return this.getAnotherWord(word);
     }
     return anotherWord;
@@ -260,11 +262,36 @@ export class GamePageComponent implements OnInit, OnDestroy, DoCheck {
     this.playedOutWords.push(this.word.id);
 
     this.disableButtons = true;
+    this.checkGameOver();
+    if (this.gameOver1) {
+      return;
+    }
     setTimeout(() => {
       this.changeScoreForWord();
       this.getWordsForRound();
       this.disableButtons = false;
     }, 300);
+  }
+
+  checkGameOver(): void {
+    if (
+      (this.count !== null && this.count <= 0) ||
+      this.playedOutWords?.length === this.words?.length
+    ) {
+      clearInterval(this.counter);
+      this.gameOver.emit({
+        wordsResult: this.wordsResult,
+        totalScore: this.totalScore,
+      });
+      this.bestCorrectAnswerSeries = Math.max(
+        this.bestCorrectAnswerSeries,
+        this.correctAnswerSeries,
+      );
+
+      this.sendStatistic();
+      this.count = null;
+      this.gameOver1 = true;
+    }
   }
 
   correctAnswerHandler(): void {

@@ -229,7 +229,7 @@ export class WordsServiceService {
       map((content) => {
         return {
           aggWords: content[0].paginatedResults.map((w) => {
-            const word = {...w};
+            const word = { ...w };
             // eslint-disable-next-line no-underscore-dangle
             word.id = w._id;
             // eslint-disable-next-line no-underscore-dangle

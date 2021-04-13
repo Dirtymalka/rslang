@@ -36,8 +36,6 @@ export class StartPageComponent implements OnInit {
   startGame(): void {
     const queryParamsFromBook = {
       fromBook: true,
-      level: this.level,
-      group: this.group,
     };
 
     const queryParamsFromDictionary = {
