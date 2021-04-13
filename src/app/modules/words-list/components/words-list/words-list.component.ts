@@ -25,11 +25,17 @@ export class WordsListComponent implements OnInit {
 
   userWords: IUserWord[];
 
+  currentPageWords: IWord[];
+
+  wordsNotStudy: IWord[];
+
   paginationOptions;
 
   pageIndex = 0;
 
   previousPageIndex = 0;
+
+  scrollForward = true;
 
   @ViewChild('paginatorRef') paginatorRef: ElementRef;
 
@@ -58,18 +64,42 @@ export class WordsListComponent implements OnInit {
       this.wordsService.getWords(group, page).subscribe((wordsList) => {
         this.store$.dispatch(fetchWordsForGame({ words: wordsList }));
 
-        const currentPageWords = wordsList.filter((word) =>
+        this.currentPageWords = wordsList.filter((word) =>
+          userWords.find(
+            (userWord) =>
+              userWord.wordId === word.id && !userWord.optional.isDeleted,
+          ),
+        );
+
+        this.wordsNotStudy = wordsList.filter((word) =>
           userWords.find(
             (userWord) =>
               userWord.wordId === word.id && userWord.optional.isDeleted,
           ),
         );
-        console.log('currentPageWords', currentPageWords);
 
-        if (currentPageWords.length === WORDS_LIST_LENGTH) {
-          this.store$.dispatch(
-            changePaginationOptions({ group, page: page + 1 }),
-          );
+        if (
+          !this.currentPageWords.length &&
+          this.wordsNotStudy.length === WORDS_LIST_LENGTH
+        ) {
+          let options;
+
+          if (this.scrollForward) {
+            options = { group, page: page + 1 };
+          } else {
+            options = { group, page: page - 1 };
+          }
+
+          this.store$.dispatch(changePaginationOptions(options));
+          this.getAllWords();
+        }
+        if (
+          this.currentPageWords.length === WORDS_LIST_LENGTH &&
+          !this.wordsNotStudy.length
+        ) {
+          this.getAllWords();
+        }
+        if (!this.currentPageWords.length && !this.wordsNotStudy.length) {
           this.getAllWords();
         }
       });
@@ -81,9 +111,8 @@ export class WordsListComponent implements OnInit {
 
     this.wordsService.getWords(group, page).subscribe((wordsList) => {
       this.store$.dispatch(fetchWordsForGame({ words: wordsList }));
-
       this.listWords = wordsList;
-      this.store$.dispatch(fetchAllWordsSuccess({ words: wordsList }));
+      this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
     });
   }
 
@@ -191,9 +220,15 @@ export class WordsListComponent implements OnInit {
 
   pageChangeEvent(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
+    const { previousPageIndex } = event;
     const options = { ...this.paginationOptions, page: this.pageIndex };
 
     this.store$.dispatch(changePaginationOptions(options));
-    this.getAllWords();
+
+    if (this.pageIndex - previousPageIndex < 0) {
+      this.scrollForward = false;
+    } else {
+      this.scrollForward = true;
+    }
   }
 }
