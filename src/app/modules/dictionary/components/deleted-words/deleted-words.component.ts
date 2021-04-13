@@ -26,6 +26,8 @@ export class DeletedWordsComponent implements OnInit {
 
   public length = 0;
 
+  public chapterNumber = 0;
+
   constructor(private wordsServiceService: WordsServiceService) {}
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class DeletedWordsComponent implements OnInit {
       this.wordsServiceService
         .putWord(data.wordId, {
           difficulty: data.difficulty,
-          optional: { ...data.optional, isDeleted: false, isStudy: true },
+          optional: { ...data.optional, isDeleted: false },
         })
         .subscribe(() => this.getServerData()),
     );
@@ -61,7 +63,7 @@ export class DeletedWordsComponent implements OnInit {
 
     this.wordsServiceService
       .getUserAggWordsToPaginator({
-        group: '',
+        group: this.chapterNumber,
         page: this.pageIndex,
         wordsPerPage: this.pageSize,
         filter,
@@ -70,5 +72,10 @@ export class DeletedWordsComponent implements OnInit {
         this.length = w.count;
         this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
       });
+  }
+
+  public chapterClick(num) {
+    this.chapterNumber = num;
+    this.getServerData();
   }
 }
