@@ -1,8 +1,13 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  AfterContentChecked,
+  Output,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
-import { ActivatedRoute } from '@angular/router';
 import { selectPaginationOptions } from '../../../../../redux/selectors/settings.selectors';
 import {
   selectSelectedWords,
@@ -26,8 +31,8 @@ import { WordsServiceService } from '../../../../shared/services/words-service.s
   templateUrl: './control-bar.component.html',
   styleUrls: ['./control-bar.component.scss'],
 })
-export class ControlBarComponent implements OnInit {
-  isCheckedAll = false;
+export class ControlBarComponent implements OnInit, AfterContentChecked {
+  isAllChecked = false;
 
   wordsInSelectedState: IWord[];
 
@@ -40,11 +45,13 @@ export class ControlBarComponent implements OnInit {
   @Output()
   markedAllAsDifficult = new EventEmitter<IWord[]>();
 
+  @Output()
+  markedAllAsDeleted = new EventEmitter<IWord[]>();
+
   constructor(
     private store$: Store<IAppState>,
     public dialog: MatDialog,
     private wordsService: WordsServiceService,
-    private router: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -53,10 +60,6 @@ export class ControlBarComponent implements OnInit {
       .subscribe((paginationOptions) => {
         this.paginationOptions = paginationOptions;
       });
-
-    this.store$.select(selectAllWords).subscribe((words: IWord[]) => {
-      this.allWords = words;
-    });
 
     this.store$
       .select(selectSelectedWords)
@@ -67,13 +70,27 @@ export class ControlBarComponent implements OnInit {
     this.store$.select(selectUserWords).subscribe((userWords: IUserWord[]) => {
       this.userWords = userWords;
     });
+
+    this.store$.select(selectAllWords).subscribe((words: IWord[]) => {
+      this.allWords = words;
+    });
+  }
+
+  ngAfterContentChecked(): void {
+    if (
+      this.allWords.length &&
+      this.wordsInSelectedState.length === this.allWords.length
+    ) {
+      this.isAllChecked = true;
+    } else {
+      this.isAllChecked = false;
+    }
   }
 
   getUserWords(): void {
     this.wordsService.getUserWords().subscribe(
       (data) => {
         this.userWords = data;
-        console.log('user words!', data);
         this.store$.dispatch(
           fetchAllUserWordsSuccess({ userWords: this.userWords }),
         );
@@ -91,9 +108,6 @@ export class ControlBarComponent implements OnInit {
 
   openSprintGame(): void {
     console.log('sprint');
-    // console.log(this.paginationOptions.group, this.paginationOptions.page);
-    // this.router.navigate(['games/hangman/game'],
-    // {queryParams: {level: this.level, group: this.group}})
   }
 
   openSavannaGame(): void {
@@ -108,12 +122,12 @@ export class ControlBarComponent implements OnInit {
     console.log('Hangman');
   }
 
-  onCheckboxChange(isCheckedAll: boolean): void {
-    this.isCheckedAll = isCheckedAll;
+  onCheckboxChange(isAllChecked: boolean): void {
+    this.isAllChecked = isAllChecked;
 
-    if (this.isCheckedAll && this.wordsInSelectedState.length === 0) {
+    if (this.isAllChecked && this.wordsInSelectedState.length === 0) {
       this.store$.dispatch(selectWord({ words: this.allWords }));
-    } else if (this.isCheckedAll) {
+    } else if (this.isAllChecked) {
       this.store$.dispatch(updateSelectedWords({ words: this.allWords }));
     } else {
       this.store$.dispatch(updateSelectedWords({ words: [] }));
@@ -121,15 +135,15 @@ export class ControlBarComponent implements OnInit {
   }
 
   markAsDifficultHandler(): void {
-    console.log('bar click', this.allWords);
-    this.markedAllAsDifficult.emit(this.allWords);
-    this.isCheckedAll = false;
+    this.markedAllAsDifficult.emit(this.wordsInSelectedState);
+    this.isAllChecked = false;
     this.store$.dispatch(updateSelectedWords({ words: [] }));
-    // this.allWords.forEach((word) => this.markAsDifficult(word));
   }
 
-  deleteAllSelectedHandler(): void {
-    console.log('delete all');
+  markAsDeletedHandler(): void {
+    this.markedAllAsDeleted.emit(this.wordsInSelectedState);
+    this.isAllChecked = false;
+    this.store$.dispatch(updateSelectedWords({ words: [] }));
   }
 
   isInUserWords(word: IWord): IUserWord {
@@ -138,5 +152,9 @@ export class ControlBarComponent implements OnInit {
 
   updateAllWords(): void {
     this.store$.dispatch(fetchAllWordsSuccess({ words: this.allWords }));
+  }
+
+  isCheckedMoreThenOne(): boolean {
+    return this.wordsInSelectedState.length > 1;
   }
 }

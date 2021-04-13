@@ -1,8 +1,8 @@
-<li *ngIf="!isDeleted" class="row">
+<li class="row">
   <mat-checkbox
     class="checkbox"
     color="primary"
-    [checked]="isAllChecked()"
+    [checked]="isSelected"
     (change)="onItemChecked($event.checked)"
   ></mat-checkbox>
 

@@ -4,13 +4,13 @@ import {
   Input,
   Output,
   OnInit,
+  AfterContentChecked,
   ElementRef,
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { WORDS_LIST_LENGTH } from '../../../../constants/global.constants';
 import {
   selectWord,
   updateSelectedWords,
@@ -34,7 +34,7 @@ import { VoiceService } from '../../../shared/services/voice.service';
   templateUrl: './words-list-item.component.html',
   styleUrls: ['./words-list-item.component.scss'],
 })
-export class WordsListItemComponent implements OnInit {
+export class WordsListItemComponent implements OnInit, AfterContentChecked {
   @Input()
   word: IWord;
 
@@ -46,19 +46,17 @@ export class WordsListItemComponent implements OnInit {
 
   @ViewChild('itemIconRef') itemIcon: ElementRef;
 
-  itemSelected = false;
-
   wordsInSelected: IWord[];
 
   userWords: IUserWord[];
 
   isDifficult: boolean | IUserWord;
 
-  isDeleted: boolean | IUserWord;
-
   correctCount: number | IUserWord;
 
   incorrectCount: number | IUserWord;
+
+  isSelected;
 
   isShowWordTranslation$: Observable<boolean> = this.store$.select(
     selectIsShowWordTranslation,
@@ -92,11 +90,6 @@ export class WordsListItemComponent implements OnInit {
           userWord.wordId === this.word.id && userWord.optional.isDifficult,
       );
 
-      this.isDeleted = userWords.find(
-        (userWord) =>
-          userWord.wordId === this.word.id && userWord.optional.isDeleted,
-      );
-
       this.correctCount =
         userWords.find(
           (userWord) =>
@@ -109,6 +102,12 @@ export class WordsListItemComponent implements OnInit {
             userWord.wordId === this.word.id && userWord.optional.correctCount,
         ) || 0;
     });
+  }
+
+  ngAfterContentChecked(): void {
+    this.isSelected = !!this.wordsInSelected.find(
+      (word) => word.id === this.word.id,
+    );
   }
 
   removeTags(text: string): string {
@@ -135,9 +134,9 @@ export class WordsListItemComponent implements OnInit {
   }
 
   onItemChecked(itemSelected: boolean): void {
-    this.itemSelected = itemSelected;
+    this.isSelected = itemSelected;
 
-    if (this.itemSelected) {
+    if (this.isSelected) {
       this.store$.dispatch(selectWord({ words: [this.word] }));
     } else {
       const removedDuplicateWords = this.wordsInSelected.filter(
@@ -147,9 +146,5 @@ export class WordsListItemComponent implements OnInit {
         updateSelectedWords({ words: removedDuplicateWords }),
       );
     }
-  }
-
-  isAllChecked(): boolean {
-    return this.wordsInSelected.length === WORDS_LIST_LENGTH;
   }
 }

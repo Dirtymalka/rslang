@@ -9,6 +9,7 @@ import {
   putUserWordSuccess,
   selectWord,
   updateSelectedWords,
+  fetchWordsForGame,
 } from '../actions/words.actions';
 
 import { initialWordsState } from '../state/words.state';
@@ -18,6 +19,10 @@ export const wordsReducer = createReducer(
   on(fetchAllWordsSuccess, (state, { words }) => ({
     ...state,
     allWords: words,
+  })),
+  on(fetchWordsForGame, (state, { words }) => ({
+    ...state,
+    wordsForGame: words,
   })),
   on(fetchAllUserWords, (state) => ({
     ...state,

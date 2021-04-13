@@ -2,11 +2,11 @@
   <mat-checkbox
     class="checkbox"
     color="primary"
-    [checked]="isCheckedAll"
+    [checked]="isAllChecked"
     (change)="onCheckboxChange($event.checked)"
   >Выбрать все слова</mat-checkbox>
 
-  <div *ngIf="isCheckedAll" class="controls">
+  <div *ngIf="isCheckedMoreThenOne()" class="controls">
     <button
       type="button"
       class="button-hard"
@@ -17,7 +17,7 @@
     <button
       type="button"
       class="button-delete"
-      (click)="deleteAllSelectedHandler()">
+      (click)="markAsDeletedHandler()">
       <mat-icon class="icon-delete">delete</mat-icon>
     </button>
 

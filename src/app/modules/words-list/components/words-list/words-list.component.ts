@@ -8,6 +8,7 @@ import { changePaginationOptions } from '../../../../redux/actions/settings.acti
 import {
   fetchAllWordsSuccess,
   fetchAllUserWordsSuccess,
+  fetchWordsForGame,
 } from '../../../../redux/actions/words.actions';
 
 import { IUserWord, IWord } from '../../../shared/models/word.models';
@@ -43,20 +44,29 @@ export class WordsListComponent implements OnInit {
         this.paginationOptions = paginationOptions;
         this.pageIndex = paginationOptions.page;
 
-        this.getWordsList();
+        this.getFilteredWords();
       });
 
     this.getUserWords();
-    this.getFilteredWords();
   }
 
   getFilteredWords(): void {
     this.wordsService.getUserWords().subscribe((userWords) => {
-      console.log(userWords);
       const { group, page } = this.paginationOptions;
-      this.wordsService
-        .getWords(group, page)
-        .subscribe((wordsList) => console.log(wordsList));
+
+      this.wordsService.getWords(group, page).subscribe((wordsList) => {
+        this.store$.dispatch(fetchWordsForGame({ words: wordsList }));
+
+        const currentPageWords = wordsList.filter((word) =>
+          userWords.find(
+            (userWord) =>
+              userWord.wordId === word.id && !userWord.optional.isDeleted,
+          ),
+        );
+
+        this.listWords = currentPageWords;
+        this.store$.dispatch(fetchAllWordsSuccess({ words: currentPageWords }));
+      });
     });
   }
 
@@ -64,7 +74,6 @@ export class WordsListComponent implements OnInit {
     this.wordsService.getUserWords().subscribe(
       (data) => {
         this.userWords = data;
-        console.log('user words!', data);
         this.store$.dispatch(
           fetchAllUserWordsSuccess({ userWords: this.userWords }),
         );
@@ -81,31 +90,19 @@ export class WordsListComponent implements OnInit {
       this.paginationOptions.page - 1;
   }
 
-  getWordsList(): void {
-    const { group, page } = this.paginationOptions;
-    this.wordsService.getWords(group, page).subscribe(
-      (listWords: IWord[]) => {
-        this.listWords = listWords;
-
-        this.store$.dispatch(fetchAllWordsSuccess({ words: listWords }));
-      },
-      (error) => {
-        console.log(error.message, 'user words not found');
-      },
-    );
-  }
-
-  filterByDeleted(): void {
-    console.log('filter magic');
-  }
-
   isInUserWords(word: IWord): IUserWord {
     return this.userWords.find((userWord) => userWord.wordId === word.id);
   }
 
   markAllAsDifficult(allWords: IWord[]): void {
-    console.log('list emit', allWords);
-    allWords.forEach((word) => this.markAsDifficult(word));
+    const currentPageWords = allWords.filter((word) =>
+      this.userWords.find(
+        (userWord) =>
+          userWord.wordId === word.id && !userWord.optional.isDifficult,
+      ),
+    );
+
+    currentPageWords.forEach((word) => this.markAsDifficult(word));
   }
 
   markAsDifficult(word: IWord): void {
@@ -118,7 +115,7 @@ export class WordsListComponent implements OnInit {
 
       this.wordsService
         .postWord(word.id, { optional })
-        .subscribe(() => this.getWordsList());
+        .subscribe(() => this.getFilteredWords());
     }
 
     if (this.isInUserWords(word)) {
@@ -133,6 +130,16 @@ export class WordsListComponent implements OnInit {
           .subscribe(() => this.getUserWords()),
       );
     }
+  }
+
+  markAllAsDeleted(allWords: IWord[]): void {
+    const currentPageWords = allWords.filter((word) =>
+      this.userWords.find(
+        (userWord) =>
+          userWord.wordId === word.id && !userWord.optional.isDeleted,
+      ),
+    );
+    currentPageWords.forEach((word) => this.markAsDeleted(word));
   }
 
   markAsDeleted(word: IWord): void {
@@ -159,6 +166,7 @@ export class WordsListComponent implements OnInit {
           })
           .subscribe(() => {
             this.getUserWords();
+            this.getFilteredWords();
           }),
       );
     }
@@ -169,6 +177,6 @@ export class WordsListComponent implements OnInit {
     const options = { ...this.paginationOptions, page: this.pageIndex };
 
     this.store$.dispatch(changePaginationOptions(options));
-    this.getWordsList();
+    this.getFilteredWords();
   }
 }

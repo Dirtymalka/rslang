@@ -8,7 +8,6 @@ import {
 export interface IWordsState {
   allWords: IWord[];
   selectedWords: IWord[];
-  wordsForGames: IWord[];
   userWords: IUserWord[];
   aggWords: IAggWord[];
   fetchState: {
@@ -23,7 +22,6 @@ export interface IWordsState {
 export const initialWordsState: IWordsState = {
   allWords: [],
   selectedWords: [],
-  wordsForGames: [],
   userWords: [],
   aggWords: [],
   fetchState: {
