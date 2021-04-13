@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 
 import { IAppState } from '../../../../redux/state/app.state';
@@ -8,11 +7,13 @@ import { selectPaginationOptions } from '../../../../redux/selectors/settings.se
 import { changePaginationOptions } from '../../../../redux/actions/settings.actions';
 import {
   fetchAllWordsSuccess,
-  // fetchAllUserWords,
+  fetchAllUserWordsSuccess,
+  fetchWordsForGame,
 } from '../../../../redux/actions/words.actions';
 
-import { IWord } from '../../../shared/models/word.models';
+import { IUserWord, IWord } from '../../../shared/models/word.models';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
+import { WORDS_LIST_LENGTH } from '../../../../constants/global.constants';
 
 @Component({
   selector: 'app-words-list',
@@ -22,9 +23,9 @@ import { WordsServiceService } from '../../../shared/services/words-service.serv
 export class WordsListComponent implements OnInit {
   listWords: IWord[];
 
-  paginationOptions;
+  userWords: IUserWord[];
 
-  paginationOptions$: Subscription;
+  paginationOptions;
 
   pageIndex = 0;
 
@@ -43,37 +44,149 @@ export class WordsListComponent implements OnInit {
       .subscribe((paginationOptions) => {
         this.paginationOptions = paginationOptions;
         this.pageIndex = paginationOptions.page;
-        this.getWordsList();
+
+        this.getFilteredWords();
       });
+
+    this.getUserWords();
   }
 
-  swicthPaginationIndex() {
+  getFilteredWords(): void {
+    this.wordsService.getUserWords().subscribe((userWords) => {
+      const { group, page } = this.paginationOptions;
+
+      this.wordsService.getWords(group, page).subscribe((wordsList) => {
+        this.store$.dispatch(fetchWordsForGame({ words: wordsList }));
+
+        const currentPageWords = wordsList.filter((word) =>
+          userWords.find(
+            (userWord) =>
+              userWord.wordId === word.id && userWord.optional.isDeleted,
+          ),
+        );
+        console.log('currentPageWords', currentPageWords);
+
+        if (currentPageWords.length === WORDS_LIST_LENGTH) {
+          this.store$.dispatch(
+            changePaginationOptions({ group, page: page + 1 }),
+          );
+          this.getAllWords();
+        }
+      });
+    });
+  }
+
+  getAllWords(): void {
+    const { group, page } = this.paginationOptions;
+
+    this.wordsService.getWords(group, page).subscribe((wordsList) => {
+      this.store$.dispatch(fetchWordsForGame({ words: wordsList }));
+
+      this.listWords = wordsList;
+      this.store$.dispatch(fetchAllWordsSuccess({ words: wordsList }));
+    });
+  }
+
+  getUserWords(): void {
+    this.wordsService.getUserWords().subscribe(
+      (data) => {
+        this.userWords = data;
+        this.store$.dispatch(
+          fetchAllUserWordsSuccess({ userWords: this.userWords }),
+        );
+      },
+      (error) => {
+        console.log(error.message, 'user words not found');
+      },
+    );
+  }
+
+  swicthPaginationIndex(): void {
     this.paginatorRef.nativeElement.pageIndex = this.paginationOptions.page;
     this.paginatorRef.nativeElement.previousPageIndex =
       this.paginationOptions.page - 1;
   }
 
-  getWordsList(): void {
-    const { group, page } = this.paginationOptions;
-    this.wordsService.getWords(group, page).subscribe(
-      (listWords: IWord[]) => {
-        this.listWords = listWords;
-        console.log('list', this.listWords);
+  isInUserWords(word: IWord): IUserWord {
+    return this.userWords.find((userWord) => userWord.wordId === word.id);
+  }
 
-        this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
-      },
-      (error) => {
-        console.log(error.message);
-      },
+  markAllAsDifficult(allWords: IWord[]): void {
+    const currentPageWords = allWords.filter((word) =>
+      this.userWords.find(
+        (userWord) =>
+          userWord.wordId === word.id && !userWord.optional.isDifficult,
+      ),
     );
+
+    currentPageWords.forEach((word) => this.markAsDifficult(word));
   }
 
   markAsDifficult(word: IWord): void {
-    console.log(word);
+    if (!this.userWords.length || !this.isInUserWords(word)) {
+      const optional = {
+        isDifficult: true,
+        isDeleted: false,
+        isStudy: true,
+      };
+
+      this.wordsService
+        .postWord(word.id, { optional })
+        .subscribe(() => this.getFilteredWords());
+    }
+
+    if (this.isInUserWords(word)) {
+      const { wordId } = this.isInUserWords(word);
+
+      this.wordsService.getUserWord(wordId).subscribe((data) =>
+        this.wordsService
+          .putWord(data.wordId, {
+            difficulty: data.difficulty,
+            optional: { ...data.optional, isDifficult: true, isStudy: true },
+          })
+          .subscribe(() => this.getUserWords()),
+      );
+    }
   }
 
-  markAsDelete(word: IWord): void {
-    console.log(word);
+  markAllAsDeleted(allWords: IWord[]): void {
+    const currentPageWords = allWords.filter((word) =>
+      this.userWords.find(
+        (userWord) =>
+          userWord.wordId === word.id && !userWord.optional.isDeleted,
+      ),
+    );
+    currentPageWords.forEach((word) => this.markAsDeleted(word));
+  }
+
+  markAsDeleted(word: IWord): void {
+    if (!this.userWords.length || !this.isInUserWords(word)) {
+      const optional = {
+        isDifficult: false,
+        isDeleted: true,
+        isStudy: false,
+      };
+
+      this.wordsService.postWord(word.id, { optional }).subscribe(() => {
+        this.getUserWords();
+      });
+    }
+
+    if (this.isInUserWords(word)) {
+      const { wordId } = this.isInUserWords(word);
+
+      this.wordsService.getUserWord(wordId).subscribe((data) =>
+        this.wordsService
+          .putWord(data.wordId, {
+            difficulty: data.difficulty,
+            optional: { ...data.optional, isDeleted: true, isStudy: false },
+          })
+          .subscribe(() => {
+            this.getUserWords();
+            this.getFilteredWords();
+          }),
+      );
+    }
   }
 
   pageChangeEvent(event: PageEvent): void {
@@ -81,6 +194,6 @@ export class WordsListComponent implements OnInit {
     const options = { ...this.paginationOptions, page: this.pageIndex };
 
     this.store$.dispatch(changePaginationOptions(options));
-    this.getWordsList();
+    this.getAllWords();
   }
 }

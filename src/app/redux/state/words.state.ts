@@ -14,6 +14,7 @@ export interface IWordsState {
     userWordsIsFetching: boolean;
     userWordsIsError: boolean;
   };
+  deletedWords: IWord[];
   difficultWordsData: IAggWordsPaginator;
   wordsForGame: IWord[];
 }
@@ -27,6 +28,7 @@ export const initialWordsState: IWordsState = {
     userWordsIsFetching: false,
     userWordsIsError: false,
   },
+  deletedWords: [],
   difficultWordsData: null,
   wordsForGame: [],
 };

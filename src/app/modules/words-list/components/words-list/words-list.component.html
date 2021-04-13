@@ -1,14 +1,21 @@
 <ul class="wrapper">
+  <app-control-bar
+    (markedAllAsDifficult)="markAllAsDifficult($event)"
+    (markedAllAsDeleted)="markAllAsDeleted($event)">
+  </app-control-bar>
+
   <app-words-list-item
     *ngFor="let word of listWords; index as i"
     [word]="word"
     (markedAsDifficult)="markAsDifficult($event)"
+    (markedAsDeleted)="markAsDeleted($event)"
   >
   </app-words-list-item>
+
   <mat-paginator #paginatorRef
     [length]="600"
     [pageSize]="20"
-    [pageSizeOptions]="[5, 10, 20]"
+    [pageSizeOptions]="[20]"
     [pageIndex]="pageIndex"
     (page) = "pageChangeEvent($event)">
   </mat-paginator>

@@ -12,6 +12,11 @@ export const fetchAllWordsSuccess = createAction(
   props<{ words: IWord[] }>(),
 );
 
+export const fetchWordsForGame = createAction(
+  '[Words WordsForGames] Fetch Words For Games',
+  props<{ words: IWord[] }>(),
+);
+
 export const fetchAllWordsFailure = createAction(
   '[Words Words] Fetch Words Failure',
 );
