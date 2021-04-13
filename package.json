@@ -9,7 +9,7 @@
     "lint": "ng lint --fix",
     "e2e": "ng e2e",
     "pretty-quick": "pretty-quick --staged --pattern 'src/**/*.component.ts'",
-    "lint-scss": "stylelint src/**/*.scss --fix",
+    "lint-scss": "stylelint src/**/*.scss --fix"
   },
   "private": true,
   "dependencies": {
