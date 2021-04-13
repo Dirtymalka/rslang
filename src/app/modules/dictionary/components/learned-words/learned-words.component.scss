@@ -2,8 +2,10 @@
 @import "src/styles/mixins";
 
 .table {
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
 }
+
 
 .word-item__image {
   border-radius: 20px;

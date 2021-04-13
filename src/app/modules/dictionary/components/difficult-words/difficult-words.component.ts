@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -29,12 +30,23 @@ export class DifficultWordsComponent implements OnInit {
 
   public length = 0;
 
+  public chapterNumber = 0;
+
+  public wordsLength = true;
+
   constructor(
     private store: Store,
     private wordsServiceService: WordsServiceService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.store.select(selectDifficultWordsData).subscribe((w) => {
+      if (w) {
+        this.wordsLength = w.aggWords.length < 5;
+      }
+    });
+
     this.getServerData();
   }
 
@@ -43,7 +55,7 @@ export class DifficultWordsComponent implements OnInit {
       this.wordsServiceService
         .putWord(data.wordId, {
           difficulty: data.difficulty,
-          optional: { ...data.optional, isDifficult: false, isStudy: true },
+          optional: { ...data.optional, isDifficult: false },
         })
         .subscribe(() => this.getServerData()),
     );
@@ -68,7 +80,7 @@ export class DifficultWordsComponent implements OnInit {
 
     this.store.dispatch(
       fetchDifficultWords({
-        group: '',
+        group: this.chapterNumber,
         page: this.pageIndex,
         wordsPerPage: this.pageSize,
         filter,
@@ -80,6 +92,19 @@ export class DifficultWordsComponent implements OnInit {
         this.length = w.count;
         this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
       }
+    });
+  }
+
+  public chapterClick(num: number): void {
+    this.chapterNumber = num;
+    this.getServerData();
+  }
+
+  public startGame(game: string): void {
+    this.router.navigate([`games/${game}/`], {
+      queryParams: {
+        fromDictionary: true,
+      },
     });
   }
 }

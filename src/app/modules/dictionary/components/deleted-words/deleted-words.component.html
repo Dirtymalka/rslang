@@ -1,4 +1,26 @@
 <div>
+  <div class="chapters-wrapper">
+    <div class="chapters">
+      <button class="chapter-label" [ngClass]="{pink: chapterNumber===0}" (click)="chapterClick(0)">
+        <span class="chapter-title">Unit 1</span>
+      </button>
+      <button class="chapter-label" [ngClass]="{pink: chapterNumber===1}" (click)="chapterClick(1)">
+        <span class="chapter-title">Unit 2</span>
+      </button>
+      <button class="chapter-label"  [ngClass]="{pink: chapterNumber===2}" (click)="chapterClick(2)">
+        <span class="chapter-title">Unit 3</span>
+      </button>
+      <button class="chapter-label"  [ngClass]="{pink: chapterNumber===3}" (click)="chapterClick(3)">
+        <span class="chapter-title">Unit 4</span>
+      </button>
+      <button class="chapter-label"  [ngClass]="{pink: chapterNumber===4}" (click)="chapterClick(4)">
+        <span class="chapter-title">Unit 5</span>
+      </button>
+      <button class="chapter-label"  [ngClass]="{pink: chapterNumber===5}" (click)="chapterClick(5)">
+        <span class="chapter-title">Unit 6</span>
+      </button>
+    </div>
+  </div>
   <table mat-table [dataSource]="words" class="table">
     <ng-container matColumnDef="word">
       <th mat-header-cell *matHeaderCellDef> Описание </th>
