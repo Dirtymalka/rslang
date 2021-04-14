@@ -31,8 +31,12 @@ export class UserService {
     });
   }
 
-  registration(email: string, password: string): Observable<unknown> {
-    return this.http.post(`${BACKEND_URL}/users`, { email, password });
+  registration(
+    email: string,
+    password: string,
+    name: string,
+  ): Observable<unknown> {
+    return this.http.post(`${BACKEND_URL}/users`, { email, password, name });
   }
 
   login(email: string, password: string): Observable<unknown> {
