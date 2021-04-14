@@ -49,8 +49,4 @@ export class TextbookComponent implements OnInit, OnDestroy {
       this.paginationOptions,
     );
   }
-
-  selectAllWords($event): void {
-    console.log($event);
-  }
 }

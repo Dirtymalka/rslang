@@ -1,0 +1,18 @@
+.spinner {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  padding-top: 80px;
+  overflow: hidden;
+
+  .mat-spinner {
+    z-index: 1000;
+    position: absolute;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
+    opacity: 1;
+  }
+}

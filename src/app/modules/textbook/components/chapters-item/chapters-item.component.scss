@@ -14,6 +14,30 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.group-0 {
+  background: $color-primary-light;
+}
+
+.group-1 {
+  background: $color-blue;
+}
+
+.group-2 {
+  background: $color-purple;
+}
+
+.group-3 {
+  background: $color-yellow;
+}
+
+.group-4 {
+  background: $color-light-green;
+}
+
+.group-5 {
+  background: $color-turquoise;
+}
+
 .chapter__label:focus,
 .chapter__label:active {
   outline: none;
@@ -29,6 +53,8 @@
   font-size: 16px;
   line-height: 34px;
 }
+
+
 
 @media screen and (max-width: 768px) {
   .chapter__unit-title {
