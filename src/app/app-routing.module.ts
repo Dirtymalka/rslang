@@ -49,6 +49,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'profile',
+    loadChildren: () =>
+      import('./modules/authentication/authentication.module').then(
+        (m) => m.AuthenticationModule,
+      ),
+  },
+  {
     path: 'not-found',
     component: NotFoundPageComponent,
   },
