@@ -87,27 +87,9 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
     this.store$.select(selectUserWords).subscribe((userWords: IUserWord[]) => {
       this.userWords = userWords;
 
-      this.isDeleted = !!userWords.find(
-        (userWord) =>
-          userWord.wordId === this.word.id && userWord.optional.isDeleted,
-      );
-
-      this.isDifficult = userWords.find(
-        (userWord) =>
-          userWord.wordId === this.word.id && userWord.optional.isDifficult,
-      );
-
-      this.correctCount =
-        userWords.find(
-          (userWord) =>
-            userWord.wordId === this.word.id && userWord.optional.correctCount,
-        ) || 0;
-
-      this.incorrectCount =
-        userWords.find(
-          (userWord) =>
-            userWord.wordId === this.word.id && userWord.optional.correctCount,
-        ) || 0;
+      this.isDifficult = this.getIsDifficultParam();
+      this.correctCount = this.getCorrectCount();
+      this.incorrectCount = this.getIncorrectCount();
     });
   }
 
@@ -115,6 +97,37 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
     this.isSelected = !!this.wordsInSelected.find(
       (word) => word.id === this.word.id,
     );
+  }
+
+  getIsDifficultParam(): boolean {
+    return this.userWords.find(
+      (userWord) =>
+        userWord.wordId === this.word.id && userWord.optional.isDifficult,
+    ).optional.isDifficult;
+  }
+
+  getCorrectCount(): number {
+    const count = this.userWords.find(
+      (userWord) =>
+        userWord.wordId === this.word.id && userWord.optional.correctCount,
+    );
+
+    if (count) {
+      return count.optional.correctCount;
+    }
+    return 0;
+  }
+
+  getIncorrectCount(): number {
+    const count = this.userWords.find(
+      (userWord) =>
+        userWord.wordId === this.word.id && userWord.optional.incorrectCount,
+    );
+
+    if (count) {
+      return count.optional.incorrectCount;
+    }
+    return 0;
   }
 
   removeTags(text: string): string {
@@ -127,7 +140,6 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
   }
 
   onDeleteButtonClick(): void {
-    console.log(this.word);
     this.markedAsDeleted.emit(this.word);
   }
 
