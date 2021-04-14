@@ -50,13 +50,11 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
 
   userWords: IUserWord[];
 
-  isDeleted: boolean | IUserWord;
+  isDifficult: boolean;
 
-  isDifficult: boolean | IUserWord;
+  correctCount: number;
 
-  correctCount: number | IUserWord;
-
-  incorrectCount: number | IUserWord;
+  incorrectCount: number;
 
   isSelected;
 
@@ -100,10 +98,15 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
   }
 
   getIsDifficultParam(): boolean {
-    return this.userWords.find(
+    const word = this.userWords.find(
       (userWord) =>
         userWord.wordId === this.word.id && userWord.optional.isDifficult,
-    ).optional.isDifficult;
+    );
+
+    if (word) {
+      return word.optional.isDifficult;
+    }
+    return false;
   }
 
   getCorrectCount(): number {
