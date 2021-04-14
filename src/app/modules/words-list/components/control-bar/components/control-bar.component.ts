@@ -8,6 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
+import { Router } from '@angular/router';
 import { selectPaginationOptions } from '../../../../../redux/selectors/settings.selectors';
 import {
   selectSelectedWords,
@@ -16,7 +17,6 @@ import {
 } from '../../../../../redux/selectors/words.selectors';
 import {
   fetchAllWordsSuccess,
-  fetchAllUserWordsSuccess,
   selectWord,
   updateSelectedWords,
 } from '../../../../../redux/actions/words.actions';
@@ -24,7 +24,6 @@ import {
 import { IAppState } from '../../../../../redux/state/app.state';
 import { IUserWord, IWord } from '../../../../shared/models/word.models';
 import { SettingsComponent } from '../../settings/components/settings.component';
-import { WordsServiceService } from '../../../../shared/services/words-service.service';
 
 @Component({
   selector: 'app-control-bar',
@@ -51,7 +50,7 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
   constructor(
     private store$: Store<IAppState>,
     public dialog: MatDialog,
-    private wordsService: WordsServiceService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -87,18 +86,8 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  getUserWords(): void {
-    this.wordsService.getUserWords().subscribe(
-      (data) => {
-        this.userWords = data;
-        this.store$.dispatch(
-          fetchAllUserWordsSuccess({ userWords: this.userWords }),
-        );
-      },
-      (error) => {
-        console.log(error.message, 'user words not found');
-      },
-    );
+  getGroupClassName(): string {
+    return `group-${this.paginationOptions.group}`;
   }
 
   openSettings(): void {
@@ -106,20 +95,12 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
     dialogRef.afterClosed();
   }
 
-  openSprintGame(): void {
-    console.log('sprint');
-  }
-
-  openSavannaGame(): void {
-    console.log('savanna');
-  }
-
-  openAudioCallGame(): void {
-    console.log('audiocall');
-  }
-
-  openHangmanGame(): void {
-    console.log('Hangman');
+  startGame(game: string): void {
+    this.router.navigate([`games/${game}/`], {
+      queryParams: {
+        fromTextbook: true,
+      },
+    });
   }
 
   onCheckboxChange(isAllChecked: boolean): void {

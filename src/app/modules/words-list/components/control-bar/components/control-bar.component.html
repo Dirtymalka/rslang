@@ -1,10 +1,18 @@
-<form class="wrapper">
+<form
+  class="wrapper"
+  [class]="getGroupClassName()">
   <mat-checkbox
     class="checkbox"
     color="primary"
     [checked]="isAllChecked"
     (change)="onCheckboxChange($event.checked)"
-  >Выбрать все слова</mat-checkbox>
+  >
+    <div class="checkbox__label">
+      <span>Выбрать все слова</span>
+
+
+    </div>
+  </mat-checkbox>
 
   <div *ngIf="isCheckedMoreThenOne()" class="controls">
     <button
@@ -20,7 +28,6 @@
       (click)="markAsDeletedHandler()">
       <mat-icon class="icon-delete">delete</mat-icon>
     </button>
-
   </div>
 
   <div class="menu-block">
@@ -34,21 +41,23 @@
       <button
         type="button"
         mat-menu-item
-        (click)="openSprintGame()">Спринт
+        (click)="startGame('hangman')">Виселица
       </button>
       <button
         type="button"
         mat-menu-item
-        (click)="openSavannaGame()">Саванна
+        (click)="startGame('sprint')">Спринт
       </button>
       <button
         type="button"
         mat-menu-item
-        (click)="openAudioCallGame()">Аудио-вызов</button>
+        (click)="startGame('savanna')">Саванна
+      </button>
       <button
         type="button"
         mat-menu-item
-        (click)="openHangmanGame()">Палач</button>
+        (click)="startGame('audio-call')">Аудио-вызов
+      </button>
     </mat-menu>
   </div>
 

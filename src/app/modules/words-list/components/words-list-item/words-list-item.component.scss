@@ -153,9 +153,13 @@
   cursor: pointer;
 }
 
-.button-hard:hover {
+.button-hard:hover:not(button[disabled]) {
   background-color: #FF843820;
   cursor: pointer;
+}
+
+button[disabled] .icon-hard {
+  color: rgba(126, 145, 159, 0.5);
 }
 
 .icon-hard,
@@ -172,7 +176,7 @@
   color: $color-red;
 }
 
-.button-hard:hover .icon-hard {
+.button-hard:not(button[disabled]):hover .icon-hard {
   color: $color-orange;
 }
 
