@@ -37,6 +37,11 @@
       font-weight: bold;
       font-size: 18px;
       cursor: pointer;
+      &:active {
+      border: none;
+    }
+      &:focus {}
+      outline: none;
     }
     &__info {
       color: $color-mint;

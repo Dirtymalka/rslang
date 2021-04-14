@@ -6,12 +6,7 @@
     color="primary"
     [checked]="isAllChecked"
     (change)="onCheckboxChange($event.checked)"
-  >
-    <div class="checkbox__label">
-      <span>Выбрать все слова</span>
-
-
-    </div>
+  >Выбрать все слова
   </mat-checkbox>
 
   <div *ngIf="isCheckedMoreThenOne()" class="controls">
@@ -41,22 +36,22 @@
       <button
         type="button"
         mat-menu-item
-        (click)="startGame('hangman')">Виселица
+        (click)="startGame(hangman)">Виселица
       </button>
       <button
         type="button"
         mat-menu-item
-        (click)="startGame('sprint')">Спринт
+        (click)="startGame(sprint)">Спринт
       </button>
       <button
         type="button"
         mat-menu-item
-        (click)="startGame('savanna')">Саванна
+        (click)="startGame(savanna)">Саванна
       </button>
       <button
         type="button"
         mat-menu-item
-        (click)="startGame('audio-call')">Аудио-вызов
+        (click)="startGame(audioCall)">Аудио-вызов
       </button>
     </mat-menu>
   </div>

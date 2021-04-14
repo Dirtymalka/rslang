@@ -228,7 +228,14 @@ export class WordsServiceService {
     return this.http.get<IAggWordsPaginator>(url, httpOptions).pipe(
       map((content) => {
         return {
-          aggWords: content[0].paginatedResults,
+          aggWords: content[0].paginatedResults.map((w) => {
+            const word = { ...w };
+            // eslint-disable-next-line no-underscore-dangle
+            word.id = w._id;
+            // eslint-disable-next-line no-underscore-dangle
+            delete word._id;
+            return word;
+          }),
           count: content[0].totalCount[0]?.count,
         };
       }),

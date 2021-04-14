@@ -9,6 +9,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
 import { Router } from '@angular/router';
+
+import {
+  AUDIO_CALL,
+  HANGMAN,
+  SAVANNA,
+  SPRINT,
+} from '../../../../../constants/global.constants';
+
 import { selectPaginationOptions } from '../../../../../redux/selectors/settings.selectors';
 import {
   selectSelectedWords,
@@ -47,6 +55,14 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
   @Output()
   markedAllAsDeleted = new EventEmitter<IWord[]>();
 
+  hangman = HANGMAN;
+
+  audioCall = AUDIO_CALL;
+
+  savanna = SAVANNA;
+
+  sprint = SPRINT;
+
   constructor(
     private store$: Store<IAppState>,
     public dialog: MatDialog,
@@ -76,14 +92,9 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    if (
+    this.isAllChecked =
       this.allWords.length &&
-      this.wordsInSelectedState.length === this.allWords.length
-    ) {
-      this.isAllChecked = true;
-    } else {
-      this.isAllChecked = false;
-    }
+      this.wordsInSelectedState.length === this.allWords.length;
   }
 
   getGroupClassName(): string {
@@ -98,7 +109,7 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
   startGame(game: string): void {
     this.router.navigate([`games/${game}/`], {
       queryParams: {
-        fromTextbook: true,
+        fromBook: true,
       },
     });
   }

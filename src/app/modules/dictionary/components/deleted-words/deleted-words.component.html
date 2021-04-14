@@ -51,7 +51,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Действия </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button title="Восстановить слово" (click)=removeWord(element._id)>
+        <button mat-icon-button title="Восстановить слово" (click)=removeWord(element.id)>
           <mat-icon>unarchive</mat-icon>
         </button>
       </td>
