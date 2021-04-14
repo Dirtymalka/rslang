@@ -39,6 +39,7 @@ export class RegistrationComponent {
       .registration(
         this.form.get('email').value,
         this.form.get('password').value,
+        this.form.get('name').value,
       )
       .subscribe(
         () => {
