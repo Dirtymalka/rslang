@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
     private store: Store,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.select(selectUserInfo).subscribe((info) => {
       this.isAuthorized = info.isAuthorized;
     });

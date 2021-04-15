@@ -25,7 +25,7 @@ export class UserEffect {
     this.actions$.pipe(
       ofType(userRegistration),
       switchMap(({ name, email, password }) =>
-        this.userService.registration(email, password).pipe(
+        this.userService.registration(email, password, name).pipe(
           map(() => userRegistrationSuccess({ name, email, password })),
           catchError((err) => {
             console.log(err);
@@ -51,6 +51,7 @@ export class UserEffect {
             }) => {
               LocalStorageService.setItemToLocalStorage(USER, {
                 userId: userInfo.userId,
+                name: userInfo.name,
                 tokenOptions: {
                   token: userInfo.token,
                   refreshToken: userInfo.refreshToken,

@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   &__user {
+    cursor: pointer;
     @media screen and (max-width: 450px) {
       display: none;
     }

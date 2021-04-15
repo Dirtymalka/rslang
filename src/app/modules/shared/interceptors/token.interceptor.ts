@@ -45,7 +45,10 @@ export class TokenInterceptor implements HttpInterceptor {
         .getNewToken()
         .pipe(
           map((res: { token; refreshToken }) => {
+            const user =
+              LocalStorageService.getItemFromLocalStorage(USER) || {};
             LocalStorageService.setItemToLocalStorage(USER, {
+              ...user,
               userId: this.userId,
               tokenOptions: {
                 token: res.token,

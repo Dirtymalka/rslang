@@ -9,11 +9,7 @@ import {
   IUserWord,
   IWord,
 } from '../../shared/models/word.models';
-import {
-  fetchAllUserWords,
-  postUserWord,
-  putUserWord,
-} from '../../../redux/actions/words.actions';
+import { fetchAllUserWords } from '../../../redux/actions/words.actions';
 import {
   selectDifficultWordsData,
   selectUserWords,
@@ -29,6 +25,7 @@ import {
 } from '../../../redux/actions/statistics.actions';
 import { HANGMAN, MEDIA_PREFIX } from '../../../constants/global.constants';
 import { cancelFullscreen } from '../../shared/utils/utils';
+import { WordsServiceService } from '../../shared/services/words-service.service';
 
 @Component({
   selector: 'app-hangman',
@@ -93,7 +90,11 @@ export class HangmanComponent implements OnInit, OnDestroy {
 
   subscription: Subscription = new Subscription();
 
-  constructor(private store: Store, private route: ActivatedRoute) {}
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private wordService: WordsServiceService,
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(
@@ -309,38 +310,42 @@ export class HangmanComponent implements OnInit, OnDestroy {
   sendWordResult(result: 'correctCount' | 'incorrectCount'): void {
     this.userWord = this.userWords.find((word) => word.wordId === this.word.id);
     if (this.userWord) {
-      this.store.dispatch(
-        putUserWord({
-          wordId: this.userWord.wordId,
-          word: {
-            optional: {
-              ...this.userWord.optional,
-              [result]: this.userWord.optional[result]
-                ? this.userWord.optional[result] + 1
-                : 1,
-              isStudy:
-                this.userWord.optional.isStudy ||
-                this.fromBook ||
-                this.fromDictionary,
+      this.subscription.add(
+        this.wordService
+          .putWord(
+            this.userWord.wordId,
+            {
+              optional: {
+                ...this.userWord.optional,
+                [result]: this.userWord.optional[result]
+                  ? this.userWord.optional[result] + 1
+                  : 1,
+                isStudy:
+                  this.userWord.optional.isStudy ||
+                  this.fromBook ||
+                  this.fromDictionary,
+              },
             },
-          },
-          gameName: HANGMAN,
-        }),
+            HANGMAN,
+          )
+          .subscribe(),
       );
     } else {
-      this.store.dispatch(
-        postUserWord({
-          wordId: this.word.id,
-          word: {
-            optional: {
-              [result]: 1,
-              isDifficult: false,
-              isDeleted: false,
-              isStudy: this.fromBook || this.fromDictionary,
+      this.subscription.add(
+        this.wordService
+          .postWord(
+            this.word.id,
+            {
+              optional: {
+                [result]: 1,
+                isDifficult: false,
+                isDeleted: false,
+                isStudy: this.fromBook || this.fromDictionary,
+              },
             },
-          },
-          gameName: HANGMAN,
-        }),
+            HANGMAN,
+          )
+          .subscribe(),
       );
     }
   }
