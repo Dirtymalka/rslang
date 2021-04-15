@@ -1,4 +1,4 @@
-<li *ngIf="!isDeleted" class="row">
+<li class="row">
   <mat-checkbox
     class="checkbox"
     color="primary"
@@ -58,7 +58,8 @@
       <button
         *ngIf="isShowDifficultWordButton$ | async"
         class="button-hard"
-        (click)="onDifficultButtonClick()">
+        (click)="onDifficultButtonClick()"
+        [disabled]="isDifficult">
         <mat-icon class="icon-hard">school</mat-icon>
       </button>
 

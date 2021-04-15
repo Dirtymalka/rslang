@@ -11,17 +11,51 @@
   display: flex;
   align-items: center;
   padding-top: 12px;
-  border-top: 1px solid #e6e9ee;
-  border-bottom: 1px solid #e6e9ee;
   padding-bottom: 12px;
+}
+
+.group-0 {
+  background: $color-primary-light;
+}
+
+.group-1 {
+  background: $color-blue;
+}
+
+.group-2 {
+  background: $color-purple;
+}
+
+.group-3 {
+  background: $color-yellow;
+}
+
+.group-4 {
+  background: $color-light-green;
+}
+
+.group-5 {
+  background: $color-turquoise;
 }
 
 .checkbox {
   margin-right: 14px;
+  margin-left: 14px;
+
+  padding: 6px 14px;
+  background-color: #ffffff;
+  border-radius: 4px;
+
+  font-weight: 700;
+
+  line-height: 32px;
+  color: rgb(63, 81, 181);
+  @include unselectable;
 }
 
 .input-wrapper {
   margin-right: auto;
+  background-color: #fff;
 }
 
 .menu-block {
@@ -29,14 +63,18 @@
 }
 
 .button-games {
-  height: 40px;
-  margin-right: 14px;
+  height: 44px;
   font-weight: bold;
+
+  background-color: #ffffff;
 }
 
 .button-settings .icon-settings {
   color: rgb(126, 145, 159);
+  color: #ffffff;
   transition: color .2s ease;
+  margin-left: 4px;
+  margin-right: 4px;
 }
 
 .button-settings:hover .icon-settings {
@@ -60,16 +98,22 @@
   justify-content: center;
   align-items: center;
   margin-left: 14px;
+
+  background-color: #ffffff;
 }
 
 .button-delete:hover {
   background-color: #fff2f0;
   cursor: pointer;
+
+  background-color: #fff;
 }
 
 .button-hard:hover {
   background-color: #FF843820;
   cursor: pointer;
+
+  background-color: #fff;
 }
 
 .icon-hard,
@@ -84,4 +128,18 @@
 
 .button-hard .icon-hard {
   color: $color-orange;
+}
+
+@media screen and (max-width: 568px) {
+  .checkbox {
+    margin-right: 0;
+  }
+
+  .button-hard {
+    margin-left: 8px;
+  }
+
+  .button-delete {
+    margin-left: 4px;
+  }
 }

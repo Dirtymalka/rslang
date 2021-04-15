@@ -153,9 +153,13 @@
   cursor: pointer;
 }
 
-.button-hard:hover {
+.button-hard:hover:not(button[disabled]) {
   background-color: #FF843820;
   cursor: pointer;
+}
+
+button[disabled] .icon-hard {
+  color: rgba(126, 145, 159, 0.5);
 }
 
 .icon-hard,
@@ -172,7 +176,7 @@
   color: $color-red;
 }
 
-.button-hard:hover .icon-hard {
+.button-hard:not(button[disabled]):hover .icon-hard {
   color: $color-orange;
 }
 
@@ -245,6 +249,16 @@
   .button-hard {
     margin-left: 0;
   }
+
+  .word-item__word-set {
+    width: 60%;
+    flex-grow: 2;
+    padding-left: 0;
+  }
+
+  .row {
+    flex-wrap: wrap;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -266,8 +280,12 @@
     margin-left: 14px;
   }
 
-  .word-item__word-set,
-  .word-item__sentense-wrapper {
-    padding-left: 60px;
+  .word-item__image {
+    height: 100px;
+    width: 100px;
+  }
+
+  .word-item__word-set {
+    width: 55%;
   }
 }

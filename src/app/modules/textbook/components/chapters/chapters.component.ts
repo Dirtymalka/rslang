@@ -15,12 +15,12 @@ import { selectPaginationOptions } from '../../../../redux/selectors/settings.se
 })
 export class ChaptersComponent implements OnInit {
   chapters: IChapter[] = [
-    { name: 'Unit 1', group: 0 },
-    { name: 'Unit 2', group: 1 },
-    { name: 'Unit 3', group: 2 },
-    { name: 'Unit 4', group: 3 },
-    { name: 'Unit 5', group: 4 },
-    { name: 'Unit 6', group: 5 },
+    { name: 'Unit 1', group: 0, style: 'group-0' },
+    { name: 'Unit 2', group: 1, style: 'group-1' },
+    { name: 'Unit 3', group: 2, style: 'group-2' },
+    { name: 'Unit 4', group: 3, style: 'group-3' },
+    { name: 'Unit 5', group: 4, style: 'group-4' },
+    { name: 'Unit 6', group: 5, style: 'group-5' },
   ];
 
   paginationOptions;

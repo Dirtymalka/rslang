@@ -1,13 +1,11 @@
 .chapters {
   display: grid;
-  grid-gap: 30px;
-  grid-gap: 20px;
+  grid-gap: 8px;
   grid-template-columns: repeat(6,1fr);
 }
 
 @media screen and (max-width: 667px) {
   .chapters {
-    padding-left: 4px;
-    padding-right: 4px;
+    grid-gap: 0;
   }
 }

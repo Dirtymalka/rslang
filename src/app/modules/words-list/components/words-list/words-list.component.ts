@@ -53,12 +53,28 @@ export class WordsListComponent implements OnInit {
 
         this.getFilteredWords();
       });
+  }
 
-    this.getUserWords();
+  listIsNotEmpty(): boolean {
+    if (this.listWords && this.listWords.length) {
+      return true;
+    }
+    return false;
+  }
+
+  getGroupClassName(): string {
+    return `group-${this.paginationOptions.group}`;
   }
 
   getFilteredWords(): void {
+    this.listWords = [];
+
     this.wordsService.getUserWords().subscribe((userWords) => {
+      this.userWords = userWords;
+      this.store$.dispatch(
+        fetchAllUserWordsSuccess({ userWords: this.userWords }),
+      );
+
       const { group, page } = this.paginationOptions;
 
       this.wordsService.getWords(group, page).subscribe((wordsList) => {
@@ -82,26 +98,27 @@ export class WordsListComponent implements OnInit {
           !this.currentPageWords.length &&
           this.wordsNotStudy.length === WORDS_LIST_LENGTH
         ) {
-          let options;
-
-          if (this.scrollForward) {
-            options = { group, page: page + 1 };
-          } else {
-            options = { group, page: page - 1 };
-          }
-
-          this.store$.dispatch(changePaginationOptions(options));
-          this.getAllWords();
+          this.switchPagination();
+          this.listWords = wordsList;
+          this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
+          return;
         }
         if (
           this.currentPageWords.length === WORDS_LIST_LENGTH &&
           !this.wordsNotStudy.length
         ) {
-          this.getAllWords();
+          this.listWords = wordsList;
+          this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
+          return;
         }
         if (!this.currentPageWords.length && !this.wordsNotStudy.length) {
-          this.getAllWords();
+          this.listWords = wordsList;
+          this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
+          return;
         }
+
+        this.listWords = this.currentPageWords;
+        this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
       });
     });
   }
@@ -148,6 +165,10 @@ export class WordsListComponent implements OnInit {
       ),
     );
 
+    if (!currentPageWords.length) {
+      allWords.forEach((word) => this.markAsDifficult(word));
+    }
+
     currentPageWords.forEach((word) => this.markAsDifficult(word));
   }
 
@@ -159,9 +180,9 @@ export class WordsListComponent implements OnInit {
         isStudy: true,
       };
 
-      this.wordsService
-        .postWord(word.id, { optional })
-        .subscribe(() => this.getFilteredWords());
+      this.wordsService.postWord(word.id, { optional }).subscribe(() => {
+        this.getUserWords();
+      });
     }
 
     if (this.isInUserWords(word)) {
@@ -179,13 +200,22 @@ export class WordsListComponent implements OnInit {
   }
 
   markAllAsDeleted(allWords: IWord[]): void {
+    this.listWords = [];
+
     const currentPageWords = allWords.filter((word) =>
       this.userWords.find(
         (userWord) =>
           userWord.wordId === word.id && !userWord.optional.isDeleted,
       ),
     );
+
+    if (!currentPageWords.length) {
+      allWords.forEach((word) => this.markAsDeleted(word));
+    }
+
     currentPageWords.forEach((word) => this.markAsDeleted(word));
+
+    this.switchPagination();
   }
 
   markAsDeleted(word: IWord): void {
@@ -212,10 +242,22 @@ export class WordsListComponent implements OnInit {
           })
           .subscribe(() => {
             this.getUserWords();
-            this.getFilteredWords();
           }),
       );
     }
+  }
+
+  switchPagination(): void {
+    const { group, page } = this.paginationOptions;
+    let options;
+
+    if (this.scrollForward) {
+      options = { group, page: page + 1 };
+    } else {
+      options = { group, page: page - 1 };
+    }
+
+    this.store$.dispatch(changePaginationOptions(options));
   }
 
   pageChangeEvent(event: PageEvent): void {
