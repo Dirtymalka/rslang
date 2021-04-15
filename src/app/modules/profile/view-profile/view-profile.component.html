@@ -1,1 +1,14 @@
-<p>view-profile works!</p>
+<div class="profile">
+  <mat-card>
+    <mat-card-content>
+      <span>Ваше имя: </span>
+      <span>{{name | titlecase}}</span>
+    </mat-card-content>
+    <button mat-stroked-button color="primary" (click)="editProfile()">Редактировать</button>
+  </mat-card>
+</div>
+
+
+
+
+

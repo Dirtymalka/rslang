@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, DoCheck {
           refreshToken: user.tokenOptions.refreshToken,
           userId: user.userId,
           clientTokenTime: user.tokenOptions.clientTokenTime,
+          name: user.name,
         }),
       );
     }

@@ -51,9 +51,7 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () =>
-      import('./modules/authentication/authentication.module').then(
-        (m) => m.AuthenticationModule,
-      ),
+      import('./modules/profile/profile.module').then((m) => m.ProfileModule),
   },
   {
     path: 'not-found',

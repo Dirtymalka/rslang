@@ -7,6 +7,7 @@ import {
   changeGroup,
   changePaginationOptions,
 } from '../actions/settings.actions';
+import { userLogout } from '../actions/user.actions';
 
 export const settingsReducer = createReducer(
   initialSettingsState,
@@ -30,4 +31,5 @@ export const settingsReducer = createReducer(
     ...state,
     ...settingsState,
   })),
+  on(userLogout, () => initialSettingsState),
 );

@@ -23,11 +23,16 @@ export class AuthControlComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(selectUserInfo).subscribe((info) => {
       this.isAuthorized = info.isAuthorized;
+      this.user.name = info.name;
     });
   }
 
   onLogout(): void {
     this.store.dispatch(userLogout());
     this.router.navigate(['authentication', 'login']);
+  }
+
+  openProfile() {
+    this.router.navigate(['profile']);
   }
 }

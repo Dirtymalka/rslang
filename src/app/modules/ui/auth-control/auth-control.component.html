@@ -5,7 +5,7 @@
     </button>
   </ng-container>
   <ng-container *ngIf="isAuthorized">
-    <div class="control__user">{{ user.name }}</div>
+    <div class="control__user" (click)="openProfile()">{{ user.name }}</div>
     <span class="control__divider"></span>
     <button mat-button mat-stroked-button (click)="onLogout()">Выйти</button>
   </ng-container>

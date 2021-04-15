@@ -6,6 +6,7 @@ import {
   userLogout,
   userRegistrationSuccess,
   userTokenUpdateSuccess,
+  userUpdateSuccess,
 } from '../actions/user.actions';
 import { initialUserState } from '../state/user.state';
 
@@ -45,4 +46,5 @@ export const userReducer = createReducer(
     },
   })),
   on(userLogout, () => ({ ...initialUserState })),
+  on(userUpdateSuccess, (state, { name }) => ({ ...state, name })),
 );
