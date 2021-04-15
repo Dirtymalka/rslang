@@ -18,7 +18,7 @@
       [class]="getGroupClassName()"
       #paginatorRef
       [length]="600"
-      [pageSize]="20"
+      [pageSize]="pageSize"
       [pageSizeOptions]="[20]"
       [pageIndex]="pageIndex"
       (page) = "pageChangeEvent($event)">
