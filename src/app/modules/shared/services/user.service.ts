@@ -54,6 +54,21 @@ export class UserService {
     return this.http.get(`${BACKEND_URL}/users/${userId}`, httpOptions);
   }
 
+  updateUser(name: string): Observable<unknown> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+      }),
+    };
+
+    return this.http.put(
+      `${BACKEND_URL}/users/${this.userId}`,
+      { name },
+      httpOptions,
+    );
+  }
+
   getNewToken(): Observable<unknown> {
     const httpOptions = {
       headers: new HttpHeaders({

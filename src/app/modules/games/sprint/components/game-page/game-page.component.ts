@@ -1,5 +1,6 @@
 import {
   Component,
+  DoCheck,
   EventEmitter,
   OnDestroy,
   OnInit,
@@ -16,11 +17,7 @@ import {
 } from '../../../../shared/models/word.models';
 import { IStatistic } from '../../../../shared/models/statistics.models';
 import { WordsServiceService } from '../../../../shared/services/words-service.service';
-import {
-  fetchAllUserWords,
-  postUserWord,
-  putUserWord,
-} from '../../../../../redux/actions/words.actions';
+import { fetchAllUserWords } from '../../../../../redux/actions/words.actions';
 import {
   fetchStatistic,
   putStatistic,
@@ -46,7 +43,7 @@ import { StatisticService } from '../../../../shared/services/statistic.service'
   templateUrl: './game-page.component.html',
   styleUrls: ['./game-page.component.scss'],
 })
-export class GamePageComponent implements OnInit, OnDestroy {
+export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('sprint') sprint;
 
   @Output() gameOver = new EventEmitter<{
@@ -152,6 +149,10 @@ export class GamePageComponent implements OnInit, OnDestroy {
     this.counter = setInterval(() => {
       this.count -= 1;
     }, 1000);
+  }
+
+  ngDoCheck(): void {
+    this.checkGameOver();
   }
 
   ngOnDestroy(): void {
@@ -266,11 +267,11 @@ export class GamePageComponent implements OnInit, OnDestroy {
     if (this.gameOver1) {
       return;
     }
-    setTimeout(() => {
-      this.changeScoreForWord();
-      this.getWordsForRound();
-      this.disableButtons = false;
-    }, 300);
+    // setTimeout(() => {
+    this.changeScoreForWord();
+    this.getWordsForRound();
+    this.disableButtons = false;
+    // }, 300);
   }
 
   checkGameOver(): void {
@@ -278,6 +279,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
       (this.count !== null && this.count <= 0) ||
       this.playedOutWords?.length === this.words?.length
     ) {
+      document.removeEventListener('keydown', this.handleKeyDown);
       clearInterval(this.counter);
       this.gameOver.emit({
         wordsResult: this.wordsResult,
@@ -409,38 +411,42 @@ export class GamePageComponent implements OnInit, OnDestroy {
       (word) => word.wordId === this.word.id,
     );
     if (userWord) {
-      this.store.dispatch(
-        putUserWord({
-          wordId: userWord.wordId,
-          word: {
-            optional: {
-              ...userWord.optional,
-              [result]: userWord.optional[result]
-                ? userWord.optional[result] + 1
-                : 1,
-              isStudy:
-                userWord.optional.isStudy ||
-                this.fromBook ||
-                this.fromDictionary,
+      this.subscription.add(
+        this.wordService
+          .putWord(
+            userWord.wordId,
+            {
+              optional: {
+                ...userWord.optional,
+                [result]: userWord.optional[result]
+                  ? userWord.optional[result] + 1
+                  : 1,
+                isStudy:
+                  userWord.optional.isStudy ||
+                  this.fromBook ||
+                  this.fromDictionary,
+              },
             },
-          },
-          gameName: SPRINT,
-        }),
+            SPRINT,
+          )
+          .subscribe(),
       );
     } else {
-      this.store.dispatch(
-        postUserWord({
-          wordId: this.word.id,
-          word: {
-            optional: {
-              [result]: 1,
-              isDifficult: false,
-              isDeleted: false,
-              isStudy: this.fromBook || this.fromDictionary,
+      this.subscription.add(
+        this.wordService
+          .postWord(
+            this.word.id,
+            {
+              optional: {
+                [result]: 1,
+                isDifficult: false,
+                isDeleted: false,
+                isStudy: this.fromBook || this.fromDictionary,
+              },
             },
-          },
-          gameName: SPRINT,
-        }),
+            SPRINT,
+          )
+          .subscribe(),
       );
     }
   }
@@ -462,7 +468,6 @@ export class GamePageComponent implements OnInit, OnDestroy {
         ],
       },
     };
-
     this.store.dispatch(putStatistic({ statistic }));
   }
 

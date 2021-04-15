@@ -44,3 +44,8 @@ export const userTokenUpdateFailure = createAction(
 );
 
 export const userLogout = createAction('[User Logout] User Logout');
+
+export const userUpdateSuccess = createAction(
+  '[User User] User Update Success',
+  props<{ name?: string }>(),
+);

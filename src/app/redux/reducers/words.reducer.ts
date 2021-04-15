@@ -13,6 +13,7 @@ import {
 } from '../actions/words.actions';
 
 import { initialWordsState } from '../state/words.state';
+import { userLogout } from '../actions/user.actions';
 
 export const wordsReducer = createReducer(
   initialWordsState,
@@ -66,4 +67,5 @@ export const wordsReducer = createReducer(
     ...state,
     difficultWordsData,
   })),
+  on(userLogout, () => initialWordsState),
 );

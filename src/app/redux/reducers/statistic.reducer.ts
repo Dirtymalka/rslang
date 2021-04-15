@@ -6,6 +6,7 @@ import {
   fetchStatisticSuccess,
   putStatisticSuccess,
 } from '../actions/statistics.actions';
+import { userLogout } from '../actions/user.actions';
 
 export const statisticReducer = createReducer(
   initialStatisticsState,
@@ -44,4 +45,5 @@ export const statisticReducer = createReducer(
       ...statistic,
     },
   })),
+  on(userLogout, () => initialStatisticsState),
 );
