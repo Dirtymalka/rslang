@@ -1,3 +1,4 @@
+import { AudioCallEffect } from './audioCall.effect';
 import { UserEffect } from './user.effect';
 import { WordsEffect } from './words.effect';
 import { SettingsEffect } from './setings.effect';
@@ -10,4 +11,5 @@ export default [
   SettingsEffect,
   StatisticEffects,
   HangmanEffect,
+  AudioCallEffect,
 ];

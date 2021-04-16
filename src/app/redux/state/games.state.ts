@@ -8,6 +8,7 @@ export interface IGamesState {
   };
   audioCall: {
     contents?: unknown;
+    words?: [];
   };
   sprint: {
     contents?: unknown;
