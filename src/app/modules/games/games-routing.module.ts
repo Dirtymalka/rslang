@@ -21,6 +21,11 @@ const routes: Routes = [
       import('./sprint/sprint.module').then((m) => m.SprintModule),
   },
   {
+    path: 'audio-call',
+    loadChildren: () =>
+      import('./audio-call/audioCall.module').then((m) => m.AudioCallModule),
+  },
+  {
     path: 'hangman',
     loadChildren: () =>
       import('./hangman/hangman.module').then((m) => m.HangmanModule),

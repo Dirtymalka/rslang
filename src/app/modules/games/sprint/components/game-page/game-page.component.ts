@@ -267,11 +267,11 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
     if (this.gameOver1) {
       return;
     }
-    // setTimeout(() => {
-    this.changeScoreForWord();
-    this.getWordsForRound();
-    this.disableButtons = false;
-    // }, 300);
+    setTimeout(() => {
+      this.changeScoreForWord();
+      this.getWordsForRound();
+      this.disableButtons = false;
+    }, 300);
   }
 
   checkGameOver(): void {
