@@ -10,7 +10,9 @@ import { IAggWord } from '../../../shared/models/word.models';
   styleUrls: ['./deleted-words.component.scss'],
 })
 export class DeletedWordsComponent implements OnInit {
-  public displayedColumns: string[] = ['word', 'actions'];
+  CHAPTERS_COLOR = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5'];
+
+  public displayedColumns: string[] = ['img', 'word', 'actions'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -34,7 +36,11 @@ export class DeletedWordsComponent implements OnInit {
     this.getServerData();
   }
 
-  removeWord(id: string): void {
+  public getBarClass(): string {
+    return this.CHAPTERS_COLOR[this.chapterNumber];
+  }
+
+  public removeWord(id: string): void {
     this.wordsServiceService.getUserWord(id).subscribe((data) =>
       this.wordsServiceService
         .putWord(data.wordId, {
@@ -74,7 +80,7 @@ export class DeletedWordsComponent implements OnInit {
       });
   }
 
-  public chapterClick(num) {
+  public chapterClick(num: number): void {
     this.chapterNumber = num;
     this.getServerData();
   }

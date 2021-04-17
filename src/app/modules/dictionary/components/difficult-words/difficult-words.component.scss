@@ -1,3 +1,6 @@
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
 .chapters-wrapper {
   max-width: 90%;
   margin: 0 auto;
@@ -10,8 +13,72 @@
   justify-content: space-around;
 }
 
+.chapter-label {
+  height: 36px;
+  flex-grow: 1;
+  max-width: 90%;
+  background-color: #4331c0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.wrapper_word-item__image {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.word-item__image {
+  border-radius: 20px;
+  height: 130px;
+  width: 130px;
+  margin-left: 14px;
+  object-fit: cover;
+}
+
+.control-bar {
+  display: flex;
+  box-sizing: border-box;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px 60px 20px 20px;
+  justify-content: flex-end;
+
+}
+
+.white {
+  background-color: #f3ecec !important;
+}
+
 .pink {
   background-color: #FF4081 !important;
+}
+
+.group0 {
+  background: $color-primary-light !important;
+}
+
+.group1 {
+  background: $color-blue !important;
+}
+
+.group2 {
+  background: $color-purple !important;
+}
+
+.group3 {
+  background: $color-yellow !important;
+}
+
+.group4 {
+  background: $color-light-green !important;
+}
+
+.group5 {
+  background: $color-turquoise !important;
 }
 
 .chapter-label {

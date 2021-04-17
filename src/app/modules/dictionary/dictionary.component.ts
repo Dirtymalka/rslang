@@ -5,4 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.scss'],
 })
-export class DictionaryComponent {}
+export class DictionaryComponent {
+  links = ['Изучаемые слова', 'Сложные слова', 'Удалённые слова'];
+
+  activeLink = this.links[0];
+}
