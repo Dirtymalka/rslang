@@ -1,6 +1,4 @@
 export interface ISettingsState {
-  // group: number;
-  // page: number;
   pagination: IPagination;
   isShowWordTranslation: boolean;
   isShowDifficultWordButton: boolean;
@@ -10,12 +8,12 @@ export interface ISettingsState {
 export interface IPagination {
   group: number;
   page: number;
+  indexFrom: number;
+  indexTo: number;
 }
 
 export const initialSettingsState: ISettingsState = {
-  // group: 0,
-  // page: 0,
-  pagination: { group: 0, page: 0 },
+  pagination: { group: 0, page: 0, indexFrom: 0, indexTo: 20 },
   isShowWordTranslation: true,
   isShowDifficultWordButton: true,
   isShowDeleteWordButton: true,

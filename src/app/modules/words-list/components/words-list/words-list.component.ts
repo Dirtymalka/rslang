@@ -4,7 +4,6 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { IAppState } from '../../../../redux/state/app.state';
 import { selectPaginationOptions } from '../../../../redux/selectors/settings.selectors';
-import { changePaginationOptions } from '../../../../redux/actions/settings.actions';
 import {
   fetchAllWordsSuccess,
   fetchAllUserWordsSuccess,
@@ -13,8 +12,18 @@ import {
 
 import { IUserWord, IWord } from '../../../shared/models/word.models';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
-import { WORDS_LIST_LENGTH } from '../../../../constants/global.constants';
-import { selectGroup0 } from '../../../../redux/selectors/bookWords.selectors';
+import {
+  PAGINATION,
+  WORDS_LIST_LENGTH,
+} from '../../../../constants/global.constants';
+import {
+  selectGroup0,
+  selectGroup1,
+  selectGroup2,
+  selectGroup3,
+  selectGroup4,
+  selectGroup5,
+} from '../../../../redux/selectors/bookWords.selectors';
 import {
   fetchGroup0,
   fetchGroup1,
@@ -24,33 +33,26 @@ import {
   fetchGroup5,
 } from '../../../../redux/actions/bookWords.actions';
 
+import { IPagination } from '../../../../redux/state/settings.state';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
+
 @Component({
   selector: 'app-words-list',
   templateUrl: './words-list.component.html',
   styleUrls: ['./words-list.component.scss'],
 })
 export class WordsListComponent implements OnInit {
-  group0: IWord[];
-
-  group1: IWord[];
-
-  group2: IWord[];
-
-  group3: IWord[];
-
-  group4: IWord[];
-
-  group5: IWord[];
+  bookWords = [[], [], [], [], [], []];
 
   listWords: IWord[];
 
-  userWords: IUserWord[];
-
-  currentPageWords: IWord[];
+  userWords: IUserWord[] = [];
 
   currentGroupWords: IWord[];
 
   wordsNotStudy: IWord[];
+
+  withoutDeletedWords: IWord[];
 
   paginationOptions;
 
@@ -62,11 +64,11 @@ export class WordsListComponent implements OnInit {
 
   scrollForward = true;
 
-  indexFrom = 0;
+  indexFrom: number;
 
-  indexTo = WORDS_LIST_LENGTH;
+  indexTo: number;
 
-  @ViewChild('paginatorRef') paginatorRef: ElementRef;
+  @ViewChild('paginator') paginator: ElementRef;
 
   constructor(
     private wordsService: WordsServiceService,
@@ -78,40 +80,49 @@ export class WordsListComponent implements OnInit {
       .select(selectPaginationOptions)
       .subscribe((paginationOptions) => {
         this.paginationOptions = paginationOptions;
-        this.pageIndex = paginationOptions.page;
-        console.log(paginationOptions);
+        this.pageIndex = Math.max(this.paginationOptions.page, 0);
+        this.indexFrom = this.paginationOptions.indexFrom;
+        this.indexTo = this.paginationOptions.indexTo;
         this.listWords = [];
-        // this.getFilteredWords();
-        this.getUserWords();
         this.getUnitWords();
       });
 
+    this.groupsSubscribes();
+  }
+
+  getPageIndex(): number {
+    const index = this.paginationOptions.indexFrom / 20 - 1;
+    if (index <= 0) return 0;
+    return index;
+  }
+
+  groupsSubscribes(): void {
     this.store$.select(selectGroup0).subscribe((group0) => {
-      this.group0 = group0;
+      this.bookWords[0] = group0;
     });
 
-    this.store$.select(selectGroup0).subscribe((group1) => {
-      this.group1 = group1;
+    this.store$.select(selectGroup1).subscribe((group1) => {
+      this.bookWords[1] = group1;
     });
 
-    this.store$.select(selectGroup0).subscribe((group2) => {
-      this.group2 = group2;
+    this.store$.select(selectGroup2).subscribe((group2) => {
+      this.bookWords[2] = group2;
     });
 
-    this.store$.select(selectGroup0).subscribe((group3) => {
-      this.group3 = group3;
+    this.store$.select(selectGroup3).subscribe((group3) => {
+      this.bookWords[3] = group3;
     });
 
-    this.store$.select(selectGroup0).subscribe((group4) => {
-      this.group4 = group4;
+    this.store$.select(selectGroup4).subscribe((group4) => {
+      this.bookWords[4] = group4;
     });
 
-    this.store$.select(selectGroup0).subscribe((group5) => {
-      this.group5 = group5;
+    this.store$.select(selectGroup5).subscribe((group5) => {
+      this.bookWords[5] = group5;
     });
   }
 
-  getUserWords() {
+  getUserWords(): void {
     this.wordsService.getUserWords().subscribe(
       (data) => {
         this.userWords = data;
@@ -125,70 +136,107 @@ export class WordsListComponent implements OnInit {
     );
   }
 
-  isInDeleted(word): boolean {
-    const isInDeleted = this.userWords.find(
-      (userWord) => userWord.wordId === word.id && userWord.optional.isDeleted,
-    );
+  updateCurrentWords(): void {
+    this.wordsService.getUserWords().subscribe((data) => {
+      this.userWords = data;
 
-    if (isInDeleted) {
-      return true;
-    }
-    return false;
+      this.getWordsPerPage();
+      this.store$.dispatch(
+        fetchAllUserWordsSuccess({ userWords: this.userWords }),
+      );
+    });
   }
 
   getUnitWords(): void {
-    const { group, page } = this.paginationOptions;
-    console.log(group);
+    const { group } = this.paginationOptions;
+
     this.wordsService.getUserWords().subscribe((data) => {
       this.userWords = data;
       this.store$.dispatch(
         fetchAllUserWordsSuccess({ userWords: this.userWords }),
       );
-      console.log(group);
+
+      if (this.bookWords[group].length) {
+        this.currentGroupWords = this.bookWords[group];
+
+        this.getWordsPerPage();
+        return;
+      }
+
       this.wordsService
-        .getWordsExt(group, page, 600, 0)
+        .getWordsExt(group, 0, 600, 600)
         .subscribe((wordsPerGroup) => {
-          console.log(wordsPerGroup);
-          console.log(this.userWords);
-
           this.currentGroupWords = wordsPerGroup;
-          this.getWordsList();
+          this.getWordsPerPage();
 
-          this.switchStoreGroup(group);
+          this.saveGroupAtStore(group);
         });
     });
   }
 
-  switchStoreGroup(group: number): void {
-    console.log(group, 'switch');
+  getWordsPerPage(): void {
+    this.listWords = [];
+    this.withoutDeletedWords = this.getFilteredWords(this.currentGroupWords);
+
+    const wordsPerPage = this.withoutDeletedWords.slice(
+      this.indexFrom,
+      this.indexTo,
+    );
+
+    this.listWords = wordsPerPage;
+
+    this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
+    this.store$.dispatch(fetchWordsForGame({ words: this.listWords }));
+  }
+
+  updateWordsPerPage(allWords: IWord[]): void {
+    this.listWords = [];
+    const deletedWordIds = allWords.map((word) => word.id);
+
+    this.withoutDeletedWords = this.withoutDeletedWords.filter(
+      (word) => !deletedWordIds.includes(word.id),
+    );
+
+    const wordsPerPage = this.currentGroupWords.slice(
+      this.indexFrom,
+      this.indexTo,
+    );
+
+    this.listWords = wordsPerPage;
+
+    this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
+    this.store$.dispatch(fetchWordsForGame({ words: this.listWords }));
+  }
+
+  saveGroupAtStore(group: number): void {
     switch (group) {
       case 0:
-        if (!this.group0.length) {
+        if (!this.bookWords[0].length) {
           this.store$.dispatch(fetchGroup0({ words: this.currentGroupWords }));
         }
         break;
       case 1:
-        if (!this.group1.length) {
+        if (!this.bookWords[1].length) {
           this.store$.dispatch(fetchGroup1({ words: this.currentGroupWords }));
         }
         break;
       case 2:
-        if (!this.group2.length) {
+        if (!this.bookWords[2].length) {
           this.store$.dispatch(fetchGroup2({ words: this.currentGroupWords }));
         }
         break;
       case 3:
-        if (!this.group3.length) {
+        if (!this.bookWords[3].length) {
           this.store$.dispatch(fetchGroup3({ words: this.currentGroupWords }));
         }
         break;
       case 4:
-        if (!this.group4.length) {
+        if (!this.bookWords[4].length) {
           this.store$.dispatch(fetchGroup4({ words: this.currentGroupWords }));
         }
         break;
       case 5:
-        if (!this.group5.length) {
+        if (!this.bookWords[5].length) {
           this.store$.dispatch(fetchGroup5({ words: this.currentGroupWords }));
         }
         break;
@@ -197,39 +245,15 @@ export class WordsListComponent implements OnInit {
     }
   }
 
-  getWordsList(): void {
-    const wordsPerPage = this.currentGroupWords.slice(
-      this.indexFrom,
-      this.indexTo,
-    );
-    console.log(wordsPerPage);
-
-    const withoutDeletedWords = this.getFilteredWords(wordsPerPage);
-    console.log(withoutDeletedWords);
-
-    if (withoutDeletedWords.length === WORDS_LIST_LENGTH) {
-      console.log(true);
-      this.listWords = withoutDeletedWords;
-      this.store$.dispatch(fetchWordsForGame({ words: this.listWords }));
-      return;
-    }
-
-    if (!withoutDeletedWords.length) {
-      this.listWords = wordsPerPage;
-      this.store$.dispatch(fetchWordsForGame({ words: this.listWords }));
-    } else {
-      console.log(false);
-    }
-  }
-
   getFilteredWords(wordsPerPage: IWord[]): IWord[] {
-    const withoutDeletedWords = wordsPerPage.filter((word) =>
-      this.userWords.find(
-        (userWord) =>
-          userWord.wordId === word.id && !userWord.optional.isDeleted,
-      ),
+    const deletedWordIds = this.userWords
+      .filter((userWord) => userWord.optional.isDeleted)
+      .map((userWord) => userWord.wordId);
+
+    const words = wordsPerPage.filter(
+      (word) => !deletedWordIds.includes(word.id),
     );
-    return withoutDeletedWords;
+    return words;
   }
 
   increaseIndexes(): void {
@@ -253,76 +277,10 @@ export class WordsListComponent implements OnInit {
     return `group-${this.paginationOptions.group}`;
   }
 
-  getFilteredWordss(): void {
-    this.listWords = [];
-
-    this.wordsService.getUserWords().subscribe((userWords) => {
-      this.userWords = userWords;
-      this.store$.dispatch(
-        fetchAllUserWordsSuccess({ userWords: this.userWords }),
-      );
-
-      const { group, page } = this.paginationOptions;
-
-      this.wordsService.getWords(group, page).subscribe((wordsList) => {
-        this.store$.dispatch(fetchWordsForGame({ words: wordsList }));
-
-        this.currentPageWords = wordsList.filter((word) =>
-          userWords.find(
-            (userWord) =>
-              userWord.wordId === word.id && !userWord.optional.isDeleted,
-          ),
-        );
-
-        this.wordsNotStudy = wordsList.filter((word) =>
-          userWords.find(
-            (userWord) =>
-              userWord.wordId === word.id && userWord.optional.isDeleted,
-          ),
-        );
-
-        if (
-          !this.currentPageWords.length &&
-          this.wordsNotStudy.length === WORDS_LIST_LENGTH
-        ) {
-          this.switchPagination();
-          this.listWords = wordsList;
-          this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
-          return;
-        }
-        if (
-          this.currentPageWords.length === WORDS_LIST_LENGTH &&
-          !this.wordsNotStudy.length
-        ) {
-          this.listWords = wordsList;
-          this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
-          return;
-        }
-        if (!this.currentPageWords.length && !this.wordsNotStudy.length) {
-          this.listWords = wordsList;
-          this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
-          return;
-        }
-
-        this.listWords = this.currentPageWords;
-        this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
-      });
-    });
-  }
-
-  getAllWords(): void {
-    const { group, page } = this.paginationOptions;
-
-    this.wordsService.getWords(group, page).subscribe((wordsList) => {
-      this.store$.dispatch(fetchWordsForGame({ words: wordsList }));
-      this.listWords = wordsList;
-      this.store$.dispatch(fetchAllWordsSuccess({ words: this.listWords }));
-    });
-  }
-
+  /// ///////////////////
   swicthPaginationIndex(): void {
-    this.paginatorRef.nativeElement.pageIndex = this.paginationOptions.page;
-    this.paginatorRef.nativeElement.previousPageIndex =
+    this.paginator.nativeElement.pageIndex = this.paginationOptions.page;
+    this.paginator.nativeElement.previousPageIndex =
       this.paginationOptions.page - 1;
   }
 
@@ -372,25 +330,6 @@ export class WordsListComponent implements OnInit {
     }
   }
 
-  markAllAsDeleted(allWords: IWord[]): void {
-    this.listWords = [];
-
-    const currentPageWords = allWords.filter((word) =>
-      this.userWords.find(
-        (userWord) =>
-          userWord.wordId === word.id && !userWord.optional.isDeleted,
-      ),
-    );
-
-    if (!currentPageWords.length) {
-      allWords.forEach((word) => this.markAsDeleted(word));
-    }
-
-    currentPageWords.forEach((word) => this.markAsDeleted(word));
-
-    this.switchPagination();
-  }
-
   markAsDeleted(word: IWord): void {
     if (!this.userWords.length || !this.isInUserWords(word)) {
       const optional = {
@@ -400,7 +339,7 @@ export class WordsListComponent implements OnInit {
       };
 
       this.wordsService.postWord(word.id, { optional }).subscribe(() => {
-        this.getUserWords();
+        this.updateCurrentWords();
       });
     }
 
@@ -414,49 +353,63 @@ export class WordsListComponent implements OnInit {
             optional: { ...data.optional, isDeleted: true, isStudy: false },
           })
           .subscribe(() => {
-            this.getUserWords();
+            this.updateCurrentWords();
           }),
       );
     }
   }
 
-  switchPagination(): void {
-    const { group, page } = this.paginationOptions;
-    let options;
-
-    if (this.scrollForward) {
-      options = { group, page: page + 1 };
-    } else {
-      options = { group, page: page - 1 };
-    }
-
-    this.store$.dispatch(changePaginationOptions(options));
-  }
-
   pageChangeEvent(event: PageEvent): void {
-    console.log(event);
     this.pageIndex = event.pageIndex;
     const { previousPageIndex } = event;
-    // const options = { ...this.paginationOptions, page: this.pageIndex };
-    // this.store$.dispatch(changePaginationOptions(options));
+
     if (this.pageIndex - previousPageIndex < 0) {
-      console.log('назад');
+      if (previousPageIndex === 0) return;
       this.scrollForward = false;
-      console.log(this.indexFrom, this.indexTo);
+
       this.decreaseIndexes();
-      console.log(this.indexFrom, this.indexTo);
-
-      this.getWordsList();
+      this.getWordsPerPage();
     } else {
-      console.log('вперед');
+      if (previousPageIndex === this.getLastPage()) return;
       this.scrollForward = true;
-      console.log('previousPageIndex', previousPageIndex);
-      console.log('this.pageIndex', this.pageIndex);
-      console.log(this.indexFrom, this.indexTo);
-      this.increaseIndexes();
-      console.log(this.indexFrom, this.indexTo);
 
-      this.getWordsList();
+      this.increaseIndexes();
+      this.getWordsPerPage();
     }
+
+    this.savePaginationOptions();
+  }
+
+  switchPagination(): void {
+    if (this.scrollForward) {
+      this.decreaseIndexes();
+      this.getWordsPerPage();
+    } else {
+      this.increaseIndexes();
+      this.getWordsPerPage();
+    }
+
+    this.savePaginationOptions();
+  }
+
+  getLastPage(): number {
+    return this.withoutDeletedWords.length / WORDS_LIST_LENGTH - 1;
+  }
+
+  savePaginationOptions(): void {
+    const pagination: IPagination = LocalStorageService.getItemFromLocalStorage(
+      PAGINATION,
+    );
+
+    if (pagination) {
+      LocalStorageService.deleteItemFromLocalStorageByKey(PAGINATION);
+    }
+
+    LocalStorageService.setItemToLocalStorage('pagination', {
+      group: this.paginationOptions.group,
+      page: this.pageIndex,
+      indexFrom: this.indexFrom,
+      indexTo: this.indexTo,
+    });
   }
 }
