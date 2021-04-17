@@ -1,16 +1,14 @@
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  selectWordsForGame,
   selectDifficultWordsData,
   selectUserWords,
 } from '../../../redux/selectors/words.selectors';
+import { MEDIA_PREFIX, AUDIO_CALL } from '../../../constants/global.constants';
+
 import {
   IAggWordsPaginator,
   IWord,
@@ -22,7 +20,6 @@ import {
   putStatistic,
 } from '../../../redux/actions/statistics.actions';
 
-import { AUDIO_CALL } from '../../../constants/global.constants';
 import {
   postUserWord,
   putUserWord,
@@ -37,6 +34,7 @@ import {
 } from '../../../redux/actions/audioCall.actions';
 import { selectAudioCallWords } from '../../../redux/selectors/audioCall.selectors';
 import { StatisticService } from '../../shared/services/statistic.service';
+import { cancelFullscreen } from '../../shared/utils/utils';
 
 enum gameRoundSteps {
   questions,
@@ -52,6 +50,16 @@ enum gameRoundSteps {
   styleUrls: ['./audio-call.component.scss'],
 })
 export class AudioCallComponent implements OnInit, OnDestroy {
+  @ViewChild('audioCall') audioCall;
+
+  subscription: Subscription = new Subscription();
+
+  fullScreen = false;
+
+  sourceWords: IWord[] = [];
+
+  public answerObjForThisRound: IWord;
+
   level: number;
 
   group: number;
@@ -64,8 +72,7 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
   private userWords: IUserWord[] = [];
 
-  private audioURL =
-    'https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/';
+  audioPlayer = new Audio();
 
   private wordsResult = {
     know: [],
@@ -78,11 +85,9 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
   public statistic: IStatistic;
 
-  public wordsForRounds: IWord[][] = [];
+  public wordsForRounds: string[][] = [];
 
-  public audioForRoundUrl = '';
-
-  public answers: IWord[] = [];
+  public answers: string[] = [];
 
   public userAnswer = '';
 
@@ -92,40 +97,60 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
   public gameStep: gameRoundSteps = 0;
 
-  private $player: HTMLAudioElement;
-
-  @ViewChild('stream') set playerRef(ref: ElementRef<HTMLAudioElement>) {
-    this.$player = ref.nativeElement;
-  }
-
   constructor(private store: Store, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.level = params.level;
-      this.group = params.group;
-      this.fromBook = !!params.fromBook;
-      this.fromDictionary = !!params.fromDictionary;
+    this.subscription.add(
+      this.route.queryParams.subscribe((params) => {
+        this.level = params.level;
+        this.group = params.group;
+        this.fromBook = !!params.fromBook;
+        this.fromDictionary = !!params.fromDictionary;
+      }),
+    );
+
+    this.audioPlayer.addEventListener('ended', () => {
+      if (this.gameStep === 0) {
+        this.gameStep = 1;
+      }
     });
 
-    this.getWordsForGame();
     this.store.dispatch(fetchAllUserWords());
     this.store.dispatch(fetchStatistic());
-    this.store.select(selectUserWords).subscribe((words) => {
-      this.userWords = words;
-    });
+    this.subscription.add(
+      this.store.select(selectUserWords).subscribe((words) => {
+        this.userWords = words;
+      }),
+    );
 
-    this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
-      this.statistic = stat;
-    });
+    this.subscription.add(
+      this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
+        this.statistic = stat;
+      }),
+    );
+
+    this.getWordsForGame();
+    document.addEventListener('keydown', this.keyBoardHandler);
   }
 
   private getWordsForGame(): void {
+    if (this.fromBook) {
+      this.subscription.add(
+        this.store.select(selectWordsForGame).subscribe((words: IWord[]) => {
+          this.shuffleWords(words);
+        }),
+      );
+      return;
+    }
+
     if (this.fromDictionary) {
       this.store
         .select(selectDifficultWordsData)
-        .subscribe((words: IAggWordsPaginator) => {
-          this.shuffleWords(words.aggWords);
+        .subscribe((wordsObj: IAggWordsPaginator) => {
+          if (!wordsObj) {
+            return;
+          }
+          this.shuffleWords(wordsObj.aggWords);
         });
       return;
     }
@@ -137,69 +162,77 @@ export class AudioCallComponent implements OnInit, OnDestroy {
       }),
     );
 
-    this.store.select(selectAudioCallWords).subscribe((words) => {
-      if (!words) {
-        return;
-      }
+    this.subscription.add(
+      this.store.select(selectAudioCallWords).subscribe((wordsObj) => {
+        if (!wordsObj) {
+          return;
+        }
 
-      this.shuffleWords(words);
-    });
+        this.shuffleWords(wordsObj);
+      }),
+    );
   }
 
-  private shuffleWords(words): void {
-    this.answers = [];
-    this.wordsForRounds = [];
+  private shuffleWords(wordsObj): void {
+    this.maxRound = wordsObj.length - 1;
+    this.sourceWords = wordsObj;
+    const arrayWords: string[] = this.sourceWords.map((item) => item.word);
+    this.answers = arrayWords.sort(() => Math.random() - 0.5);
 
-    words.forEach((word) => {
-      if (!this.wordsForRounds[0]) {
-        this.wordsForRounds.push([]);
+    let i = 0;
+
+    this.answers.forEach((item) => {
+      this.wordsForRounds.push([item]);
+
+      while (this.wordsForRounds[i].length < 5) {
+        const word = this.getRandomWord(arrayWords);
+        if (word !== item) {
+          this.wordsForRounds[i].push(word);
+        }
       }
 
-      if (this.wordsForRounds[0].length <= 4) {
-        this.wordsForRounds[0].push(word);
-        return;
-      }
-
-      if (!this.wordsForRounds[1]) {
-        this.wordsForRounds.push([]);
-      }
-
-      if (this.wordsForRounds[1].length <= 4) {
-        this.wordsForRounds[1].push(word);
-        return;
-      }
-
-      if (!this.wordsForRounds[2]) {
-        this.wordsForRounds.push([]);
-      }
-
-      if (this.wordsForRounds[2].length <= 4) {
-        this.wordsForRounds[2].push(word);
-        return;
-      }
-
-      if (!this.wordsForRounds[3]) {
-        this.wordsForRounds.push([]);
-      }
-
-      if (this.wordsForRounds[3].length <= 4) {
-        this.wordsForRounds[3].push(word);
-      }
+      i += 1;
     });
+
+    this.wordsForRounds.forEach((wordsRound) =>
+      wordsRound.sort(() => Math.random() - 0.5),
+    );
 
     this.wordsForRounds.forEach((roundWords) => {
       this.answers.push(roundWords[Math.floor(Math.random() * 4)]);
     });
 
-    this.audioForRoundUrl = `${this.audioURL}${
-      this.answers[this.gameRound].audio
-    }`;
+    this.getObjAnswer();
+    this.onAudioClickHandler(this.answerObjForThisRound.audio, false);
+  }
 
-    this.maxRound = this.answers.length - 1;
+  private getObjAnswer() {
+    this.answerObjForThisRound = this.sourceWords.find(
+      (wordObj) => wordObj.word === this.answers[this.gameRound],
+    );
+  }
+
+  public getWordTranslate(word) {
+    const { wordTranslate } = this.sourceWords.find(
+      (wordObj) => wordObj.word === word,
+    );
+
+    return wordTranslate;
+  }
+
+  private getRandomWord(arrayWords) {
+    return arrayWords[Math.round(Math.random() * (arrayWords.length - 1))];
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(fetchACallWordsWithLevelsSuccess({ words: undefined }));
+    this.audioPlayer.removeEventListener('ended', () => {
+      if (this.gameStep === 0) {
+        this.gameStep = 1;
+      }
+    });
+    document.removeEventListener('keydown', this.keyBoardHandler);
+    this.subscription.unsubscribe();
   }
 
   public checkAnswer(wordForCheck: string): void {
@@ -209,14 +242,14 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
     this.userAnswer = wordForCheck;
 
-    if (wordForCheck === this.answers[this.gameRound].word) {
+    if (wordForCheck === this.answerObjForThisRound.word) {
       this.correctAnswerSeries += 1;
       this.addToResults(
         'know',
-        this.answers[this.gameRound].word,
-        this.answers[this.gameRound].wordTranslate,
-        this.answers[this.gameRound].transcription,
-        this.answers[this.gameRound].audio,
+        this.answerObjForThisRound.word,
+        this.answerObjForThisRound.wordTranslate,
+        this.answerObjForThisRound.transcription,
+        this.answerObjForThisRound.audio,
       );
 
       this.sendWordResult('correctCount');
@@ -233,18 +266,14 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
     this.addToResults(
       'dontKnow',
-      this.answers[this.gameRound].word,
-      this.answers[this.gameRound].wordTranslate,
-      this.answers[this.gameRound].transcription,
-      this.answers[this.gameRound].audio,
+      this.answerObjForThisRound.word,
+      this.answerObjForThisRound.wordTranslate,
+      this.answerObjForThisRound.transcription,
+      this.answerObjForThisRound.audio,
     );
 
     this.sendWordResult('incorrectCount');
     this.gameStep = 3;
-  }
-
-  public playAudio(): void {
-    this.$player.play();
   }
 
   public handlerNextButton(): void {
@@ -258,10 +287,10 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
       this.addToResults(
         'dontKnow',
-        this.answers[this.gameRound].word,
-        this.answers[this.gameRound].wordTranslate,
-        this.answers[this.gameRound].transcription,
-        this.answers[this.gameRound].audio,
+        this.answerObjForThisRound.word,
+        this.answerObjForThisRound.wordTranslate,
+        this.answerObjForThisRound.transcription,
+        this.answerObjForThisRound.audio,
       );
 
       this.sendWordResult('incorrectCount');
@@ -274,9 +303,8 @@ export class AudioCallComponent implements OnInit, OnDestroy {
       this.gameRound += 1;
       this.gameStep = 0;
       this.userAnswer = '';
-      this.audioForRoundUrl = `${this.audioURL}${
-        this.answers[this.gameRound].audio
-      }`;
+      this.getObjAnswer();
+      this.onAudioClickHandler(this.answerObjForThisRound.audio, false);
       return;
     }
 
@@ -308,7 +336,7 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
   private sendWordResult(result: 'correctCount' | 'incorrectCount'): void {
     this.userWord = this.userWords.find((word) => {
-      return word.wordId === this.answers[this.gameRound].id;
+      return word.wordId === this.answerObjForThisRound.id;
     });
 
     if (this.userWord) {
@@ -329,7 +357,7 @@ export class AudioCallComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(
         postUserWord({
-          wordId: this.answers[this.gameRound].id,
+          wordId: this.answerObjForThisRound.id,
           word: {
             optional: {
               [result]: 1,
@@ -364,5 +392,51 @@ export class AudioCallComponent implements OnInit, OnDestroy {
       wordTranscription,
       audioUrl,
     });
+  }
+
+  onAudioClickHandler = (audioSrc: string, staticAudio: boolean): void => {
+    if (
+      this.audioPlayer.src !== `${!staticAudio ? MEDIA_PREFIX : ''}${audioSrc}`
+    ) {
+      this.audioPlayer.src = `${!staticAudio ? MEDIA_PREFIX : ''}${audioSrc}`;
+    }
+    this.audioPlayer.load();
+    this.audioPlayer
+      .play()
+      .then((r) => r)
+      .catch((e) => e);
+  };
+
+  keyBoardHandler = (event: KeyboardEvent): void => {
+    if (this.gameStep === 0 || this.gameStep === 4) {
+      return;
+    }
+
+    if (event.code === 'Enter') {
+      this.handlerNextButton();
+      return;
+    }
+
+    if (
+      event.code === 'Digit1' ||
+      event.code === 'Digit2' ||
+      event.code === 'Digit3' ||
+      event.code === 'Digit4' ||
+      event.code === 'Digit5'
+    ) {
+      this.checkAnswer(
+        this.wordsForRounds[this.gameRound][Number(event.key) - 1],
+      );
+    }
+  };
+
+  toggleFullScreen(): void {
+    if (this.fullScreen) {
+      cancelFullscreen();
+      this.fullScreen = false;
+    } else {
+      this.audioCall.nativeElement.requestFullscreen();
+      this.fullScreen = true;
+    }
   }
 }
