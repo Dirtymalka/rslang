@@ -23,6 +23,9 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
+        if (error.url.includes('statistics')) {
+          return throwError(error);
+        }
         this.store.dispatch(
           setError({ error: { errorMessage: error.statusText } }),
         );
