@@ -26,9 +26,6 @@ export const changeSettingsModes = createAction(
 export const changePaginationOptions = createAction(
   '[Settings Setting] Change settings pagination',
   (pagination: IPagination) => pagination,
-  // props<{ pagination: IPagination }>(),
-  // props<{ pagination: IPagination }>(),
-  // props<{ settingsState.pagination: IPagination }>(),
 );
 
 export const changeGroup = createAction(

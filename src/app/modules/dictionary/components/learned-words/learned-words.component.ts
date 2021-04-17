@@ -62,6 +62,8 @@ export class LearnedWordsComponent implements OnInit {
       .subscribe((w) => {
         this.length = w.count;
         this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
+
+        console.log(this.words);
       });
   }
 }

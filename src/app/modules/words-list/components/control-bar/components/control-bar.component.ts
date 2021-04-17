@@ -49,6 +49,8 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
 
   paginationOptions;
 
+  wordsLength = true;
+
   @Output()
   markedAllAsDifficult = new EventEmitter<IWord[]>();
 
@@ -88,6 +90,7 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
 
     this.store$.select(selectAllWords).subscribe((words: IWord[]) => {
       this.allWords = words;
+      this.wordsLength = this.isWordLength();
     });
   }
 
@@ -95,6 +98,13 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
     this.isAllChecked =
       this.allWords.length &&
       this.wordsInSelectedState.length === this.allWords.length;
+  }
+
+  isWordLength(): boolean {
+    if (this.allWords.length > 5) {
+      return false;
+    }
+    return true;
   }
 
   getGroupClassName(): string {

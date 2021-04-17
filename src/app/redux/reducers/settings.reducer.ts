@@ -17,7 +17,12 @@ export const settingsReducer = createReducer(
   })),
   on(changePaginationOptions, (state, pagination) => ({
     ...state,
-    pagination: { group: pagination.group, page: pagination.page },
+    pagination: {
+      group: pagination.group,
+      page: pagination.page,
+      indexFrom: pagination.indexFrom,
+      indexTo: pagination.indexTo,
+    },
   })),
   on(changeSettingsModes, (state, settingsState) => ({
     ...state,

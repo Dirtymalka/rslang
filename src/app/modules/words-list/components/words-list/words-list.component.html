@@ -1,8 +1,5 @@
 <ul class="wrapper">
-  <app-control-bar
-    (markedAllAsDifficult)="markAllAsDifficult($event)"
-    (markedAllAsDeleted)="markAllAsDeleted($event)">
-  </app-control-bar>
+  <app-control-bar></app-control-bar>
 
   <ng-container *ngIf="listIsNotEmpty() else loading">
     <app-words-list-item
@@ -16,9 +13,9 @@
     <mat-paginator
       class="pagination"
       [class]="getGroupClassName()"
-      #paginatorRef
+      #paginator
       [length]="600"
-      [pageSize]="20"
+      [pageSize]="pageSize"
       [pageSizeOptions]="[20]"
       [pageIndex]="pageIndex"
       (page) = "pageChangeEvent($event)">

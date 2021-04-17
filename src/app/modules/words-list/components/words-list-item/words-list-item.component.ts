@@ -11,6 +11,7 @@ import {
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
+import { MEDIA_PREFIX } from '../../../../constants/global.constants';
 import {
   selectWord,
   updateSelectedWords,
@@ -27,7 +28,7 @@ import {
 import { IAppState } from '../../../../redux/state/app.state';
 
 import { IWord, IUserWord } from '../../../shared/models/word.models';
-import { VoiceService } from '../../../shared/services/voice.service';
+import { playSound } from '../../../shared/utils/utils';
 
 @Component({
   selector: 'app-words-list-item',
@@ -50,6 +51,8 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
 
   userWords: IUserWord[];
 
+  isDeleted: boolean;
+
   isDifficult: boolean;
 
   correctCount: number;
@@ -70,10 +73,7 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
     selectIsShowDeleteWordButton,
   );
 
-  constructor(
-    private store$: Store<IAppState>,
-    private voiceService: VoiceService,
-  ) {}
+  constructor(private store$: Store<IAppState>) {}
 
   ngOnInit(): void {
     this.store$
@@ -85,6 +85,7 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
     this.store$.select(selectUserWords).subscribe((userWords: IUserWord[]) => {
       this.userWords = userWords;
 
+      this.isDeleted = this.getIsDeletedParam();
       this.isDifficult = this.getIsDifficultParam();
       this.correctCount = this.getCorrectCount();
       this.incorrectCount = this.getIncorrectCount();
@@ -95,6 +96,18 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
     this.isSelected = !!this.wordsInSelected.find(
       (word) => word.id === this.word.id,
     );
+  }
+
+  getIsDeletedParam(): boolean {
+    const word = this.userWords.find(
+      (userWord) =>
+        userWord.wordId === this.word.id && userWord.optional.isDeleted,
+    );
+
+    if (word) {
+      return word.optional.isDeleted;
+    }
+    return false;
   }
 
   getIsDifficultParam(): boolean {
@@ -147,12 +160,13 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
   }
 
   onIconSoundClick(): void {
-    const text = `
-      ${this.word.word}.
-      ${this.word.textMeaning.replace('<i>', ' ').replace('</i>', ' ')}.
-      ${this.word.textExample.replace('<b>', ' ').replace('</b>', ' ')}`;
+    const sounds = [
+      this.word.audio,
+      this.word.audioExample,
+      this.word.audioMeaning,
+    ].map((soundSrc) => new Audio(`${MEDIA_PREFIX}${soundSrc}`));
 
-    this.voiceService.synthesizeSpeechFromText(text);
+    playSound(sounds);
   }
 
   onItemChecked(itemSelected: boolean): void {

@@ -32,7 +32,14 @@ export class TextbookComponent implements OnInit, OnDestroy {
       const options = { ...pagination };
       this.store$.dispatch(changePaginationOptions(options));
     } else {
-      this.store$.dispatch(changePaginationOptions({ group: 0, page: 0 }));
+      this.store$.dispatch(
+        changePaginationOptions({
+          group: 0,
+          page: 0,
+          indexFrom: 0,
+          indexTo: 20,
+        }),
+      );
     }
   }
 
