@@ -1,4 +1,3 @@
-import { Store } from '@ngrx/store';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +11,7 @@ import { IAggWord } from '../../../shared/models/word.models';
   styleUrls: ['./learned-words.component.scss'],
 })
 export class LearnedWordsComponent implements OnInit {
-  public displayedColumns: string[] = ['word', 'results'];
+  public displayedColumns: string[] = ['img', 'word', 'results'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -28,10 +27,7 @@ export class LearnedWordsComponent implements OnInit {
 
   public length = 0;
 
-  constructor(
-    private store: Store,
-    private wordsServiceService: WordsServiceService,
-  ) {}
+  constructor(private wordsServiceService: WordsServiceService) {}
 
   ngOnInit(): void {
     this.getServerData();

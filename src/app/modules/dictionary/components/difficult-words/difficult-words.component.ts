@@ -20,9 +20,13 @@ import {
   styleUrls: ['./difficult-words.component.scss'],
 })
 export class DifficultWordsComponent implements OnInit {
-  displayedColumns: string[] = ['word', 'actions'];
+  CHAPTERS_COLOR = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5'];
+
+  displayedColumns: string[] = ['img', 'word', 'actions'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  public tabColor = '';
 
   public words: MatTableDataSource<IAggWord[]>;
 
@@ -62,6 +66,10 @@ export class DifficultWordsComponent implements OnInit {
     });
 
     this.getServerData();
+  }
+
+  public getBarClass(): string {
+    return this.CHAPTERS_COLOR[this.chapterNumber];
   }
 
   removeWord(id: string): void {

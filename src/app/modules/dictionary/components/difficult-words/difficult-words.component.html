@@ -1,36 +1,47 @@
 <div>
-
-  <button mat-button [matMenuTriggerFor]="menu">Игры</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item [disabled]=wordsLength (click)="startGame('hangman')">Виселица</button>
-    <button mat-menu-item [disabled]=wordsLength (click)="startGame('sprint')">Спринт</button>
-    <button mat-menu-item [disabled]=wordsLength (click)="startGame('savanna')">Саванна</button>
-    <button mat-menu-item [disabled]=wordsLength (click)="startGame('audio-call')">Аудио звонок</button>
-  </mat-menu>
-
   <div class="chapters-wrapper">
     <div class="chapters">
-      <button class="chapter-label" [ngClass]="{pink: chapterNumber===0}" (click)="chapterClick(0)">
+      <button class="chapter-label group0" (click)="chapterClick(0)">
         <span class="chapter-title">Unit 1</span>
       </button>
-      <button class="chapter-label" [ngClass]="{pink: chapterNumber===1}" (click)="chapterClick(1)">
+      <button class="chapter-label group1" (click)="chapterClick(1)">
         <span class="chapter-title">Unit 2</span>
       </button>
-      <button class="chapter-label"  [ngClass]="{pink: chapterNumber===2}" (click)="chapterClick(2)">
+      <button class="chapter-label group2" (click)="chapterClick(2)">
         <span class="chapter-title">Unit 3</span>
       </button>
-      <button class="chapter-label"  [ngClass]="{pink: chapterNumber===3}" (click)="chapterClick(3)">
+      <button class="chapter-label group3" (click)="chapterClick(3)">
         <span class="chapter-title">Unit 4</span>
       </button>
-      <button class="chapter-label"  [ngClass]="{pink: chapterNumber===4}" (click)="chapterClick(4)">
+      <button class="chapter-label group4" (click)="chapterClick(4)">
         <span class="chapter-title">Unit 5</span>
       </button>
-      <button class="chapter-label"  [ngClass]="{pink: chapterNumber===5}" (click)="chapterClick(5)">
+      <button class="chapter-label group5" (click)="chapterClick(5)">
         <span class="chapter-title">Unit 6</span>
       </button>
     </div>
   </div>
+  <div class="control-bar" [class]="getBarClass()">
+    <button  class="white" mat-button [matMenuTriggerFor]="menu">Мини-игры</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [disabled]=wordsLength (click)="startGame('hangman')">Виселица</button>
+      <button mat-menu-item [disabled]=wordsLength (click)="startGame('sprint')">Спринт</button>
+      <button mat-menu-item [disabled]=wordsLength (click)="startGame('savanna')">Саванна</button>
+      <button mat-menu-item [disabled]=wordsLength (click)="startGame('audio-call')">Аудио звонок</button>
+    </mat-menu>
+  </div>
   <table mat-table [dataSource]="words" class="table">
+    <ng-container matColumnDef="img">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <div class="wrapper_word-item__image">
+          <img
+          class="word-item__image"
+          src="https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/{{element.image}}"
+          alt="{{element.word}}">
+        </div>
+      </td>
+    </ng-container>
     <ng-container matColumnDef="word">
       <th mat-header-cell *matHeaderCellDef> Описание </th>
       <td mat-cell *matCellDef="let element">
