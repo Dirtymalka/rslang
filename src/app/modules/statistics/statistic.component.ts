@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import { fetchStatistic } from '../../redux/actions/statistics.actions';
 import { fetchAllUserWords } from '../../redux/actions/words.actions';
 
