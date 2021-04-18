@@ -17,11 +17,12 @@ export class SprintComponent {
 
   gameOver = false;
 
-  gameOverHandler({ wordsResult, totalScore }): void {
-    setTimeout(() => {
-      this.wordsResult = wordsResult;
-      this.gameOver = true;
-      this.totalScore = totalScore;
-    });
+  bestScore: any;
+
+  gameOverHandler({ wordsResult, totalScore, bestScore }): void {
+    this.wordsResult = wordsResult;
+    this.gameOver = true;
+    this.totalScore = totalScore;
+    this.bestScore = bestScore;
   }
 }

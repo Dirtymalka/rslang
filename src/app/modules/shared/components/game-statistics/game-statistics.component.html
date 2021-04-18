@@ -6,6 +6,7 @@
     {{winPercent}} %
   </h1>
   <h2 *ngIf="totalScore !== null">Количество очков: {{totalScore}}</h2>
+  <h2 *ngIf="bestScore !== null">Ваш лучший результат: {{bestScore}}</h2>
   <h2 class="statistics-wrong">Неправильные ответы:</h2>
   <div *ngFor="let answer of wrongAnswers" class="statistics-row">
     <div class="statistics-row_word">{{answer.word}}</div>

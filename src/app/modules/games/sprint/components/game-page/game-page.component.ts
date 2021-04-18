@@ -37,7 +37,11 @@ import {
   SPRINT,
 } from '../../../../../constants/global.constants';
 import { StatisticService } from '../../../../shared/services/statistic.service';
-import { selectUserInfo } from '../../../../../redux/selectors/user.selectors';
+import {
+  selectUserId,
+  selectUserInfo,
+} from '../../../../../redux/selectors/user.selectors';
+import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-game-page',
@@ -53,6 +57,7 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
       dontKnow: any[];
     };
     totalScore: number;
+    bestScore: number;
   }>();
 
   userWords: IUserWord[] = [];
@@ -94,7 +99,7 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
 
   isCorrect = false;
 
-  count = 60;
+  count = 6;
 
   counter;
 
@@ -113,6 +118,10 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
   gameOver1: boolean;
 
   isAuthorized: boolean;
+
+  bestScore: number;
+
+  userId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -133,6 +142,13 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
     this.subscription.add(
       this.store.select(selectUserInfo).subscribe((info) => {
         this.isAuthorized = info.isAuthorized;
+      }),
+    );
+
+    this.subscription.add(
+      this.store.select(selectUserId).subscribe((id) => {
+        this.userId = id;
+        this.bestScore = this.getSprintStorage()[id]?.bestScore;
       }),
     );
 
@@ -163,7 +179,9 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck(): void {
-    this.checkGameOver();
+    if (this.count !== null && this.count <= 0) {
+      this.checkGameOver();
+    }
   }
 
   ngOnDestroy(): void {
@@ -171,6 +189,10 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
     document.removeEventListener('keydown', this.handleKeyDown);
     clearInterval(this.counter);
     this.count = null;
+  }
+
+  getSprintStorage() {
+    return LocalStorageService.getItemFromLocalStorage(SPRINT) || {};
   }
 
   private getGameWords() {
@@ -292,17 +314,28 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
     ) {
       document.removeEventListener('keydown', this.handleKeyDown);
       clearInterval(this.counter);
-      this.gameOver.emit({
-        wordsResult: this.wordsResult,
-        totalScore: this.totalScore,
+      setTimeout(() => {
+        this.gameOver.emit({
+          wordsResult: this.wordsResult,
+          totalScore: this.totalScore,
+          bestScore: Math.max(this.bestScore || 0, this.totalScore),
+        });
+        this.bestCorrectAnswerSeries = Math.max(
+          this.bestCorrectAnswerSeries,
+          this.correctAnswerSeries,
+        );
+        if (this.isAuthorized) {
+          this.sendStatistic();
+        }
+      }, 300);
+
+      const sprintStorage = this.getSprintStorage();
+      LocalStorageService.setItemToLocalStorage(SPRINT, {
+        ...sprintStorage,
+        [this.userId]: {
+          bestScore: Math.max(this.bestScore || 0, this.totalScore),
+        },
       });
-      this.bestCorrectAnswerSeries = Math.max(
-        this.bestCorrectAnswerSeries,
-        this.correctAnswerSeries,
-      );
-      if (this.isAuthorized) {
-        this.sendStatistic();
-      }
       this.count = null;
       this.gameOver1 = true;
     }
