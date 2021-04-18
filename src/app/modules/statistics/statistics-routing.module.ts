@@ -5,6 +5,7 @@ import { LongtermStatisticComponent } from './components/longterm-statistic/long
 import { ShorttermStatisticComponent } from './components/shortterm-statistic/shortterm-statistic.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'long-term-progress', pathMatch: 'full' },
   {
     path: '',
     component: StatisticComponent,
