@@ -19,6 +19,7 @@ export const TEAM: ITeam[] = [
       'Страница логина',
       'Игра "Виселица"',
       'Игра "Спринт"',
+      'Бэкенд',
     ],
   },
   {
@@ -26,14 +27,14 @@ export const TEAM: ITeam[] = [
     title: 'разработчик',
     image: 'maxim-tihomirov',
     github: 'https://github.com/maxim-tihomirov',
-    responsibilities: ['Основной лэйаут (хедер, футер)', 'игра "Саванна"'],
+    responsibilities: ['Основной лэйаут (хедер, футер)'],
   },
   {
     name: 'Евгения Шибкова',
     title: 'разработчик',
     image: 'jenia-shibkova',
     github: 'https://github.com/jenia-shibkova',
-    responsibilities: ['Учебник', 'Стартовая страница'],
+    responsibilities: ['Учебник', 'Стартовая страница', 'UI приложения'],
   },
   {
     name: 'Юра Сулыга',

@@ -4,6 +4,7 @@
   align-items: center;
   height: 100%;
   min-height: calc(100vh - 123px);
+  background-color: #f8f2ee;
 
   .profile {
     min-width: 300px;
@@ -12,5 +13,32 @@
       display: flex;
       flex-direction: column;
     }
+  }
+
+  .profile__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    padding-bottom: 30px;
+    box-shadow: 0 0 10px 0 grey;
+  }
+
+  .profile__button {
+    margin-top: 15px;
+  }
+
+  .profile__name-label {
+    color: #103482;
+  }
+
+  .profile__image {
+    margin-top: 10px;
+    width: 60px;
+    height: 80px;
+    background-image: url("../../../../assets/images/people.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
   }
 }
