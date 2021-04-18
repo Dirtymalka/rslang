@@ -99,7 +99,7 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
 
   isCorrect = false;
 
-  count = 6;
+  count = 60;
 
   counter;
 
