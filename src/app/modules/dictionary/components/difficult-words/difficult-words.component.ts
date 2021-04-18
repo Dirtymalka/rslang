@@ -1,10 +1,12 @@
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { fetchDifficultWordsSuccess } from '../../../../redux/actions/words.actions';
 import { selectDifficultWordsData } from '../../../../redux/selectors/words.selectors';
-import { fetchDifficultWords } from '../../../../redux/actions/words.actions';
+
 import { WordsServiceService } from '../../../shared/services/words-service.service';
 import { IAggWord } from '../../../shared/models/word.models';
 import {
@@ -19,7 +21,9 @@ import {
   templateUrl: './difficult-words.component.html',
   styleUrls: ['./difficult-words.component.scss'],
 })
-export class DifficultWordsComponent implements OnInit {
+export class DifficultWordsComponent implements OnInit, OnDestroy {
+  subscription: Subscription = new Subscription();
+
   CHAPTERS_COLOR = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5'];
 
   displayedColumns: string[] = ['img', 'word', 'actions'];
@@ -52,6 +56,8 @@ export class DifficultWordsComponent implements OnInit {
 
   sprint = SPRINT;
 
+  public loading = true;
+
   constructor(
     private store: Store,
     private wordsServiceService: WordsServiceService,
@@ -59,13 +65,19 @@ export class DifficultWordsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.select(selectDifficultWordsData).subscribe((w) => {
-      if (w) {
-        this.wordsLength = w.aggWords.length < 5;
-      }
-    });
+    this.subscription.add(
+      this.store.select(selectDifficultWordsData).subscribe((w) => {
+        if (w) {
+          this.wordsLength = w.aggWords.length < 5;
+        }
+      }),
+    );
 
     this.getServerData();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public getBarClass(): string {
@@ -73,13 +85,15 @@ export class DifficultWordsComponent implements OnInit {
   }
 
   removeWord(id: string): void {
-    this.wordsServiceService.getUserWord(id).subscribe((data) =>
-      this.wordsServiceService
-        .putWord(data.wordId, {
-          difficulty: data.difficulty,
-          optional: { ...data.optional, isDifficult: false },
-        })
-        .subscribe(() => this.getServerData()),
+    this.subscription.add(
+      this.wordsServiceService.getUserWord(id).subscribe((data) =>
+        this.wordsServiceService
+          .putWord(data.wordId, {
+            difficulty: data.difficulty,
+            optional: { ...data.optional, isDifficult: false },
+          })
+          .subscribe(() => this.getServerData()),
+      ),
     );
   }
 
@@ -90,6 +104,7 @@ export class DifficultWordsComponent implements OnInit {
   }
 
   private getServerData(): void {
+    this.loading = true;
     const filter = {
       $and: [
         {
@@ -100,7 +115,7 @@ export class DifficultWordsComponent implements OnInit {
       ],
     };
 
-    this.store.dispatch(
+    /*  this.store.dispatch(
       fetchDifficultWords({
         group: this.chapterNumber,
         page: this.pageIndex,
@@ -109,12 +124,34 @@ export class DifficultWordsComponent implements OnInit {
       }),
     );
 
-    this.store.select(selectDifficultWordsData).subscribe((w) => {
-      if (w) {
-        this.length = w.count;
-        this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
-      }
-    });
+    this.subscription.add(
+      this.store.select(selectDifficultWordsData).subscribe((w) => {
+        if (w) {
+          this.length = w.count;
+          this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
+        }
+      }),
+    ); */
+
+    this.subscription.add(
+      this.wordsServiceService
+        .getUserAggWordsToPaginator({
+          group: this.chapterNumber,
+          page: this.pageIndex,
+          wordsPerPage: this.pageSize,
+          filter,
+        })
+        .subscribe((w) => {
+          this.length = w.count;
+          this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
+
+          this.store.dispatch(
+            fetchDifficultWordsSuccess({ difficultWordsData: w }),
+          );
+
+          this.loading = false;
+        }),
+    );
   }
 
   public chapterClick(num: number): void {
@@ -128,5 +165,9 @@ export class DifficultWordsComponent implements OnInit {
         fromDictionary: true,
       },
     });
+  }
+
+  removeTags(text: string): string {
+    return text.replace(/<\/?[^>]+(>|$)/g, '');
   }
 }

@@ -1,4 +1,5 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { WordsServiceService } from '../../../shared/services/words-service.service';
@@ -9,7 +10,9 @@ import { IAggWord } from '../../../shared/models/word.models';
   templateUrl: './deleted-words.component.html',
   styleUrls: ['./deleted-words.component.scss'],
 })
-export class DeletedWordsComponent implements OnInit {
+export class DeletedWordsComponent implements OnInit, OnDestroy {
+  subscription: Subscription = new Subscription();
+
   CHAPTERS_COLOR = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5'];
 
   public displayedColumns: string[] = ['img', 'word', 'actions'];
@@ -30,10 +33,16 @@ export class DeletedWordsComponent implements OnInit {
 
   public chapterNumber = 0;
 
+  public loading = true;
+
   constructor(private wordsServiceService: WordsServiceService) {}
 
   ngOnInit(): void {
     this.getServerData();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public getBarClass(): string {
@@ -41,13 +50,15 @@ export class DeletedWordsComponent implements OnInit {
   }
 
   public removeWord(id: string): void {
-    this.wordsServiceService.getUserWord(id).subscribe((data) =>
-      this.wordsServiceService
-        .putWord(data.wordId, {
-          difficulty: data.difficulty,
-          optional: { ...data.optional, isDeleted: false },
-        })
-        .subscribe(() => this.getServerData()),
+    this.subscription.add(
+      this.wordsServiceService.getUserWord(id).subscribe((data) =>
+        this.wordsServiceService
+          .putWord(data.wordId, {
+            difficulty: data.difficulty,
+            optional: { ...data.optional, isDeleted: false },
+          })
+          .subscribe(() => this.getServerData()),
+      ),
     );
   }
 
@@ -59,6 +70,7 @@ export class DeletedWordsComponent implements OnInit {
   }
 
   private getServerData(): void {
+    this.loading = true;
     const filter = {
       $and: [
         {
@@ -67,21 +79,28 @@ export class DeletedWordsComponent implements OnInit {
       ],
     };
 
-    this.wordsServiceService
-      .getUserAggWordsToPaginator({
-        group: this.chapterNumber,
-        page: this.pageIndex,
-        wordsPerPage: this.pageSize,
-        filter,
-      })
-      .subscribe((w) => {
-        this.length = w.count;
-        this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
-      });
+    this.subscription.add(
+      this.wordsServiceService
+        .getUserAggWordsToPaginator({
+          group: this.chapterNumber,
+          page: this.pageIndex,
+          wordsPerPage: this.pageSize,
+          filter,
+        })
+        .subscribe((w) => {
+          this.length = w.count;
+          this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
+          this.loading = false;
+        }),
+    );
   }
 
   public chapterClick(num: number): void {
     this.chapterNumber = num;
     this.getServerData();
+  }
+
+  removeTags(text: string): string {
+    return text.replace(/<\/?[^>]+(>|$)/g, '');
   }
 }

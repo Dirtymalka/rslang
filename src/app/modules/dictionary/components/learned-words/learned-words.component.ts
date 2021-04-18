@@ -27,6 +27,8 @@ export class LearnedWordsComponent implements OnInit {
 
   public length = 0;
 
+  public loading = true;
+
   constructor(private wordsServiceService: WordsServiceService) {}
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class LearnedWordsComponent implements OnInit {
   }
 
   private getServerData(): void {
+    this.loading = true;
     const filter = {
       $and: [
         {
@@ -58,6 +61,11 @@ export class LearnedWordsComponent implements OnInit {
       .subscribe((w) => {
         this.length = w.count;
         this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
+        this.loading = false;
       });
+  }
+
+  removeTags(text: string): string {
+    return text.replace(/<\/?[^>]+(>|$)/g, '');
   }
 }
