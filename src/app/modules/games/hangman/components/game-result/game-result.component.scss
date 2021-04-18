@@ -6,11 +6,15 @@
   margin: 10px auto;
   min-width: 280px;
   line-height: 1.6;
-  padding: 8px;
+  padding: 14px;
   background-color: #f5f5f5;
   border-radius: 10px;
   &.game-over-correct {
     background-color: #e5f7d6;
+  }
+  .game-over_result__label {
+    display: inline-block;
+    margin-bottom: 10px;
   }
   .correct-result {
     color: #480;
@@ -23,12 +27,14 @@
   }
   .correct-word {
     display: contents;
-    margin-left: 10px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
+    color: #103482;
+    letter-spacing: 1px;
   }
   .button {
     width: auto;
+    margin-top: 10px;
   }
 }
 
@@ -36,6 +42,6 @@
   text-align: center;
   color: #999;
   font-size: 15px;
-  height: 126px;
+  height: 144px;
   line-height: 123px;
 }
