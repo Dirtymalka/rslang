@@ -203,6 +203,25 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   font-style: italic;
 }
 
+@media screen and (max-width: 768px) {
+  .chapter__unit-title {
+    font-size: 16px;
+    line-height: 34px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .chapter__label {
+    border-radius: 15px 15px 0 0;
+    height: 28px;
+  }
+
+  .chapter__unit-title {
+    font-size: 14px;
+    line-height: 28px;
+  }
+}
+
 @media screen and (max-width: 1023px) {
   .mat-paginator, .table, .control-bar, .chapters-wrapper {
     width: calc(100% - 60px) !important;
@@ -227,6 +246,11 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   .table .word-item__sentence-wrapper {
     margin-left: 10px;
   }
+
+  .chapter-title {
+    font-size: 16px;
+    line-height: 34px;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -241,5 +265,18 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   .table .word-item__word-set,
   .table .word-item__sentense-wrapper {
     margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 568px) {
+  .chapter-label {
+    border-radius: 15px 15px 0 0;
+    height: 28px;
+  }
+
+  .chapter-title {
+    font-size: 14px;
+    line-height: 28px;
   }
 }
