@@ -21,6 +21,8 @@ export class GameStatisticsComponent implements OnInit {
 
   @Input() totalScore: number = null;
 
+  @Input() bestScore: number = null;
+
   @Input() gameName: string;
 
   winPercent: number;
