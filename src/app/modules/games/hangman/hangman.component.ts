@@ -26,7 +26,7 @@ import {
 import { HANGMAN, MEDIA_PREFIX } from '../../../constants/global.constants';
 import { cancelFullscreen } from '../../shared/utils/utils';
 import { WordsServiceService } from '../../shared/services/words-service.service';
-import {selectUserInfo} from "../../../redux/selectors/user.selectors";
+import { selectUserInfo } from '../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-hangman',
@@ -112,7 +112,7 @@ export class HangmanComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(selectUserInfo).subscribe((info) => {
         this.isAuthorized = info.isAuthorized;
-      })
+      }),
     );
 
     this.getWordsForGame();

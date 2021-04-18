@@ -37,7 +37,7 @@ import {
   SPRINT,
 } from '../../../../../constants/global.constants';
 import { StatisticService } from '../../../../shared/services/statistic.service';
-import {selectUserInfo} from "../../../../../redux/selectors/user.selectors";
+import { selectUserInfo } from '../../../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-game-page',
@@ -133,7 +133,7 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
     this.subscription.add(
       this.store.select(selectUserInfo).subscribe((info) => {
         this.isAuthorized = info.isAuthorized;
-      })
+      }),
     );
 
     this.getGameWords();

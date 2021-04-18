@@ -29,7 +29,7 @@ import { IAppState } from '../../../../redux/state/app.state';
 
 import { IWord, IUserWord } from '../../../shared/models/word.models';
 import { playSound } from '../../../shared/utils/utils';
-import {selectUserInfo} from "../../../../redux/selectors/user.selectors";
+import { selectUserInfo } from '../../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-words-list-item',

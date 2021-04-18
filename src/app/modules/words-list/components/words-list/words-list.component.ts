@@ -35,7 +35,7 @@ import {
 
 import { IPagination } from '../../../../redux/state/settings.state';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
-import {selectUserInfo} from "../../../../redux/selectors/user.selectors";
+import { selectUserInfo } from '../../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-words-list',

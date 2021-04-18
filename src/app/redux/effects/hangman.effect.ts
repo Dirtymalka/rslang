@@ -17,7 +17,6 @@ export class HangmanEffect {
       switchMap(({ level, group }) =>
         this.wordService.getWords(+level, +group).pipe(
           map((words) => {
-            console.log(words);
             return fetchWordsWithLevelsSuccess({ words });
           }),
           catchError((err) => {

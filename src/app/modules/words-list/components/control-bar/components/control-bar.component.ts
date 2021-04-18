@@ -33,7 +33,7 @@ import {
 import { IAppState } from '../../../../../redux/state/app.state';
 import { IUserWord, IWord } from '../../../../shared/models/word.models';
 import { SettingsComponent } from '../../settings/components/settings.component';
-import {selectUserInfo} from "../../../../../redux/selectors/user.selectors";
+import { selectUserInfo } from '../../../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-control-bar',
@@ -98,7 +98,6 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
       this.allWords = words;
       this.wordsLength = this.isWordLength();
     });
-
 
     this.store$.select(selectWordsForGame).subscribe((words: IWord[]) => {
       this.wordsForGame = words;

@@ -51,7 +51,6 @@ export class SettingsComponent {
   }
 
   saveSettings(): void {
-    console.log(this.formGroup.value);
     const settingsValues = this.checkSettingsValues(this.formGroup.value);
     this.store$.dispatch(changeSettingsModes(settingsValues));
   }

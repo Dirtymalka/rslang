@@ -35,7 +35,7 @@ import {
 import { selectAudioCallWords } from '../../../redux/selectors/audioCall.selectors';
 import { StatisticService } from '../../shared/services/statistic.service';
 import { cancelFullscreen } from '../../shared/utils/utils';
-import {selectUserInfo} from "../../../redux/selectors/user.selectors";
+import { selectUserInfo } from '../../../redux/selectors/user.selectors';
 
 enum gameRoundSteps {
   questions,
@@ -115,7 +115,7 @@ export class AudioCallComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(selectUserInfo).subscribe((info) => {
         this.isAuthorized = info.isAuthorized;
-      })
+      }),
     );
 
     this.audioPlayer.addEventListener('ended', () => {
