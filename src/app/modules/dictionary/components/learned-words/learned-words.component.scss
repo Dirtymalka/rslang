@@ -1,6 +1,11 @@
 @import "src/styles/variables";
 @import "src/styles/mixins";
 
+.lerned-words {
+  position: relative;
+  min-height: 100vh;
+}
+
 .table {
   margin: 0 auto;
   width: 1000px !important;

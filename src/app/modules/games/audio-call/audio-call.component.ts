@@ -163,7 +163,7 @@ export class AudioCallComponent implements OnInit, OnDestroy {
               return;
             }
             this.shuffleWords(wordsObj.aggWords);
-          })
+          }),
       );
       return;
     }
@@ -199,7 +199,7 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
       while (this.wordsForRounds[i].length < 5) {
         const word = this.getRandomWord(arrayWords);
-        if (word !== item) {
+        if (word !== item && !this.wordsForRounds[i].includes(word)) {
           this.wordsForRounds[i].push(word);
         }
       }
@@ -210,10 +210,6 @@ export class AudioCallComponent implements OnInit, OnDestroy {
     this.wordsForRounds.forEach((wordsRound) =>
       wordsRound.sort(() => Math.random() - 0.5),
     );
-
-    this.wordsForRounds.forEach((roundWords) => {
-      this.answers.push(roundWords[Math.floor(Math.random() * 4)]);
-    });
 
     this.getObjAnswer();
     this.onAudioClickHandler(this.answerObjForThisRound.audio, false);
@@ -328,6 +324,12 @@ export class AudioCallComponent implements OnInit, OnDestroy {
     }
 
     this.userAnswer = '';
+
+    this.bestCorrectAnswerSeries = Math.max(
+      this.bestCorrectAnswerSeries,
+      this.correctAnswerSeries,
+    );
+
     if (this.isAuthorized) {
       this.sendStatistic();
     }
@@ -443,7 +445,12 @@ export class AudioCallComponent implements OnInit, OnDestroy {
       event.code === 'Digit2' ||
       event.code === 'Digit3' ||
       event.code === 'Digit4' ||
-      event.code === 'Digit5'
+      event.code === 'Digit5' ||
+      event.code === 'Numpad1' ||
+      event.code === 'Numpad2' ||
+      event.code === 'Numpad3' ||
+      event.code === 'Numpad4' ||
+      event.code === 'Numpad5'
     ) {
       this.checkAnswer(
         this.wordsForRounds[this.gameRound][Number(event.key) - 1],

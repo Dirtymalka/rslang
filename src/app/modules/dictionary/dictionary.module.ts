@@ -1,3 +1,4 @@
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
@@ -12,6 +13,7 @@ import { LearnedWordsComponent } from './components/learned-words/learned-words.
 import { DifficultWordsComponent } from './components/difficult-words/difficult-words.component';
 import { DeletedWordsComponent } from './components/deleted-words/deleted-words.component';
 import { DictionaryComponent } from './dictionary.component';
+import { DicSpinnerComponent } from './components/dictionary-spinner/dic-spinner/dic-spinner.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { DictionaryComponent } from './dictionary.component';
     DifficultWordsComponent,
     DeletedWordsComponent,
     DictionaryComponent,
+    DicSpinnerComponent,
   ],
   imports: [
     DictionaryRoutingModule,
@@ -29,6 +32,7 @@ import { DictionaryComponent } from './dictionary.component';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
   ],
   providers: [WordsServiceService],
   exports: [],
