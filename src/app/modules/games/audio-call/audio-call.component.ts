@@ -35,6 +35,7 @@ import {
 import { selectAudioCallWords } from '../../../redux/selectors/audioCall.selectors';
 import { StatisticService } from '../../shared/services/statistic.service';
 import { cancelFullscreen } from '../../shared/utils/utils';
+import { selectUserInfo } from '../../../redux/selectors/user.selectors';
 
 enum gameRoundSteps {
   questions,
@@ -97,6 +98,8 @@ export class AudioCallComponent implements OnInit, OnDestroy {
 
   public gameStep: gameRoundSteps = 0;
 
+  isAuthorized: boolean;
+
   constructor(private store: Store, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -109,25 +112,33 @@ export class AudioCallComponent implements OnInit, OnDestroy {
       }),
     );
 
+    this.subscription.add(
+      this.store.select(selectUserInfo).subscribe((info) => {
+        this.isAuthorized = info.isAuthorized;
+      }),
+    );
+
     this.audioPlayer.addEventListener('ended', () => {
       if (this.gameStep === 0) {
         this.gameStep = 1;
       }
     });
 
-    this.store.dispatch(fetchAllUserWords());
-    this.store.dispatch(fetchStatistic());
-    this.subscription.add(
-      this.store.select(selectUserWords).subscribe((words) => {
-        this.userWords = words;
-      }),
-    );
+    if (this.isAuthorized) {
+      this.store.dispatch(fetchAllUserWords());
+      this.store.dispatch(fetchStatistic());
+      this.subscription.add(
+        this.store.select(selectUserWords).subscribe((words) => {
+          this.userWords = words;
+        }),
+      );
 
-    this.subscription.add(
-      this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
-        this.statistic = stat;
-      }),
-    );
+      this.subscription.add(
+        this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
+          this.statistic = stat;
+        }),
+      );
+    }
 
     this.getWordsForGame();
     document.addEventListener('keydown', this.keyBoardHandler);
@@ -252,7 +263,9 @@ export class AudioCallComponent implements OnInit, OnDestroy {
         this.answerObjForThisRound.audio,
       );
 
-      this.sendWordResult('correctCount');
+      if (this.isAuthorized) {
+        this.sendWordResult('correctCount');
+      }
       this.gameStep = 2;
       return;
     }
@@ -272,7 +285,9 @@ export class AudioCallComponent implements OnInit, OnDestroy {
       this.answerObjForThisRound.audio,
     );
 
-    this.sendWordResult('incorrectCount');
+    if (this.isAuthorized) {
+      this.sendWordResult('incorrectCount');
+    }
     this.gameStep = 3;
   }
 
@@ -293,7 +308,9 @@ export class AudioCallComponent implements OnInit, OnDestroy {
         this.answerObjForThisRound.audio,
       );
 
-      this.sendWordResult('incorrectCount');
+      if (this.isAuthorized) {
+        this.sendWordResult('incorrectCount');
+      }
       this.gameStep = 3;
       this.userAnswer = '';
       return;
@@ -309,7 +326,9 @@ export class AudioCallComponent implements OnInit, OnDestroy {
     }
 
     this.userAnswer = '';
-    this.sendStatistic();
+    if (this.isAuthorized) {
+      this.sendStatistic();
+    }
     this.gameStep = 4;
   }
 

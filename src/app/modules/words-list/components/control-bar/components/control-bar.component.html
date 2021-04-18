@@ -7,7 +7,8 @@
       type="button"
       mat-button [matMenuTriggerFor]="menu"
       color="primary"
-      class="button-games">Мини-игры
+      class="button-games"
+      [disabled]="!isAuthorized || wordsForGame.length < 5">Мини-игры
     </button>
     <mat-menu #menu="matMenu">
       <button

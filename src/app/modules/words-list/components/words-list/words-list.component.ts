@@ -35,6 +35,7 @@ import {
 
 import { IPagination } from '../../../../redux/state/settings.state';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { selectUserInfo } from '../../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-words-list',
@@ -68,6 +69,8 @@ export class WordsListComponent implements OnInit {
 
   indexTo: number;
 
+  isAuthorized: boolean;
+
   @ViewChild('paginator') paginator: ElementRef;
 
   constructor(
@@ -88,6 +91,10 @@ export class WordsListComponent implements OnInit {
       });
 
     this.groupsSubscribes();
+
+    this.store$.select(selectUserInfo).subscribe((info) => {
+      this.isAuthorized = info.isAuthorized;
+    });
   }
 
   getPageIndex(): number {
@@ -150,28 +157,30 @@ export class WordsListComponent implements OnInit {
   getUnitWords(): void {
     const { group } = this.paginationOptions;
 
-    this.wordsService.getUserWords().subscribe((data) => {
-      this.userWords = data;
-      this.store$.dispatch(
-        fetchAllUserWordsSuccess({ userWords: this.userWords }),
-      );
+    if (this.isAuthorized) {
+      this.wordsService.getUserWords().subscribe((data) => {
+        this.userWords = data;
+        this.store$.dispatch(
+          fetchAllUserWordsSuccess({ userWords: this.userWords }),
+        );
+      });
+    }
 
-      if (this.bookWords[group].length) {
-        this.currentGroupWords = this.bookWords[group];
+    if (this.bookWords[group].length) {
+      this.currentGroupWords = this.bookWords[group];
 
+      this.getWordsPerPage();
+      return;
+    }
+
+    this.wordsService
+      .getWordsExt(group, 0, 600, 600)
+      .subscribe((wordsPerGroup) => {
+        this.currentGroupWords = wordsPerGroup;
         this.getWordsPerPage();
-        return;
-      }
 
-      this.wordsService
-        .getWordsExt(group, 0, 600, 600)
-        .subscribe((wordsPerGroup) => {
-          this.currentGroupWords = wordsPerGroup;
-          this.getWordsPerPage();
-
-          this.saveGroupAtStore(group);
-        });
-    });
+        this.saveGroupAtStore(group);
+      });
   }
 
   getWordsPerPage(): void {

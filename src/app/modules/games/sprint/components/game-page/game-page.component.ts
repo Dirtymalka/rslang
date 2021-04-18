@@ -37,6 +37,7 @@ import {
   SPRINT,
 } from '../../../../../constants/global.constants';
 import { StatisticService } from '../../../../shared/services/statistic.service';
+import { selectUserInfo } from '../../../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-game-page',
@@ -111,6 +112,8 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
 
   gameOver1: boolean;
 
+  isAuthorized: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private store: Store,
@@ -127,22 +130,30 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
       }),
     );
 
+    this.subscription.add(
+      this.store.select(selectUserInfo).subscribe((info) => {
+        this.isAuthorized = info.isAuthorized;
+      }),
+    );
+
     this.getGameWords();
 
-    this.store.dispatch(fetchAllUserWords());
-    this.store.dispatch(fetchStatistic());
+    if (this.isAuthorized) {
+      this.store.dispatch(fetchAllUserWords());
+      this.store.dispatch(fetchStatistic());
 
-    this.subscription.add(
-      this.store.select(selectUserWords).subscribe((words) => {
-        this.userWords = words;
-      }),
-    );
+      this.subscription.add(
+        this.store.select(selectUserWords).subscribe((words) => {
+          this.userWords = words;
+        }),
+      );
 
-    this.subscription.add(
-      this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
-        this.statistic = stat;
-      }),
-    );
+      this.subscription.add(
+        this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
+          this.statistic = stat;
+        }),
+      );
+    }
 
     document.addEventListener('keydown', this.handleKeyDown);
 
@@ -289,8 +300,9 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
         this.bestCorrectAnswerSeries,
         this.correctAnswerSeries,
       );
-
-      this.sendStatistic();
+      if (this.isAuthorized) {
+        this.sendStatistic();
+      }
       this.count = null;
       this.gameOver1 = true;
     }
@@ -307,7 +319,9 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
       this.word.audio,
     );
 
-    this.sendWordResult('correctCount');
+    if (this.isAuthorized) {
+      this.sendWordResult('correctCount');
+    }
     this.isCorrect = true;
 
     this.onAudioClickHandler('../../../assets/sounds/success.mp3', true);
@@ -331,7 +345,9 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
       this.word.audio,
     );
 
-    this.sendWordResult('incorrectCount');
+    if (this.isAuthorized) {
+      this.sendWordResult('incorrectCount');
+    }
     this.isWrong = true;
 
     this.onAudioClickHandler('../../../assets/sounds/sounds_error.mp3', true);
