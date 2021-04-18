@@ -29,6 +29,7 @@ import { IAppState } from '../../../../redux/state/app.state';
 
 import { IWord, IUserWord } from '../../../shared/models/word.models';
 import { playSound } from '../../../shared/utils/utils';
+import {selectUserInfo} from "../../../../redux/selectors/user.selectors";
 
 @Component({
   selector: 'app-words-list-item',
@@ -73,6 +74,8 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
     selectIsShowDeleteWordButton,
   );
 
+  isAuthorized: boolean;
+
   constructor(private store$: Store<IAppState>) {}
 
   ngOnInit(): void {
@@ -89,6 +92,10 @@ export class WordsListItemComponent implements OnInit, AfterContentChecked {
       this.isDifficult = this.getIsDifficultParam();
       this.correctCount = this.getCorrectCount();
       this.incorrectCount = this.getIncorrectCount();
+    });
+
+    this.store$.select(selectUserInfo).subscribe((info) => {
+      this.isAuthorized = info.isAuthorized;
     });
   }
 
