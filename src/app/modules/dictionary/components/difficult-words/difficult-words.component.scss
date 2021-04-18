@@ -14,6 +14,7 @@
 
 th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
   padding-left: 0 !important;
+  text-align: center !important;
 }
 
 .description-wrapper {
@@ -29,8 +30,6 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
 
 .difficult-words {
   position: relative;
-  min-height: 100vh;
-  width: 90%;
   margin: 0 auto;
 }
 
@@ -55,6 +54,9 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   border-top-right-radius: 20px;
   border: none;
   cursor: pointer;
+  @include unselectable;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .wrapper_word-item__image {
