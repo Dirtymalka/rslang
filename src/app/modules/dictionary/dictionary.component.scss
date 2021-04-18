@@ -1,0 +1,17 @@
+
+.dictionary-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1023px) {
+  .dictionary-wrapper {
+    max-width: calc(100% - 60px);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .dictionary-wrapper {
+    max-width: calc(100% - 40px);
+  }
+}

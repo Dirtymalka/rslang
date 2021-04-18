@@ -60,4 +60,8 @@ export class LearnedWordsComponent implements OnInit {
         this.words = new MatTableDataSource<IAggWord[]>(w.aggWords);
       });
   }
+
+  removeTags(text: string): string {
+    return text.replace(/<\/?[^>]+(>|$)/g, '');
+  }
 }

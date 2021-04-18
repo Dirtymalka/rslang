@@ -1,10 +1,17 @@
 <li class="row">
-  <div
+  <!-- <div
     class="icon-sound"
     (click)="onIconSoundClick()"
     >
     <app-icon-sound></app-icon-sound>
-  </div>
+  </div> -->
+  <button
+    type="button"
+    mat-icon-button
+    class="button__audio"
+    (click)="onIconSoundClick()">
+    <span class="material-icons">volume_up</span>
+  </button>
 
   <span *ngIf="isDifficult" class="difficult-mark">
     <mat-icon class="icon-hard--active">school</mat-icon>

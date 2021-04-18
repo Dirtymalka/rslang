@@ -84,4 +84,8 @@ export class DeletedWordsComponent implements OnInit {
     this.chapterNumber = num;
     this.getServerData();
   }
+
+  removeTags(text: string): string {
+    return text.replace(/<\/?[^>]+(>|$)/g, '');
+  }
 }

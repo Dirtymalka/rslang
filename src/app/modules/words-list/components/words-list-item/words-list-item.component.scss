@@ -16,6 +16,27 @@
   position: relative;
 }
 
+.button__audio {
+  width: 40px;
+  height: 40px;
+  color: rgb(126, 145, 159);
+  transition: color background-color .2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .material-icons {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.button__audio:hover {
+  color: $color-light-blue;
+  cursor: pointer;
+  background-color: #2582e720;
+}
+
 .checkbox {
   margin-right: 14px;
 }
@@ -136,13 +157,21 @@
   outline: none;
   background: none;
   border: none;
-  border-radius: 4px;
+  border-radius: 50%;
   transition: background-color .2s ease;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .icon-hard, .icon-delete {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .button-delete {
