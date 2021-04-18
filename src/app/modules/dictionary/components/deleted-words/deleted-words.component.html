@@ -48,13 +48,13 @@
               </p>
               <div class="word-item__sentence-wrapper">
                 <p class="word-item__text-meaning">
-                  {{element.textMeaning}}&nbsp;
+                  {{removeTags(element.textMeaning)}}&nbsp;
                 </p>
                 <p class="word-item__text-meaning-translate">
                   {{element.textMeaningTranslate}}&nbsp;
                 </p>
                 <p class="word-item__text-example">
-                  &#8594; &nbsp;{{element.textExample}}
+                  &#8594; &nbsp;{{removeTags(element.textExample)}}
                 </p>
                 <p class="word-item__text-example-translate">
                   &#8594; &nbsp;{{element.textExampleTranslate}}
