@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import { fetchStatistic } from '../../redux/actions/statistics.actions';
 import { fetchAllUserWords } from '../../redux/actions/words.actions';
 
@@ -17,11 +16,10 @@ export class StatisticComponent implements OnInit {
 
   activeLink = this.links[0];
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(fetchStatistic());
     this.store.dispatch(fetchAllUserWords());
-    this.router.navigate(['statistics', 'long-term-progress']);
   }
 }

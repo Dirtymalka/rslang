@@ -26,6 +26,7 @@ import {
 import { HANGMAN, MEDIA_PREFIX } from '../../../constants/global.constants';
 import { cancelFullscreen } from '../../shared/utils/utils';
 import { WordsServiceService } from '../../shared/services/words-service.service';
+import { selectUserInfo } from '../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-hangman',
@@ -90,6 +91,8 @@ export class HangmanComponent implements OnInit, OnDestroy {
 
   subscription: Subscription = new Subscription();
 
+  isAuthorized: boolean;
+
   constructor(
     private store: Store,
     private route: ActivatedRoute,
@@ -106,22 +109,30 @@ export class HangmanComponent implements OnInit, OnDestroy {
       }),
     );
 
+    this.subscription.add(
+      this.store.select(selectUserInfo).subscribe((info) => {
+        this.isAuthorized = info.isAuthorized;
+      }),
+    );
+
     this.getWordsForGame();
 
-    this.store.dispatch(fetchAllUserWords());
-    this.store.dispatch(fetchStatistic());
+    if (this.isAuthorized) {
+      this.store.dispatch(fetchAllUserWords());
+      this.store.dispatch(fetchStatistic());
 
-    this.subscription.add(
-      this.store.select(selectUserWords).subscribe((words) => {
-        this.userWords = words;
-      }),
-    );
+      this.subscription.add(
+        this.store.select(selectUserWords).subscribe((words) => {
+          this.userWords = words;
+        }),
+      );
 
-    this.subscription.add(
-      this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
-        this.statistic = stat;
-      }),
-    );
+      this.subscription.add(
+        this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
+          this.statistic = stat;
+        }),
+      );
+    }
 
     document.addEventListener('keydown', this.keyBoardHandler);
   }
@@ -208,7 +219,9 @@ export class HangmanComponent implements OnInit, OnDestroy {
         this.word.audio,
       );
 
-      this.sendWordResult('incorrectCount');
+      if (this.isAuthorized) {
+        this.sendWordResult('incorrectCount');
+      }
     }
 
     if (this.correctLetters.length === this.word.word.length) {
@@ -223,7 +236,9 @@ export class HangmanComponent implements OnInit, OnDestroy {
         this.word.audio,
       );
 
-      this.sendWordResult('correctCount');
+      if (this.isAuthorized) {
+        this.sendWordResult('correctCount');
+      }
     }
   }
 
@@ -255,7 +270,9 @@ export class HangmanComponent implements OnInit, OnDestroy {
         this.correctAnswerSeries,
       );
       this.gameOver = true;
-      this.sendStatistic();
+      if (this.isAuthorized) {
+        this.sendStatistic();
+      }
     }, 300);
   }
 
@@ -365,8 +382,9 @@ export class HangmanComponent implements OnInit, OnDestroy {
       this.word.transcription,
       this.word.audio,
     );
-
-    this.sendWordResult('incorrectCount');
+    if (this.isAuthorized) {
+      this.sendWordResult('incorrectCount');
+    }
   }
 
   onAudioClickHandler = (audioSrc: string): void => {

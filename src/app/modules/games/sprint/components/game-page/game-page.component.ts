@@ -37,6 +37,11 @@ import {
   SPRINT,
 } from '../../../../../constants/global.constants';
 import { StatisticService } from '../../../../shared/services/statistic.service';
+import {
+  selectUserId,
+  selectUserInfo,
+} from '../../../../../redux/selectors/user.selectors';
+import { LocalStorageService } from '../../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-game-page',
@@ -52,6 +57,7 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
       dontKnow: any[];
     };
     totalScore: number;
+    bestScore: number;
   }>();
 
   userWords: IUserWord[] = [];
@@ -111,6 +117,12 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
 
   gameOver1: boolean;
 
+  isAuthorized: boolean;
+
+  bestScore: number;
+
+  userId: string;
+
   constructor(
     private route: ActivatedRoute,
     private store: Store,
@@ -127,22 +139,37 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
       }),
     );
 
+    this.subscription.add(
+      this.store.select(selectUserInfo).subscribe((info) => {
+        this.isAuthorized = info.isAuthorized;
+      }),
+    );
+
+    this.subscription.add(
+      this.store.select(selectUserId).subscribe((id) => {
+        this.userId = id;
+        this.bestScore = this.getSprintStorage()[id]?.bestScore;
+      }),
+    );
+
     this.getGameWords();
 
-    this.store.dispatch(fetchAllUserWords());
-    this.store.dispatch(fetchStatistic());
+    if (this.isAuthorized) {
+      this.store.dispatch(fetchAllUserWords());
+      this.store.dispatch(fetchStatistic());
 
-    this.subscription.add(
-      this.store.select(selectUserWords).subscribe((words) => {
-        this.userWords = words;
-      }),
-    );
+      this.subscription.add(
+        this.store.select(selectUserWords).subscribe((words) => {
+          this.userWords = words;
+        }),
+      );
 
-    this.subscription.add(
-      this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
-        this.statistic = stat;
-      }),
-    );
+      this.subscription.add(
+        this.store.select(selectStatistic).subscribe((stat: IStatistic) => {
+          this.statistic = stat;
+        }),
+      );
+    }
 
     document.addEventListener('keydown', this.handleKeyDown);
 
@@ -152,7 +179,9 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck(): void {
-    this.checkGameOver();
+    if (this.count !== null && this.count <= 0) {
+      this.checkGameOver();
+    }
   }
 
   ngOnDestroy(): void {
@@ -160,6 +189,10 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
     document.removeEventListener('keydown', this.handleKeyDown);
     clearInterval(this.counter);
     this.count = null;
+  }
+
+  getSprintStorage() {
+    return LocalStorageService.getItemFromLocalStorage(SPRINT) || {};
   }
 
   private getGameWords() {
@@ -281,16 +314,28 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
     ) {
       document.removeEventListener('keydown', this.handleKeyDown);
       clearInterval(this.counter);
-      this.gameOver.emit({
-        wordsResult: this.wordsResult,
-        totalScore: this.totalScore,
-      });
-      this.bestCorrectAnswerSeries = Math.max(
-        this.bestCorrectAnswerSeries,
-        this.correctAnswerSeries,
-      );
+      setTimeout(() => {
+        this.gameOver.emit({
+          wordsResult: this.wordsResult,
+          totalScore: this.totalScore,
+          bestScore: Math.max(this.bestScore || 0, this.totalScore),
+        });
+        this.bestCorrectAnswerSeries = Math.max(
+          this.bestCorrectAnswerSeries,
+          this.correctAnswerSeries,
+        );
+        if (this.isAuthorized) {
+          this.sendStatistic();
+        }
+      }, 300);
 
-      this.sendStatistic();
+      const sprintStorage = this.getSprintStorage();
+      LocalStorageService.setItemToLocalStorage(SPRINT, {
+        ...sprintStorage,
+        [this.userId]: {
+          bestScore: Math.max(this.bestScore || 0, this.totalScore),
+        },
+      });
       this.count = null;
       this.gameOver1 = true;
     }
@@ -307,7 +352,9 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
       this.word.audio,
     );
 
-    this.sendWordResult('correctCount');
+    if (this.isAuthorized) {
+      this.sendWordResult('correctCount');
+    }
     this.isCorrect = true;
 
     this.onAudioClickHandler('../../../assets/sounds/success.mp3', true);
@@ -331,7 +378,9 @@ export class GamePageComponent implements OnInit, DoCheck, OnDestroy {
       this.word.audio,
     );
 
-    this.sendWordResult('incorrectCount');
+    if (this.isAuthorized) {
+      this.sendWordResult('incorrectCount');
+    }
     this.isWrong = true;
 
     this.onAudioClickHandler('../../../assets/sounds/sounds_error.mp3', true);

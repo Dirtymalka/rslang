@@ -17,8 +17,6 @@ export class AudioCallEffect {
       switchMap(({ level, group }) =>
         this.wordService.getWords(+level, +group).pipe(
           map((words) => {
-            console.log('effect');
-            console.log(words);
             return fetchACallWordsWithLevelsSuccess({ words });
           }),
           catchError((err) => {

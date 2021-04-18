@@ -52,14 +52,15 @@
         *ngIf="isShowDifficultWordButton$ | async"
         class="button-hard"
         (click)="onDifficultButtonClick()"
-        [disabled]="isDifficult">
+        [disabled]="isDifficult || !isAuthorized">
         <mat-icon class="icon-hard">school</mat-icon>
       </button>
 
       <button
         *ngIf="isShowDeleteWordButton$ | async"
         class="button-delete"
-        (click)="onDeleteButtonClick()">
+        (click)="onDeleteButtonClick()"
+        [disabled]="!isAuthorized">
         <mat-icon class="icon-delete">delete</mat-icon>
       </button>
     </div>

@@ -15,7 +15,6 @@ const routes: Routes = [
     path: 'games',
     loadChildren: () =>
       import('./modules/games/games.module').then((m) => m.GamesModule),
-    canActivate: [AuthGuard],
   },
   {
     path: 'statistics',
@@ -39,7 +38,6 @@ const routes: Routes = [
       import('./modules/textbook/textbook.module').then(
         (m) => m.TextbookModule,
       ),
-    canActivate: [AuthGuard],
   },
   {
     path: 'authentication',

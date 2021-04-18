@@ -149,7 +149,7 @@
   margin-left: 14px;
 }
 
-.button-delete:hover {
+.button-delete:hover:not(button[disabled]) {
   background-color: #fff2f0;
   cursor: pointer;
 }
@@ -163,6 +163,10 @@ button[disabled] .icon-hard {
   color: rgba(126, 145, 159, 0.5);
 }
 
+button[disabled] .icon-delete {
+  color: rgba(126, 145, 159, 0.5);
+}
+
 .icon-hard,
 .icon-delete {
   color: rgb(126, 145, 159);
@@ -173,7 +177,7 @@ button[disabled] .icon-hard {
   color: $color-orange;
 }
 
-.button-delete:hover .icon-delete {
+.button-delete:not(button[disabled]):hover .icon-delete {
   color: $color-red;
 }
 

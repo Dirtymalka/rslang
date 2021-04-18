@@ -22,6 +22,7 @@ import {
   selectSelectedWords,
   selectAllWords,
   selectUserWords,
+  selectWordsForGame,
 } from '../../../../../redux/selectors/words.selectors';
 import {
   fetchAllWordsSuccess,
@@ -32,6 +33,7 @@ import {
 import { IAppState } from '../../../../../redux/state/app.state';
 import { IUserWord, IWord } from '../../../../shared/models/word.models';
 import { SettingsComponent } from '../../settings/components/settings.component';
+import { selectUserInfo } from '../../../../../redux/selectors/user.selectors';
 
 @Component({
   selector: 'app-control-bar',
@@ -65,6 +67,10 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
 
   sprint = SPRINT;
 
+  isAuthorized: boolean;
+
+  wordsForGame: IWord[];
+
   constructor(
     private store$: Store<IAppState>,
     public dialog: MatDialog,
@@ -91,6 +97,14 @@ export class ControlBarComponent implements OnInit, AfterContentChecked {
     this.store$.select(selectAllWords).subscribe((words: IWord[]) => {
       this.allWords = words;
       this.wordsLength = this.isWordLength();
+    });
+
+    this.store$.select(selectWordsForGame).subscribe((words: IWord[]) => {
+      this.wordsForGame = words;
+    });
+
+    this.store$.select(selectUserInfo).subscribe((info) => {
+      this.isAuthorized = info.isAuthorized;
     });
   }
 
