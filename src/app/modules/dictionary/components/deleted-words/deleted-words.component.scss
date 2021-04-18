@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 @import "src/styles/mixins";
 
-.table {
+.table, .control-bar, .chapters-wrapper {
   margin: 0 auto;
   width: 1000px !important;
 }
@@ -25,13 +25,6 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   width: 100%;
   text-align: center;
   padding-left: 24px;
-}
-
-.deleted-words {
-  position: relative;
-  min-height: 100vh;
-  width: 90%;
-  margin: 0 auto;
 }
 
 .chapters-wrapper {
@@ -187,14 +180,14 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
 }
 
 @media screen and (max-width: 1023px) {
-  .mat-paginator, .table {
+  .mat-paginator, .tableб .control-bar, .chapters-wrapper {
     width: calc(100% - 60px) !important;
     margin: 0 auto !important;
   }
 }
 
 @media screen and (max-width: 991px) {
-  .mat-paginator, .table {
+  .mat-paginator, .table, .control-bar, .chapters-wrapper {
     max-width: calc(100% - 40px) !important;
     margin: 0 auto !important;
   }
