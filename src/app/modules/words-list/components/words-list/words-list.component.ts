@@ -79,6 +79,10 @@ export class WordsListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.store$.select(selectUserInfo).subscribe((info) => {
+      this.isAuthorized = info.isAuthorized;
+    });
+
     this.store$
       .select(selectPaginationOptions)
       .subscribe((paginationOptions) => {
@@ -91,10 +95,6 @@ export class WordsListComponent implements OnInit {
       });
 
     this.groupsSubscribes();
-
-    this.store$.select(selectUserInfo).subscribe((info) => {
-      this.isAuthorized = info.isAuthorized;
-    });
   }
 
   getPageIndex(): number {
