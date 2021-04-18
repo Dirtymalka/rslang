@@ -5,10 +5,11 @@
 >
 {{isSuccessResult ? 'Вы ответили правильно' : 'Вы ответили неверно'}}
 </span>
-  Правильное слово:
-  <span
-    class="correct-word"
-  >{{word.toUpperCase()}}</span>
+  <span class="game-over_result__label">Правильное слово:&nbsp;
+    <span
+      class="correct-word"
+    >{{word.toUpperCase()}}</span>
+  </span>
   <button
     (click)="continue()"
     mat-raised-button color="primary"
@@ -18,4 +19,3 @@
 <ng-template #choozen>
   <div class="game-hint">Выберите букву</div>
 </ng-template>
-

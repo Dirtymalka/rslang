@@ -25,7 +25,13 @@
         </div>
         <div class="buttons-block">
           <button *ngIf="!roundOver" mat-raised-button color="primary" (click)="dontKnowHandler()">Не знаю</button>
-          <button class="button__audio" (click)="onAudioClickHandler(word.audio)"></button>
+          <button
+            type="button"
+            mat-icon-button
+            class="button__audio"
+            (click)="onAudioClickHandler(word.audio)">
+            <span class="material-icons">volume_up</span>
+          </button>
         </div>
         <mat-icon *ngIf="!fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen</mat-icon>
         <mat-icon *ngIf="fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen_exit</mat-icon>
@@ -40,5 +46,3 @@
   <app-game-statistics [gameName]="'hangman'" [wrongAnswers]="wordsResult.dontKnow"
                        [rightAnswers]="wordsResult.know"></app-game-statistics>
 </ng-template>
-
-
