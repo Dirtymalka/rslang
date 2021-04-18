@@ -155,14 +155,16 @@ export class AudioCallComponent implements OnInit, OnDestroy {
     }
 
     if (this.fromDictionary) {
-      this.store
-        .select(selectDifficultWordsData)
-        .subscribe((wordsObj: IAggWordsPaginator) => {
-          if (!wordsObj) {
-            return;
-          }
-          this.shuffleWords(wordsObj.aggWords);
-        });
+      this.subscription.add(
+        this.store
+          .select(selectDifficultWordsData)
+          .subscribe((wordsObj: IAggWordsPaginator) => {
+            if (!wordsObj) {
+              return;
+            }
+            this.shuffleWords(wordsObj.aggWords);
+          })
+      );
       return;
     }
 
