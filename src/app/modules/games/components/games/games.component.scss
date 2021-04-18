@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  min-height: calc(100vh - 123px);
+  min-height: calc(100vh - 80px);
 }
 
 .all-games {
@@ -11,7 +11,7 @@
   max-width: 800px;
   margin: auto;
   grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
+  gap: 40px;
 }
 
 .game-card {
@@ -71,9 +71,16 @@ mat-card {
   font-weight: bold;
 }
 
+@media screen and (max-width: 1104px) {
+  .all-games {
+    margin-top: 30px;
+  }
+}
+
 @media screen and (max-width: 805px) {
   .all-games {
     grid-template-columns: repeat(1, 1fr);
     margin: 0em 10em;
+    margin-top: 30px;
   }
 }

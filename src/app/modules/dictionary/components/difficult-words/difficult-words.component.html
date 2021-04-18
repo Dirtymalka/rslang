@@ -22,12 +22,12 @@
     </div>
   </div>
   <div class="control-bar" [class]="getBarClass()">
-    <button  class="white" mat-button [matMenuTriggerFor]="menu">Мини-игры</button>
+    <button  class="white" color="primary" mat-button [matMenuTriggerFor]="menu">Мини-игры</button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item [disabled]=wordsLength (click)="startGame('hangman')">Виселица</button>
       <button mat-menu-item [disabled]=wordsLength (click)="startGame('sprint')">Спринт</button>
       <button mat-menu-item [disabled]=wordsLength (click)="startGame('savanna')">Саванна</button>
-      <button mat-menu-item [disabled]=wordsLength (click)="startGame('audio-call')">Аудио звонок</button>
+      <button mat-menu-item [disabled]=wordsLength (click)="startGame('audio-call')">Аудиовызов</button>
     </mat-menu>
   </div>
   <table mat-table [dataSource]="words" class="table">

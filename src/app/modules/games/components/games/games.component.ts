@@ -8,10 +8,10 @@ import { Router } from '@angular/router';
 })
 export class GamesComponent {
   games = [
-    { name: 'Savanna', style: 'savanna', path: 'savanna' },
-    { name: 'Audio-call', style: 'audio-call', path: 'audio-call' },
-    { name: 'Sprint', style: 'sprint', path: 'sprint' },
-    { name: 'Hangman', style: 'hangman', path: 'hangman' },
+    { name: 'Саванна', style: 'savanna', path: 'savanna' },
+    { name: 'Аудиовызов', style: 'audio-call', path: 'audio-call' },
+    { name: 'Спринт', style: 'sprint', path: 'sprint' },
+    { name: 'Виселица', style: 'hangman', path: 'hangman' },
   ];
 
   constructor(private router: Router) {}
