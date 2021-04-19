@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.control {
+  display: flex;
+  align-items: center;
+  &__user {
+    cursor: pointer;
+    @media screen and (max-width: 450px) {
+      display: none;
+    }
+    font-weight: bold;
+  }
+  &__divider {
+    width: 0;
+    height: 24px;
+    border-right: 2px solid $color-mint;
+    margin: 0 10px;
+  }
+}

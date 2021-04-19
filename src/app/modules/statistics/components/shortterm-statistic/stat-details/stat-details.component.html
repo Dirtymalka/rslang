@@ -1,0 +1,43 @@
+<div class="tables">
+  <div>
+    <h1>Статистика за сегодня</h1>
+    <div class="table">
+      <div class="table__header">
+        <div>Количество новых изученных слов</div>
+        <div>Процент правильных ответов, %</div>
+      </div>
+      <div class="body">
+        <div class="row">
+          <div>{{studyWordsToday}}</div>
+          <div>{{totalSuccessPercent}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h1>Статистика по играм за сегодня</h1>
+    <div class="table">
+      <div class="tables__minigames">
+
+        <div *ngFor="let game of statisticByGames">
+          <h2>{{game.name}}</h2>
+          <div class="table__header">
+            <div>Количество изученных слов</div>
+            <div>Процент правильных ответов, %</div>
+            <div>Самая длинная серия правильных ответов</div>
+          </div>
+          <div class="body">
+            <div class="row">
+              <div>{{game.totalLearnedWords}}</div>
+              <div>{{game.totalGameSuccessPercent}}</div>
+              <div>{{game.bestAnswersSeries}}</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

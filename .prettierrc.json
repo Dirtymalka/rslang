@@ -1,0 +1,20 @@
+{
+  "parser": "typescript",
+  "singleQuote": true,
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "printWidth": 80,
+  "overrides": [
+    {
+      "files": "*.component.html",
+      "options": { "parser": "angular" }
+    },
+    {
+      "files": "*.ts",
+      "options": {
+        "singleQuote": true,
+        "trailingComma": "all"
+      }
+    }
+  ]
+}

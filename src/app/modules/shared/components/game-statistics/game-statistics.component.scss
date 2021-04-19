@@ -1,0 +1,170 @@
+@import "src/styles/variables";
+
+$main-color: #d372e2;
+$bg-color: #ecf5ea;
+$secondary-color: #56dde4;
+$text-color: #5c6bf5;
+$lives-color: #d372e2;
+$shadow-color: #4abbff;
+$success-color: #56e4c3;
+$error-color: #e2727d;
+$btn-color: #092c70;
+$btn-hover-color: #0f4ab4;
+
+.wrapper {
+  position: relative;
+  background-color: #f8f2ee;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  min-height: calc(100vh - 123px);
+  box-sizing: border-box;
+}
+
+.statistics {
+  position: relative;
+  margin: 0 auto;
+  background-color: $bg-color;
+  background-color: #fff;
+  width: 50%;
+  max-height: 70%;
+  overflow-y: auto;
+  //overflow-x: hidden;
+  border-radius: 5px;
+  color: #000;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  box-shadow: 0 0 10px 0 grey;
+
+  @media (max-width: 720px) {
+    width: 90%;
+    font-size: 0.8rem;
+  }
+
+  button {
+    margin: 1px 0;
+  }
+
+  &-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e6e9ee;
+
+    &_word {
+      min-width: 30%;
+      text-align: left;
+      color: $color-dark-green;
+      color: #103482;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    &_transcription {
+      min-width: 30%;
+      text-align: left;
+      color: grey;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    &_translate {
+      min-width: 30%;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    &_sound {
+      min-width: 10%;
+      background-image: (url('../../../../../assets/games/icons/dynamic.svg'));
+      background-size: contain;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .button__audio {
+      width: 40px;
+      height: 40px;
+      color: rgb(126, 145, 159);
+      transition: color background-color .2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .material-icons {
+        width: 100%;
+        height: 100%;
+      }
+
+      &:hover {
+        color: $color-light-blue;
+        cursor: pointer;
+        background-color: #2582e720;
+      }
+    }
+  }
+
+  &-wrong {
+    color: $error-color;
+    color: #da5b4c;
+    flex: 0;
+  }
+
+  &-right {
+    color: $color-mint;
+    color: #01AF61;
+    margin-top: 14px;
+  }
+
+  &-btn {
+    margin: 3rem 0;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background-color: $btn-color;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    &:hover {
+      background-color: $btn-hover-color;
+    }
+  }
+
+  &-btnClose {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+  }
+
+  h1 {
+    color: $btn-color;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 1px;
+    color: #103482;
+  }
+
+  .button-block {
+    margin-top: 16px;
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  @media screen and (max-width: 800px) {
+    .button-block {
+      display: flex;
+      flex-direction: column;
+      grid-gap: 8px;
+    }
+  }
+}

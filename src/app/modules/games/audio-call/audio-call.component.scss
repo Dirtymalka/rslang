@@ -1,0 +1,192 @@
+.grid {
+  display: grid !important;
+}
+
+.block {
+  display: block !important;
+}
+
+.none {
+  display: none !important;
+}
+
+.audioIcon {
+  color: black !important;
+}
+
+.audioIconWait {
+  top: 30px;
+  left: 34px;
+  font-size: 121px !important;
+}
+
+.audioIconAnswer {
+  top: 10px;
+  left: 13px;
+  font-size: 59px !important;
+}
+
+.audioComponentButtonWait {
+  font-size: 67px !important;
+  width: 124px;
+  height: 124px;
+  margin-top: 100px;
+}
+
+.audioComponentButtonAnswer {
+  font-size: 42px !important;
+  width: 60px;
+  height: 60px;
+  margin-top: 0px;
+}
+
+.audioComponentWrapper {
+  grid-template-areas: "img img" "btn translate";
+  grid-gap: 20px;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.audioComponentImg {
+  grid-area: img;
+  width: 124px;
+  height: 124px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: solid 2px #ffffff;
+  background-size: cover;
+  background-position: center;
+}
+
+.audioChallenge {
+  min-height: calc(100vh - 123px);
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  flex-flow: column;
+  color: #ffffff;
+  background-image: linear-gradient(to bottom, #7d5daf, #c483a3);
+  align-items: center;
+}
+
+.answersList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 70px;
+  margin-bottom: 120px;
+  list-style-type: none;
+  font-size: 17px;
+  line-height: 45px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.iconLearned {
+  color: #57fd02 !important;
+}
+
+
+.incorrectAnswer {
+  text-decoration: line-through !important;
+}
+
+.incorrectAnswers {
+  color: rgba(255, 255, 255, .4) !important;
+}
+
+.correctMark {
+  color: #39f30a !important;
+}
+
+.correctAnswer {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+.answer {
+  color: rgba(255, 255, 255, 1);
+  cursor: pointer;
+  padding: 0 20px 0 20px;
+}
+
+.answer:hover {
+  background-color: rgba(255, 255, 255, .1);
+}
+
+.continueButton {
+  position: relative;
+  width: 200px;
+  height: 50px;
+  border-radius: 4px;
+  border: solid 1px #ffffff;
+  background-color: rgba(255,255,255, 0.0);
+  cursor: pointer;
+  color: #ffffff;
+  opacity: 0.4;
+
+  &:hover {
+    background-color: rgba(255,255,255, 0.4);
+  }
+
+  &:active {
+    background-color: rgba(255,255,255, 0.6);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.continueButtonIcon {
+  position: relative;
+  top: 3px;
+  color: #ffffff;
+}
+
+
+.audioComponent {
+  height: 310px;
+}
+
+
+.audioComponentButton {
+  position: relative;
+  grid-area: btn;
+  background-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0.2;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.1;
+  }
+}
+
+.audioComponentIcon {
+  position: absolute;
+  color: #0000009c;
+}
+
+.audioComponentTranslate {
+  grid-area: translate;
+  font-size: 32px;
+}
+
+.full-screen {
+  position: absolute;
+  right: 50px;
+  top: 0;
+  cursor: pointer;
+  transition: transform 0.3s, filter 0.2s;
+  filter: invert(80%);
+  font-size: 45px;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    filter: invert(50%);
+  }
+}

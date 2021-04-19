@@ -1,0 +1,26 @@
+<div class="dictionary-wrapper">
+  <nav mat-tab-nav-bar mat-stretch-tabs>
+    <a mat-tab-link label="Изучаемые слова"
+      (click)="activeLink = links[0]"
+      [active]="activeLink == links[0]"
+      [routerLink]="['learned-words']"
+    >
+      Изучаемые слова
+  </a>
+    <a mat-tab-link label="Сложные слова"
+      (click)="activeLink = links[1]"
+      [active]="activeLink == links[1]"
+      [routerLink]="['difficult-words']"
+    >
+      Сложные слова
+    </a>
+    <a mat-tab-link label="Удалённые слова"
+      (click)="activeLink = links[2]"
+      [active]="activeLink == links[2]"
+      [routerLink]="['deleted-words']"
+    >
+      Удалённые слова
+    </a>
+  </nav>
+</div>
+<router-outlet></router-outlet>

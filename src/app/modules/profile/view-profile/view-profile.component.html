@@ -1,0 +1,10 @@
+<div class="profile">
+  <mat-card class="profile__card">
+    <div mat-card-avatar class="profile__image"></div>
+    <mat-card-content>
+      <span class="profile__name-label">Ваше имя: &ensp;</span>
+      <span class="profile__name">{{name | titlecase}}</span>
+    </mat-card-content>
+    <button class="profile__button" mat-stroked-button color="primary" (click)="editProfile()">Редактировать</button>
+  </mat-card>
+</div>

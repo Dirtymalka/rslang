@@ -1,0 +1,71 @@
+<app-spinner *ngIf="!answers.length && gameStep!==4"></app-spinner>
+<div #audioCall id="audioCall" class="audioChallenge" *ngIf="answers.length && gameStep!==4">
+  <div class="audioComponent">
+    <div class="audioComponentWrapper" [ngClass]="{
+        'block': gameStep===0 || gameStep===1,
+        'grid': gameStep===2 || gameStep===3
+      }"
+    >
+      <div class="audioComponentImg"
+        [ngStyle]="{
+          'background-image': 'url(https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/' + answerObjForThisRound.image + ')'
+        }"
+        [ngClass]="{
+          'none': gameStep===1 || gameStep===0,
+          'block': gameStep!==1 || gameStep!==0
+        }"
+      >
+      </div>
+      <div class="audioComponentButton"
+        [ngClass]="{
+          'audioComponentButtonWait': gameStep===1 || gameStep===0,
+          'audioComponentButtonAnswer': gameStep===2 || gameStep===3
+        }"
+        (click)="onAudioClickHandler(answerObjForThisRound.audio, false)">
+        <mat-icon class="audioIcon"
+          [ngClass]="{
+            'audioIconWait': gameStep===1 || gameStep===0,
+            'audioIconAnswer': gameStep===2 || gameStep===3
+          }"
+        >
+          volume_up
+        </mat-icon>
+      </div>
+      <p
+        class=audioComponentTranslate
+        [ngClass]="{
+          'none': gameStep===1 || gameStep===0,
+          'block': gameStep!==1 || gameStep!==0
+        }"
+      >
+        {{answerObjForThisRound.word}}
+      </p>
+    </div>
+  </div>
+  <div>
+    <ul class="answersList">
+      <li class="answer"
+        [ngClass]="{
+          'incorrectAnswer': gameStep===3 && word===userAnswer,
+          'incorrectAnswers': (gameStep===2 || gameStep===3) && word!==answers[gameRound]
+          }"
+        *ngFor="let word of wordsForRounds[gameRound]; index as i"
+          (click)="checkAnswer(word)"
+      >
+        {{i+1}} {{getWordTranslate(word)}}
+        <mat-icon class="correctMark" *ngIf="gameStep===2 && word === answers[gameRound]">done</mat-icon>
+      </li>
+    </ul>
+  </div>
+  <button mat-button class="continueButton" disabled="{{gameStep===0}}" color="primary" (click)="handlerNextButton()">
+    <span *ngIf="gameStep === 1 || gameStep === 0">НЕ ЗНАЮ</span>
+    <span *ngIf="gameStep === 2 || gameStep === 3">Следующее</span>
+  </button>
+  <mat-icon *ngIf="!fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen</mat-icon>
+  <mat-icon *ngIf="fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen_exit</mat-icon>
+</div>
+<app-game-statistics *ngIf="gameStep===4"
+    [gameName]="'audio-call'" [wrongAnswers]="wordsResult.dontKnow"
+    [rightAnswers]="wordsResult.know"
+>
+</app-game-statistics>

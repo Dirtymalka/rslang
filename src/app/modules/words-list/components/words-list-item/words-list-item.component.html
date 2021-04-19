@@ -1,0 +1,76 @@
+<li class="row">
+  <!-- <div
+    class="icon-sound"
+    (click)="onIconSoundClick()"
+    >
+    <app-icon-sound></app-icon-sound>
+  </div> -->
+  <button
+    type="button"
+    mat-icon-button
+    class="button__audio"
+    (click)="onIconSoundClick()">
+    <span class="material-icons">volume_up</span>
+  </button>
+
+  <span *ngIf="isDifficult" class="difficult-mark">
+    <mat-icon class="icon-hard--active">school</mat-icon>
+  </span>
+
+  <img
+    class="word-item__image"
+    src="https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/{{word.image}}"
+    alt="{{word.word}}">
+
+  <div
+    class="word-item__word-set">
+    <p class="word-item__word-wrapper">
+      <strong class="word-item__word">{{word.word}}&nbsp;</strong>
+      <span class="word-item__transcription">{{word.transcription}}&nbsp;</span>
+      <span *ngIf="isShowWordTranslation$ | async" class="word-item__translate">&mdash; &nbsp;{{word.wordTranslate}}</span>
+    </p>
+
+    <div class="word-item__sentence-wrapper">
+      <p class="word-item__text-meaning">
+        {{removeTags(word.textMeaning)}}&nbsp;
+      </p>
+      <p *ngIf="isShowWordTranslation$ | async" class="word-item__text-meaning-translate">
+        {{word.textMeaningTranslate}}&nbsp;
+      </p>
+      <p class="word-item__text-example">
+        &#8594; &nbsp;{{removeTags(word.textExample)}}
+      </p>
+      <p *ngIf="isShowWordTranslation$ | async" class="word-item__text-example-translate">
+        &#8594; &nbsp;{{word.textExampleTranslate}}
+      </p>
+    </div>
+  </div>
+
+  <div class="additional">
+    <div class="statistics">
+      <p class="statistics__title">Результат изучения</p>
+      <span class="statistics__label">правильно/неправильно:</span>
+
+      <span class="statistics__correct">{{correctCount}}</span>/<span class="statistics__incorrect">{{incorrectCount}}</span>
+    </div>
+
+    <div class="controls">
+      <button
+        *ngIf="isShowDifficultWordButton$ | async"
+        class="button-hard"
+        (click)="onDifficultButtonClick()"
+        [disabled]="isDifficult || !isAuthorized">
+        <mat-icon class="icon-hard">school</mat-icon>
+      </button>
+
+      <button
+        *ngIf="isShowDeleteWordButton$ | async"
+        class="button-delete"
+        (click)="onDeleteButtonClick()"
+        [disabled]="!isAuthorized">
+        <mat-icon class="icon-delete">delete</mat-icon>
+      </button>
+    </div>
+
+  </div>
+</li>

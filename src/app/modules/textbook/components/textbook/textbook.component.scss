@@ -1,0 +1,47 @@
+.textbook-wrapper {
+  display: grid;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.list-wrapper {
+  background: white;
+  width: 100%;
+}
+
+@media screen and (max-width: 1023px) {
+  .textbook-wrapper{
+    max-width: calc(100% - 60px);
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .textbook-wrapper {
+    max-width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :host {
+    margin: 0 auto;
+  }
+
+  .textbook-wrapper {
+    margin-top: 16px;
+  }
+
+  .list-wrapper {
+    top: 30px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .list-wrapper {
+    top: 27px;
+  }
+}

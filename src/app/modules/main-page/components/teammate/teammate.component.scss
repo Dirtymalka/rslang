@@ -1,0 +1,65 @@
+.teammate {
+  min-height: 476px;
+}
+
+.card__title {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  text-decoration: none;
+  color: rgba(0,0,0,.87);
+}
+
+.github-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+.teammate__description {
+  display: inline-block;
+  margin: 0;
+}
+
+.teammate .mat-card-header .mat-card-title {
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.teammate__name {
+  height: 24px;
+}
+
+.teammate .mat-card-subtitle {
+  text-align: center;
+}
+
+@media screen and (max-width: 1224px) {
+  .teammate {
+    height: 576px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .teammate {
+    height: 530px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .teammate {
+    height: 655px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .teammate {
+    height: 558px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .teammate {
+    height: auto;
+  }
+}

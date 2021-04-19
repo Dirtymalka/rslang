@@ -1,0 +1,48 @@
+<div #hangman id="hangman" class="hangman" *ngIf="!gameOver; else stat">
+  <app-spinner *ngIf="!words.length"></app-spinner>
+  <div *ngIf="words.length" class="hangman-container">
+    <div class="hangman-content_container">
+      <div class="hangman-content">
+        <span class="word-task">{{word.wordTranslate}}</span>
+        <div class="main-image-container">
+          <img [src]='IMAGES_GAL[incorrectLetters.length]' alt="some"/>
+        </div>
+        <div class="game-word">
+          <span
+            *ngFor="let letter of word.word.split('')"
+          >
+            {{correctLetters.includes(letter.toLowerCase()) ? letter.toUpperCase() : '&nbsp;'}}
+          </span>
+        </div>
+
+        <app-game-result [gameOver]="roundOver" [isSuccessResult]="isSuccessResult" [word]="word.word"
+                         (next)="continue()"></app-game-result>
+
+        <app-keypad (clickLetter)="checkLetter($event)" [correctLetters]="correctLetters"
+                    [incorrectLetters]="incorrectLetters" [gameOver]="roundOver"></app-keypad>
+        <div class="progress-bar-game">
+          <div class="progress-percent-game" [style.width]="indexWord * (100 / words.length) + '%'"></div>
+        </div>
+        <div class="buttons-block">
+          <button *ngIf="!roundOver" mat-raised-button color="primary" (click)="dontKnowHandler()">Не знаю</button>
+          <button
+            type="button"
+            mat-icon-button
+            class="button__audio"
+            (click)="onAudioClickHandler(word.audio)">
+            <span class="material-icons">volume_up</span>
+          </button>
+        </div>
+        <mat-icon *ngIf="!fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen</mat-icon>
+        <mat-icon *ngIf="fullScreen" class="full-screen" (click)="toggleFullScreen()">fullscreen_exit</mat-icon>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<ng-template #stat>
+  <app-game-statistics [gameName]="'hangman'" [wrongAnswers]="wordsResult.dontKnow"
+                       [rightAnswers]="wordsResult.know"></app-game-statistics>
+</ng-template>

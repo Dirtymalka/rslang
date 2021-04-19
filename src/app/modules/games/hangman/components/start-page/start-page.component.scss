@@ -1,0 +1,127 @@
+.hangman {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  padding: 0 10px 10px;
+  box-sizing: border-box;
+
+  #start-page {
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1020px;
+    margin: auto;
+    height: 100%;
+    line-height: normal;
+    .hangman-title {
+      text-transform: uppercase;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #000000;
+      color: #103482;
+      letter-spacing: 2px;
+    }
+    .hangman-description {
+      color: #000000;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      font-weight: 400;
+      padding-left: 50px;
+      padding-right: 50px;
+      letter-spacing: 1px;
+      //background: linear-gradient(to bottom, rgba(183, 46, 46, 0.8), rgba(255, 255, 255, 0.6));
+      p {
+        text-align: center;
+        margin: 0;
+      }
+    }
+
+    .hangman-start {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      span {
+        font-size: 1.2rem;
+        padding-right: 18px;
+        color: #000;
+        color: #103482;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+      }
+
+      .mat-form-field {
+        width: 60px;
+        margin: 0 5px;
+      }
+
+      & > .button {
+        margin: 10px;
+       // border: 2px solid #ffffff;
+      }
+    }
+    button:disabled,
+    button[disabled] {
+     // border: 1px solid #999999;
+      background-color: #cccccc;
+      color: #666666;
+    }
+    button {
+      width: auto;
+    }
+  }
+
+  @media screen and (max-width: 1023px) {
+    #start-page {
+      .hangman-description {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    #start-page {
+      .hangman-title {
+        font-size: 1.4rem;
+        letter-spacing: 1px;
+      }
+      .hangman-description {
+        font-size: 1rem;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .hangman-start {
+        span {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 584px) {
+    #start-page {
+      .hangman-title {
+        margin-top: 20px;
+      }
+      .hangman-description {
+        font-size: 14px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .button {
+        margin-top: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 500px) { }
+}

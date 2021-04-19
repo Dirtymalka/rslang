@@ -1,0 +1,61 @@
+<div class="wrapper">
+  <div
+    class="statistics"
+  >
+    <h1>
+      Процент правильных ответов:
+      {{winPercent}} %
+    </h1>
+    <h2 *ngIf="totalScore !== null">Количество очков: {{totalScore}}</h2>
+    <h2 *ngIf="bestScore !== null">Ваш лучший результат: {{bestScore}}</h2>
+    <h2 class="statistics-wrong">Неправильные ответы:</h2>
+    <div *ngFor="let answer of wrongAnswers" class="statistics-row">
+      <div class="statistics-row_word">{{answer.word}}</div>
+      <div class="statistics-row_transcription">
+        {{answer.wordTranscription }}
+      </div>
+      <div class="statistics-row_translate">
+        {{answer.wordTranslate}}
+      </div>
+      <div>
+        <button
+          type="button"
+          mat-icon-button
+          class="button__audio"
+          (click)="onAudioClickHandler(answer.audioUrl)">
+          <span class="material-icons">volume_up</span>
+        </button>
+      </div>
+    </div>
+
+    <h2 class="statistics-right">Правильные ответы:</h2>
+    <div *ngFor="let answer of rightAnswers" class="statistics-row">
+      <div class="statistics-row_word">{{answer.word}}</div>
+      <div class="statistics-row_transcription">
+        {{answer.wordTranscription }}
+      </div>
+      <div class="statistics-row_translate">
+        {{answer.wordTranslate}}
+      </div>
+      <div>
+        <button
+          type="button"
+          mat-icon-button
+          class="button__audio"
+          (click)="onAudioClickHandler(answer.audioUrl)">
+          <span class="material-icons">volume_up</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="button-block">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="goToStartPage()">Выбрать уровень
+      </button>
+      <button mat-raised-button color="primary" (click)="goOnMainPage()">На главную страницу</button>
+    </div>
+
+  </div>
+</div>

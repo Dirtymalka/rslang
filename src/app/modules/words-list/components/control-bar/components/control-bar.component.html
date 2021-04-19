@@ -1,0 +1,48 @@
+<form
+  class="wrapper"
+  [class]="getGroupClassName()">
+
+  <div class="menu-block">
+    <button
+      type="button"
+      mat-button [matMenuTriggerFor]="menu"
+      color="primary"
+      class="button-games"
+      [disabled]="!isAuthorized || wordsForGame.length < 5">Мини-игры
+    </button>
+    <mat-menu #menu="matMenu">
+      <button
+        [disabled]=wordsLength
+        type="button"
+        mat-menu-item
+        (click)="startGame(hangman)">Виселица
+      </button>
+      <button
+        [disabled]=wordsLength
+        type="button"
+        mat-menu-item
+        (click)="startGame(sprint)">Спринт
+      </button>
+      <button
+        [disabled]=wordsLength
+        type="button"
+        mat-menu-item
+        (click)="startGame(savanna)">Саванна
+      </button>
+      <button
+        [disabled]=wordsLength
+        type="button"
+        mat-menu-item
+        (click)="startGame(audioCall)">Аудиовызов
+      </button>
+    </mat-menu>
+  </div>
+
+  <button
+    type="button"
+    mat-icon-button
+    class="button-settings"
+    (click)="openSettings()">
+    <mat-icon class="icon-settings">settings</mat-icon>
+  </button>
+</form>

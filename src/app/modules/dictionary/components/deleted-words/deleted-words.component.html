@@ -1,0 +1,90 @@
+<div>
+  <div class="chapters-wrapper">
+    <div class="chapters">
+      <button class="chapter-label group0" (click)="chapterClick(0)">
+        <span class="chapter-title">Глава 1</span>
+      </button>
+      <button class="chapter-label group1" (click)="chapterClick(1)">
+        <span class="chapter-title">Глава 2</span>
+      </button>
+      <button class="chapter-label group2" (click)="chapterClick(2)">
+        <span class="chapter-title">Глава 3</span>
+      </button>
+      <button class="chapter-label group3" (click)="chapterClick(3)">
+        <span class="chapter-title">Глава 4</span>
+      </button>
+      <button class="chapter-label group4" (click)="chapterClick(4)">
+        <span class="chapter-title">Глава 5</span>
+      </button>
+      <button class="chapter-label group5" (click)="chapterClick(5)">
+        <span class="chapter-title">Глава 6</span>
+      </button>
+    </div>
+  </div>
+  <div class="control-bar" [class]="getBarClass()"></div>
+  <div class="deleted-words">
+    <app-dic-spinner *ngIf="loading"></app-dic-spinner>
+    <div *ngIf="!loading">
+      <table mat-table [dataSource]="words" class="table">
+        <ng-container matColumnDef="img">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+        <ng-container matColumnDef="word">
+          <th mat-header-cell *matHeaderCellDef> Описание </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="description-wrapper">
+              <div class="wrapper_word-item__image">
+                <img
+                class="word-item__image"
+                src="https://raw.githubusercontent.com/Dirtymalka/rslang-data/master/{{element.image}}"
+                alt="{{element.word}}">
+              </div>
+
+              <div class="word-item__word-set">
+                <p class="word-item__word-wrapper">
+                  <strong class="word-item__word">{{element.word}}&nbsp;</strong>
+                  <span class="word-item__transcription">{{element.transcription}}&nbsp;</span>
+                  <span class="word-item__translate">&mdash; &nbsp;{{element.wordTranslate}}</span>
+                </p>
+                <div class="word-item__sentence-wrapper">
+                  <p class="word-item__text-meaning">
+                    {{removeTags(element.textMeaning)}}&nbsp;
+                  </p>
+                  <p class="word-item__text-meaning-translate">
+                    {{element.textMeaningTranslate}}&nbsp;
+                  </p>
+                  <p class="word-item__text-example">
+                    &#8594; &nbsp;{{removeTags(element.textExample)}}
+                  </p>
+                  <p class="word-item__text-example-translate">
+                    &#8594; &nbsp;{{element.textExampleTranslate}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Действия </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button title="Восстановить слово" (click)=removeWord(element.id)>
+              <mat-icon>unarchive</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator
+        #paginator
+        [length]="length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="pageEvent = paginated($event)"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

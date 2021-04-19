@@ -1,0 +1,46 @@
+@import "src/styles/variables";
+
+:host {
+  grid-column-start: 0;
+  grid-column-end: span 6;
+  grid-row-start: 3;
+}
+
+.wrapper {
+  min-height: 500px;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination {
+  color: #fff;
+}
+
+.group-0 {
+  background: $color-primary-light;
+}
+
+.group-1 {
+  background: $color-blue;
+}
+
+.group-2 {
+  background: $color-purple;
+}
+
+.group-3 {
+  background: $color-yellow;
+}
+
+.group-4 {
+  background: $color-light-green;
+}
+
+.group-5 {
+  background: $color-turquoise;
+}
+
+.mat-paginator-page-size-label {
+  display: none;
+}

@@ -1,0 +1,75 @@
+@import "src/styles/variables";
+@import "src/styles/resets";
+
+:host {
+  display: flex;
+  width: 300px;
+  height: 100vh;
+  background-color: $color-white;
+
+  .sidebar {
+    width: 100%;
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 23px 0;
+      margin-left: 40px;
+      border-bottom: 1px solid $color-mint;
+      @media screen and (max-width: 768px) {
+        padding: 9px 0;
+      }
+    }
+    &__logo {
+      font-weight: 600;
+    }
+    &__close-button {
+      @include reset-button();
+      padding-right: 10px;
+      &:hover {
+        opacity: 0.8;
+      }
+      img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  .menu {
+    list-style-type: none;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    &__icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &__link {
+      @include reset-link;
+      padding-left: 10px;
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 400;
+
+      &:hover {
+        color: $color-green;
+      }
+
+      &_active {
+        font-weight: 600;
+        color: $color-green;
+      }
+
+      &_disabled {
+        cursor: default;
+        pointer-events: none;
+        opacity: 0.5;
+      }
+    }
+  }
+}

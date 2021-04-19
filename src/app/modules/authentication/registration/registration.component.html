@@ -1,0 +1,61 @@
+<div class="login-wrapper">
+  <div class="spinner" *ngIf="loading"><div class="mask"></div><mat-spinner></mat-spinner></div>
+  <mat-card>
+    <mat-card-title>Регистрация</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="field-container">
+          <mat-form-field>
+            <mat-label>Имя</mat-label>
+            <label>
+              <input type="text" (focus)="focus()" matInput formControlName="name">
+            </label>
+          </mat-form-field>
+          <div *ngIf="form.get('name').touched && form.get('name').invalid" class="validation">
+            <small *ngIf="form.get('name').errors.required">Поле Имя не может быть пустым</small>
+          </div>
+        </div>
+        <div class="field-container">
+          <mat-form-field>
+            <mat-label>E-mail</mat-label>
+            <label>
+              <input type="email" matInput (focus)="focus()" formControlName="email">
+            </label>
+          </mat-form-field>
+        <div *ngIf="form.get('email').touched && form.get('email').invalid" class="validation">
+          <small *ngIf="form.get('email').errors.required">Поле E-mail не может быть пустым</small>
+          <small *ngIf="form.get('email').errors.validEmail && !form.get('email').errors.required">E-mail должен быть валидным</small>
+        </div>
+        </div>
+        <div class="field-container">
+          <mat-form-field>
+            <mat-label>Пароль</mat-label>
+            <label>
+              <input type="password" matInput (focus)="focus()" formControlName="password">
+            </label>
+          </mat-form-field>
+          <div *ngIf="form.get('password').touched && form.get('password').invalid" class="validation">
+            <small *ngIf="form.get('password').errors.required">Поле Пароль не может быть пустым</small>
+            <small
+              *ngIf="form.get('password').errors.validPassword && !form.get('password').errors.required">
+              Пароль должен содержать не менее 8 символов, хотя бы одну заглавную букву, одну цифру и один специальный символ.
+            </small>
+          </div>
+        </div>
+
+        <div *ngIf="error" class="error">
+          {{ error }}
+        </div>
+        <div class="buttons-container">
+          <div class="button">
+            <button (click)="toLogin()" mat-button>Вход</button>
+          </div>
+          <div class="button">
+            <button class="button_registration" type="submit" [disabled]="form.invalid" mat-button>Регистрация</button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>

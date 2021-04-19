@@ -1,0 +1,14 @@
+<div class="statistic_nav">
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link *ngFor="let link of links"
+       [routerLink]="[link.path]"
+       (click)="activeLink = link"
+       [active]="activeLink.title === link.title"
+       style="flex: 1"
+    >
+      {{link.title}}
+    </a>
+  </nav>
+</div>
+
+<router-outlet></router-outlet>

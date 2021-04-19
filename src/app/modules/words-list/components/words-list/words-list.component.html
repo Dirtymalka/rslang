@@ -1,0 +1,28 @@
+<ul class="wrapper">
+  <app-control-bar></app-control-bar>
+
+  <ng-container *ngIf="listIsNotEmpty() else loading">
+    <app-words-list-item
+    *ngFor="let word of listWords; index as i"
+    [word]="word"
+    (markedAsDifficult)="markAsDifficult($event)"
+    (markedAsDeleted)="markAsDeleted($event)"
+    >
+    </app-words-list-item>
+
+    <mat-paginator
+      class="pagination"
+      [class]="getGroupClassName()"
+      #paginator
+      [length]="600"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[20]"
+      [pageIndex]="pageIndex"
+      (page) = "pageChangeEvent($event)">
+    </mat-paginator>
+  </ng-container>
+
+  <ng-template #loading>
+    <app-words-list-spinner></app-words-list-spinner>
+  </ng-template>
+</ul>

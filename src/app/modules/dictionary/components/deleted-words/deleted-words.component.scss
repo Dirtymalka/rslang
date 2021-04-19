@@ -1,0 +1,282 @@
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+.table, .control-bar, .chapters-wrapper {
+  margin: 0 auto;
+  width: 1000px !important;
+}
+
+::ng-deep .mat-paginator {
+  box-sizing: border-box !important;
+  margin: 0 auto !important;
+  width: 1000px !important;
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 0 !important;
+  text-align: center !important;
+}
+
+.description-wrapper {
+  display: flex;
+}
+
+.table .cell {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding-left: 24px;
+}
+
+.deleted-words {
+  position: relative;
+  margin: 0 auto;
+}
+
+.chapters-wrapper {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.chapters {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.chapter-label {
+  height: 36px;
+  flex-grow: 1;
+  max-width: 90%;
+  background-color: #4331c0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  cursor: pointer;
+  @include unselectable;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wrapper_word-item__image {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.word-item__image {
+  border-radius: 20px;
+  height: 130px;
+  width: 130px;
+  margin-left: 14px;
+  object-fit: cover;
+}
+
+.control-bar {
+  display: flex;
+  box-sizing: border-box;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px 60px 20px 20px;
+  justify-content: flex-end;
+
+}
+
+.white {
+  height: 44px;
+  font-weight: bold;
+  background-color: #ffffff;
+}
+
+.pink {
+  background-color: #FF4081 !important;
+}
+
+.group0 {
+  background: $color-primary-light !important;
+}
+
+.group1 {
+  background: $color-blue !important;
+}
+
+.group2 {
+  background: $color-purple !important;
+}
+
+.group3 {
+  background: $color-yellow !important;
+}
+
+.group4 {
+  background: $color-light-green !important;
+}
+
+.group5 {
+  background: $color-turquoise !important;
+}
+
+.chapter-label {
+  height: 36px;
+  flex-grow: 1;
+  max-width: 90%;
+  background-color: #4331c0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.chapter-title {
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 34px;
+}
+
+.chapter-label:focus,
+.chapter-label:active {
+  outline: none;
+}
+
+.table .wrapper_word-item__image {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.table .word-item__image {
+  border-radius: 20px;
+  height: 130px;
+  width: 130px;
+  margin-left: 14px;
+  object-fit: cover;
+}
+
+.table .word-item__word-set,
+.table .word-item__sentense-wrapper {
+  min-width: auto;
+  padding: 8px;
+  margin-left: 14px;
+  display: flex;
+  flex-direction: column;
+  @include unselectable;
+}
+
+.table .word-item__sentense-wrapper,
+.table .word-item__word-wrapper {
+  margin: 0;
+}
+
+.table .word-item__word {
+  color: $color-dark-green;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.table .word-item__transcription {
+  color: grey;
+  font-weight: 400;
+}
+
+.table .word-item__translate,
+.table .word-item__text-meaning {
+  font-weight: 500;
+}
+
+.table .word-item__text-meaning i {
+  font-weight: 700;
+}
+
+.table .word-item__text-meaning,
+.table .word-item__text-meaning-translate,
+.table .word-item__text-example,
+.table .word-item__text-example-translate {
+  margin: 0;
+}
+
+.table .word-item__text-example,
+.table .word-item__text-example-translate {
+  padding-left: 10px;
+  font-style: italic;
+}
+
+@media screen and (max-width: 768px) {
+  .chapter__unit-title {
+    font-size: 16px;
+    line-height: 34px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .chapter__label {
+    border-radius: 15px 15px 0 0;
+    height: 28px;
+  }
+
+  .chapter__unit-title {
+    font-size: 14px;
+    line-height: 28px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .mat-paginator, .table, .control-bar, .chapters-wrapper {
+    width: calc(100% - 60px) !important;
+    margin: 0 auto !important;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .mat-paginator, .table, .control-bar, .chapters-wrapper {
+    max-width: calc(100% - 40px) !important;
+    margin: 0 auto !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .table .word-item__image {
+    height: 114px;
+    width: 114px;
+    margin-left: 10px;
+  }
+
+  .table .word-item__sentence-wrapper {
+    margin-left: 10px;
+  }
+
+  .chapter-title {
+    font-size: 16px;
+    line-height: 34px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .description-wrapper {
+    flex-direction: column;
+  }
+
+  .table .wrapper_word-item__image {
+    justify-content: flex-start;
+  }
+
+  .table .word-item__word-set,
+  .table .word-item__sentense-wrapper {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 568px) {
+  .chapter-label {
+    border-radius: 15px 15px 0 0;
+    height: 28px;
+  }
+
+  .chapter-title {
+    font-size: 14px;
+    line-height: 28px;
+  }
+}
