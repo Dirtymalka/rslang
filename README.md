@@ -2,7 +2,7 @@
 
 ## Demo
 
-[Deploy: link] (https://rslang-team-2-dirtymalka.netlify.app/)
+[Deploy: link](https://rslang-team-2-dirtymalka.netlify.app/)
 
 
 ### Framework: Angular
