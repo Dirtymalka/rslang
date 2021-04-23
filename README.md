@@ -2,7 +2,7 @@
 
 ## Demo
 
-Deploy: [link] (https://rslang-team-2-dirtymalka.netlify.app/)
+[Deploy: link] (https://rslang-team-2-dirtymalka.netlify.app/)
 
 
 ### Framework: Angular
@@ -36,4 +36,4 @@ Deploy: [link] (https://rslang-team-2-dirtymalka.netlify.app/)
 
 ---
 
-[![](https://i.imgur.com/BOmznpF.png)](https://rs.school/) Angular 2021Q1
+[![](https://i.imgur.com/BOmznpF.png)](https://rs.school/)  Angular 2021Q1
