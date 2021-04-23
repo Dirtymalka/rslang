@@ -1,6 +1,9 @@
 # rslang
 
-### Deploy: https://rslang-team-2-dirtymalka.netlify.app/
+## Demo
+
+Deploy: [link] (https://rslang-team-2-dirtymalka.netlify.app/)
+
 
 ### Framework: Angular
 
@@ -33,4 +36,4 @@
 
 ---
 
-<a href="https://rs.school/"><img align="left" width="90" height="33" title="RS School" src="https://imgur.com/BOmznpF"></a> Angular 2021Q1 
+[![](https://i.imgur.com/BOmznpF.png)](https://rs.school/) Angular 2021Q1
