@@ -1,4 +1,4 @@
-# RSlang
+# RSLang
 [Task description](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/angular-new/angular-rslang.md)
 
 ## Demo
@@ -92,5 +92,6 @@
 [![](https://i.imgur.com/Ao9hT6h.png)](https://github.com/jenia-shibkova)
 [![](https://i.imgur.com/jZMlaRS.png)](https://github.com/maxim-tihomirov)
 [![](https://i.imgur.com/2I1ayoW.png)](https://github.com/YuriySga)
+
 
 [![](https://i.imgur.com/BOmznpF.png)](https://rs.school/)  Angular 2021Q1
